@@ -1,0 +1,476 @@
+<?php
+/**
+ * Product view template
+ *
+ * @see Mage_Catalog_Block_Product_View
+ * @see Mage_Review_Block_Product_View
+ */
+?>
+
+<?php
+	$_helper = $this->helper('catalog/output');
+	$_product = $this->getProduct();
+	$theme = $this->helper('ultimo');
+
+	//CSS classes based on product type
+	$productTypeId = $_product->getTypeId();
+	$productTypeClasses = '';
+	if ($productTypeId === 'grouped') {
+		$productTypeClasses .= ' is-type-grouped';
+	}
+
+
+    //valentine
+    $cats = $_product->getCategoryIds();
+    $is_valentine_product = false;
+    foreach ($cats as $category_id){
+        if($category_id == 49){
+            $is_valentine_product = true;
+            break;
+        }
+    }
+
+    if(isset($_COOKIE['delivery_cost'])&&$_COOKIE['delivery_cost']!='')
+        $shippingcost = $_COOKIE['delivery_cost'];
+    else if(Mage::getStoreConfig("onestepcheckout/config/default_shippingcost"))
+        $shippingcost = Mage::getStoreConfig("onestepcheckout/config/default_shippingcost");
+
+    $begin_valentine_date = new DateTime('5/9/2014');
+    $end_valentine_date = new DateTime('5/11/2014');
+    $now = new DateTime();
+
+?>
+
+<script type="text/javascript">
+    function setCookie(cname,cvalue,exdays)
+    {
+        var d = new Date();
+        d.setTime(d.getTime()+(exdays*24*60*60*1000));
+        var expires = "expires="+d.toGMTString();
+        document.cookie = cname + "=" + cvalue + "; " + expires ;
+    }
+
+    window.onload = function(){
+        setCookie("delivery_cost","",1);
+    }
+
+</script>
+<input type="hidden" id="default_shipping_cost" name="default_shipping_cost" value="<?php echo $shippingcost; ?>" />
+
+<script type="text/javascript">
+    var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
+</script>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="product-view">
+
+    <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+
+    	<?php echo $this->getBlockHtml('formkey'); ?>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
+        
+    	<?php
+			//Product collaterals
+			$section = array();
+			
+			//Related products. $section['related'] is set only if related products (or replacement) exist
+			$replaceRelated = $theme->getCfg('product_page/replace_related');
+			if ($replaceRelated == 1) //don't replace with static block
+			{
+				if ($tmpHtml = trim($this->getChildHtml('catalog.product.related')))
+					$section['related'] = $tmpHtml;
+				//$section['related'] = trim($this->getChildHtml('catalog.product.related'));
+			}
+			elseif ($replaceRelated == 2) //if related is empty, replace with static block
+			{
+				if ($tmpHtml = trim($this->getChildHtml('catalog.product.related')))
+					$section['related'] = $tmpHtml;
+				else //related empty
+					if ($tmpHtml = $this->getChildHtml('block_product_replace_related'))
+						$section['related'] = '<div class="block_product_replace_related">'. $tmpHtml .'</div>';
+			}
+			elseif ($replaceRelated == 3) //replace with static block
+			{
+				if ($tmpHtml = $this->getChildHtml('block_product_replace_related'))
+					$section['related'] = '<div class="block_product_replace_related">'. $tmpHtml .'</div>';
+			}
+	
+			//Up-sell products. $section['upsell'] is set only if up-sell products (or replacement) exist
+			$replaceUpsell = $theme->getCfg('product_page/replace_upsell');
+			if ($replaceUpsell == 1) //don't replace with static block
+			{
+				if ($tmpHtml = trim($this->getChildHtml('upsell_products')))
+					$section['upsell'] = $tmpHtml;
+				//$section['upsell'] = $this->getChildHtml('upsell_products');
+			}
+			elseif ($replaceUpsell == 2) //if upsell is empty, replace with static block
+			{
+				if ($tmpHtml = trim($this->getChildHtml('upsell_products')))
+					$section['upsell'] = $tmpHtml;
+				else //upsell empty
+					if ($tmpHtml = $this->getChildHtml('block_product_replace_upsell'))
+						$section['upsell'] = '<div class="block_product_replace_upsell">'. $tmpHtml .'</div>';
+			}
+			elseif ($replaceUpsell == 3) //replace with static block
+			{
+				if ($tmpHtml = $this->getChildHtml('block_product_replace_upsell'))
+					$section['upsell'] = '<div class="block_product_replace_upsell">'. $tmpHtml .'</div>';
+			}
+			
+			
+			
+			//Assign related products to selected position
+			if (isset($section['related']))
+			{
+				$relatedPosition = $theme->getCfg('product_page/related_position');
+				//TODO:remove: $relatedPosition = 11;
+				switch ($relatedPosition)
+				{
+					case 10:
+						$p['secondaryCol'][0] = $section['related'];
+						break;
+					case 11:
+						$p['secondaryCol'][1] = $section['related'];
+						break;
+					case 20:
+						$p['collatSecondaryCol'] = $section['related'];
+						break;
+				}
+			}
+			
+			
+			
+			//Width (in grid units) of product page sections
+			$imgColUnits					= $theme->getCfg('product_page/image_column');
+			$primaryColUnits				= $theme->getCfg('product_page/primary_column');
+			$secondaryColUnits				= $theme->getCfg('product_page/secondary_column');
+			$container2ColUnits				= $imgColUnits + $primaryColUnits;
+			$collatPrimaryColUnits			= $imgColUnits + $primaryColUnits;
+			$collatSecondaryColUnits		= $secondaryColUnits;
+
+			//If no secondary column
+			if (empty($secondaryColUnits))
+			{
+				$primaryColUnits			+= 12 - ($imgColUnits + $primaryColUnits);
+				$container2ColUnits			= $imgColUnits + $primaryColUnits;
+				$collatPrimaryColUnits		= 9;
+				$collatSecondaryColUnits	= 3;
+			}
+			
+			//If no related products, stretch collateral primary column
+			if (!isset($section['related']))
+			{
+				$container2ColUnits			= 12;
+				$collatPrimaryColUnits		= 12;
+				$collatSecondaryColUnits	= 0;
+			}
+			elseif (!isset($p['secondaryCol']))
+			{
+				$container2ColUnits 		= 12;
+			}
+
+			//Grid classes
+			$imgColGridClass				= 'grid12-' . $imgColUnits;
+			$primaryColGridClass			= 'grid12-' . $primaryColUnits;
+			$secondaryColGridClass			= 'grid12-' . $secondaryColUnits;
+			$container2ColGridClass			= 'grid12-' . $container2ColUnits;
+			$collatPrimaryColGridClass		= 'grid12-' . $collatPrimaryColUnits;
+			$collatSecondaryColGridClass	= 'grid12-' . $collatSecondaryColUnits;
+			if (empty($secondaryColUnits))
+			{
+				$secondaryColGridClass	= '';
+			}
+		?>
+
+        <div class="product-img-column <?php echo $imgColGridClass; ?>">
+
+            <?php echo $this->getChildHtml('media') ?>
+
+            <?php //Product labels
+				echo $this->helper('ultimo/labels')->getLabels($_product);
+			?>
+
+            <?php if ($tmpHtml = $this->getChildHtml('block_product_img_bottom')): ?>
+            	<div class="feature-wrapper top-border block_product_img_bottom"><?php echo $tmpHtml; ?></div>
+            <?php endif; ?>
+
+            <?php if ($addtoLinksHtml = $this->getChildHtml('addto')): //compare, wishlist, to friend ?>
+                <div class="action-box clearer">
+                    <?php echo $addtoLinksHtml; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        
+        <div class="product-shop <?php echo $primaryColGridClass; ?>">
+
+            <div class="product-name">
+                <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+            </div>
+
+            <div class="product-type-data<?php echo $productTypeClasses; ?>"><?php echo $this->getChildHtml('product_type_data'); ?></div>
+
+            <?php //echo $this->getReviewsSummaryHtml($_product, false, true); //reviews ?>
+
+            <?php echo $this->getChildHtml('alert_urls'); //alerts ?>
+
+            <?php echo $this->getTierPriceHtml(); //tier prices ?>
+
+            <?php if ($extrahint_html = $this->getChildHtml('extrahint')): //qty increments ?>
+                <div class="extrahint-wrapper"><?php echo $extrahint_html; ?></div>
+            <?php endif; ?>
+
+            <?php if ($_product->getShortDescription()): ?>
+                <div class="short-description">
+                    <div class="std"><?php echo $_helper->productAttribute($_product, nl2br($_product->getDescription()), 'description') ?></div>
+                </div>
+            <?php endif;?>
+            <!--<div class="required-fields">-->
+                <span class="required-fields">* Required Fields</span>
+            <!--</div>-->
+            <?php if ($theme->getCfg('product_page/sku')): ?>
+                <div class="sku"><span><?php echo $this->__('SKU'); ?>: </span><?php echo $_product->getSku(); ?></div>
+            <?php endif; ?>
+
+
+
+            <?php if (!$this->hasOptions()): //add to cart when no options ?>
+                <?php if($_product->isSaleable()): ?>
+                    <div class="add-to-box">
+                        <?php echo $this->getChildHtml('addtocart') ?>
+                    </div>
+                <?php endif; ?>
+                <?php //echo $this->getChildHtml('extra_buttons') ?>
+            <?php endif; ?>
+
+            <?php
+            $now = new DateTime();
+            if (strlen($_product->getDeliveryNoteStartDate()) > 0)
+                $start = new DateTime($_product->getDeliveryNoteStartDate());
+            if (strlen($_product->getDeliveryNoteEndDate()) > 0)
+                $end = new DateTime($_product->getDeliveryNoteEndDate());
+            $delivery_note = "";
+            if (isset($start) && $start != null || isset($end) && $end != null) {
+                if (($start == null || $start <= $now ) && ($end == null || $end >= $now ))
+                    $delivery_note = $_product->getDeliveryNote();
+            }
+            ?>
+
+            <div style="color: red;" id="delivery-note"><?php echo $delivery_note; ?></div>
+
+
+            <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+                <?php if ($container1_html = $this->getChildChildHtml('container1', '', true, true)): ?>
+                    <div class="container1-wrapper"><?php echo $container1_html; ?></div>
+                <?php endif; ?>
+            <?php endif;?>
+
+            
+            <?php echo $this->getChildHtml('other'); ?>
+
+            <?php if ($tmpHtml = $this->getChildHtml('block_product_primary_bottom')): ?>
+            	<div class="feature-wrapper top-border block_product_primary_bottom"><?php echo $tmpHtml; ?></div>
+            <?php endif; ?>
+            
+            <?php if ($tmpHtml = $this->getChildHtml('product_primary_bottom_placeholder')): //Placeholder for extensions ?>
+            	<div class="feature-wrapper top-border"><?php echo $tmpHtml; ?></div>
+            <?php endif; ?>
+
+            <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+                <?php if ($container2_html = $this->getChildChildHtml('container2', '', true, true)): ?>
+                    <div class="container2-wrapper"><?php echo $container2_html; ?></div>
+                <?php endif; ?>
+            <?php endif; ?>
+        </div> <!-- end: product-shop -->
+
+
+
+        <?php if ($secondaryColUnits): //(!empty($secondaryColUnits)): ?>
+            <div class="product-secondary-column <?php echo $secondaryColGridClass; ?> custom-sidebar-right">
+            	<div class="inner">
+                    <ul class="ship_info">
+                        <li class="order_before">Order before 12pm and we guarantee same-day delivery!</li>
+                        <li class="our_roses">Our roses arrive in an impressive 90cm long signature gift box.</li>
+                        <li class="every_gift">Every gift box includes flower food to extend the life of roses.</li>
+                        <li class="with_proper">With proper care, our roses can last a minimum of 5-7 days.</li>
+                    </ul>
+					<?php
+
+					//Placeholder for extensions ?>
+					<?php if ($tmpHtml = $this->getChildHtml('product_secondary_top_placeholder')): //Placeholder for extensions ?>
+						<div class="margin-bottom"><?php echo $tmpHtml; ?></div>
+                    <?php endif; ?>
+                    
+                    <?php if (isset($p['secondaryCol'][0])): ?>
+						<?php echo $p['secondaryCol'][0]; ?>
+                    <?php endif; ?>
+                    
+                    <?php if ($tmpHtml = $this->getChildHtml('block_product_secondary_bottom')): ?>
+                        <div class="feature-wrapper margin-top block_product_secondary_bottom"><?php echo $tmpHtml; ?></div>
+                    <?php endif; ?>
+                    
+                    <?php if (isset($p['secondaryCol'][1])): ?>
+						<div class="margin-top"><?php echo $p['secondaryCol'][1]; ?></div>
+                    <?php endif; ?>
+                    
+                    <?php /*?>
+					<?php if (isset($section['related'])): ?>
+                    	<div class="margin-top"><?php echo $section['related']; ?></div>
+                    <?php endif; ?>
+                    <?php */?>
+
+
+				</div>
+            </div> <!-- end: product-secondary-column -->
+        <?php endif; ?>
+
+        <input type="hidden" value="" id="test"/>
+    </form>
+
+
+
+
+    <script type="text/javascript">
+        var _round = Math.round;
+        Math.round = function(number, decimals /* optional, default 0 */)
+        {
+            if (arguments.length == 1)
+                return _round(number);
+
+            var multiplier = Math.pow(10, decimals);
+            return _round(number * multiplier) / multiplier;
+        }
+
+        function updateQty(qty1, qty2, qty3){
+            var qty = document.getElementsByClassName("qty");
+
+            if(qty[0] && qty1!=null && qty1>0)
+                qty[0].value = qty1;
+
+            if(qty[1] && qty2!=null && qty2>0)
+                qty[1].value = qty2;
+
+            if(qty[2] && qty3!=null && qty3>0)
+                qty[2].value = qty3;
+
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice(){
+            //var include = document.getElementsByClassName('include');
+            var include = document.getElementsByClassName('m_full-product-price');
+            if (include){
+                if(include.length>1)
+                    var currency = include[1].innerHTML;
+                else
+                    var currency = include[0].innerHTML;
+                    //alert(currency);
+                var price = Number(currency.replace(/[^0-9\.]+/g,""));
+                    //alert (price);
+
+                document.getElementById('test').value = price;
+                var total = document.getElementsByClassName('price-total');
+                var shipping_cost = document.getElementsByClassName('shipping_cost');
+                var shippingcost = "";
+                if(shipping_cost.length>0){
+                    shippingcost = Number(shipping_cost[0].innerHTML.replace(/[^0-9\.]+/g,""));
+                }
+                else shippingcost = <?php echo $shippingcost; ?>;
+
+                for (var i=0; i < total.length; i++){
+                    total[i].innerHTML = "<?php echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() . ''; ?>"
+                        + (Math.round(price+ shippingcost,2)).toFixed(2);
+                }
+
+                var tax = document.getElementsByClassName('tax-price');
+                for(var index=0; index < tax.length; index ++){
+                    tax[index].innerHTML = "<?php echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() . ''; ?>"
+                        + Math.round((price + shippingcost)*0.07,2);
+                }
+            }
+        }
+        /*window.onload = function ()
+         {
+         var options = document.querySelectorAll(".product-options dl");
+         options[0].hide();
+
+         var dt = document.querySelectorAll('.bundle-title');
+         var dd = document.querySelectorAll('.bundle-content');
+         for (var i=0; i <dd.length; i++ ){
+         dd[i].setAttribute("class", "unactive");
+         }
+         for (var index=0; index <dt.length; index++ ){
+         dt[index].onclick = function(){
+         for (var d=0; d <dt.length; d++ ){
+         dt[d].setAttribute("class", "unactive");
+         document.getElementById("c-"+dt[d].getAttribute("id")).setAttribute("class", "unactive");
+         }
+         this.setAttribute("class", "active");
+         document.getElementById("c-"+this.getAttribute("id")).setAttribute("class", "active");
+         }
+         }
+         dt[0].setAttribute("class", "active");
+         dd[0].setAttribute("class", "active");
+
+         }*/
+
+
+    //<![CDATA[
+        var productAddToCartForm = new VarienForm('product_addtocart_form');
+        productAddToCartForm.submit = function(button, url) {
+            if (this.validator.validate()) {
+                var form = this.form;
+                var oldUrl = form.action;
+
+                if (url) {
+                   form.action = url;
+                }
+                var e = null;
+                try {
+                    this.form.submit();
+                } catch (e) {
+                }
+                this.form.action = oldUrl;
+                if (e) {
+                    throw e;
+                }
+
+                if (button && button != 'undefined') {
+                    button.disabled = true;
+                }
+            }
+        }.bind(productAddToCartForm);
+
+        productAddToCartForm.submitLight = function(button, url){
+            if(this.validator) {
+                var nv = Validation.methods;
+                delete Validation.methods['required-entry'];
+                delete Validation.methods['validate-one-required'];
+                delete Validation.methods['validate-one-required-by-name'];
+                if (this.validator.validate()) {
+                    if (url) {
+                        this.form.action = url;
+                    }
+                    this.form.submit();
+                }
+                Object.extend(Validation.methods, nv);
+            }
+        }.bind(productAddToCartForm);
+    //]]>
+    </script>
+
+</div>
+<?php
+$original_name = $_product->getName();
+$temp_name = str_replace(' ', '', $original_name);
+$temp_name = str_replace(':', '', $temp_name);
+$temp_name = str_replace('(', '', $temp_name);
+$temp_name = str_replace(')', '', $temp_name);
+$temp_name = str_replace('.', '', $temp_name);
+$temp_name = str_replace('[', '', $temp_name);
+$temp_name = str_replace(']', '', $temp_name);
+$temp_name = str_replace('-', '', $temp_name);
+$edited_name = str_replace('&', '', $temp_name);
+$_SESSION['current_product_name'] = $edited_name;
+?>

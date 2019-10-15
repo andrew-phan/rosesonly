@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <sales>
+            <children>
+                <ant_draftorders translate="title" module="ant_draftorders">
+                    <sort_order>19</sort_order>
+                    <title>Draft Order</title>
+                    <action>adminhtml/order/</action>
+                </ant_draftorders>
+            </children>
+        </sales>
+    </menu>
+</config>

@@ -1,0 +1,14 @@
+Legend:
+    + Feature
+    * Bugfix
+
+1.0.1
+    + Possibility to filter records by Action Type
+    + Possibility to set up logging actions for All Action Groups
+    + Possibility to set up logging actions for All Users
+    + New action type 'Create' for Catalog Product action group
+    + All Users option in the log configuration
+    * Product Delete Action never logged
+    * Item does not exist error when try to see details
+    * Translation files were missing
+    * Fatal error when Compilation

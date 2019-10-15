@@ -1,0 +1,190 @@
+<?php
+$islogin = 0;
+if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $islogin = 1; //dang login
+}
+?>
+<?php if (Mage::getStoreConfig('onestepcheckout/config/allowcoupon')): ?>	
+    <div id="tab-coupon">
+        <?php echo $this->getChildHtml('coupon'); ?>
+    </div>
+<?php endif; ?>
+<?php if (Mage::getStoreConfig('onestepcheckout/config/enable_messagetosystem')): ?>	
+    <div class="onestepcheckout-comments">
+        <label for="id_comments"><?php echo $this->__('Comments'); ?></label><br/>
+        <textarea id="id_comments" name="onestepcheckout_comments" cols="40" rows="4"></textarea>
+    </div>
+<?php endif; ?>
+
+<!--bo sung -->
+<?php if (Mage::getStoreConfig('onestepcheckout/config/enable_giftmessage')): ?>			
+    <div class="step-2" id="onepage-checkout-shipping-method-additional-load" <?php if (!$islogin): ?> style="display:none" <?php endif; ?>>
+        <?php echo $this->getChildHtml('additional') ?>
+    </div>
+<?php endif ?>	
+
+<?php if (Mage::getStoreConfig('onestepcheckout/termcondition/allow_options')): ?>
+    <div class="onestepcheckout-enable-terms">
+        <input class="required-entry" type="checkbox" id="id_accept_terms" name="accept_terms" value="1"  />
+        <label for="id_accept_terms"><?php echo $this->__('I accept the'); ?> <a id="onestepcheckout-toc-link" target="_blank" href="#inline2"><?php echo $this->__('Terms and Conditions'); ?></a></label>
+    </div>
+<?php endif ?>
+
+<div class="step-2 checkout-review" <?php if (!$islogin): ?> style="display:none;" <?php else: ?> style="float:right; padding-bottom: 10px;" <?php endif; ?>>
+    <label>* required fields</label>
+    <button type="button" class="button" onclick="tostep3()"><span><span>Review and place order</span></span></button>
+</div>
+
+<script>
+    function next(){       
+        var step3 = document.querySelectorAll(".step-3");
+        for(index=0; index< step3.length; index++){
+            step3[index].show();
+        }
+        var step2 = document.querySelectorAll(".step-2");
+        for(index=0; index< step2.length; index++){
+            step2[index].hide();
+        }
+        var step1 = document.querySelectorAll(".step-1");
+        for(index=0; index< step1.length; index++){
+            step1[index].hide();
+        }
+            
+        document.getElementById('progress').className="step3";
+            
+        var name = document.getElementById('shipping:firstname').value + " " +document.getElementById('shipping:lastname').value;
+        var address = document.getElementById('shipping:street1').value;
+        var message = document.getElementById('gift-message-whole-message').value;
+        writeCookie('msg',message);
+        var day = document.getElementById('_deliverydate').value;
+        var times = document.querySelectorAll(".onestepcheckout_time");
+        //alert(times.length);
+        var time="Any time"
+        for(var i=0; i<times.length; i++){
+            //alert(times[i].checked);
+            if(times[i].checked==true)
+                time= times[i].value;
+        }
+        var review_name = document.getElementsByName('review-name');
+        for(i=0; i<review_name.length; i++){
+            review_name[i].innerHTML = name;
+        }
+        var review_address = document.getElementsByName('review-address');
+        for(i=0; i<review_address.length; i++){
+            review_address[i].innerHTML = address;
+        }
+        var review_message = document.getElementsByName('review-message');
+        for(i=0; i<review_message.length; i++){
+            review_message[i].innerHTML = message;
+        }
+        var review_day = document.getElementsByName('review-day');
+        for(i=0; i<review_day.length; i++){
+            review_day[i].innerHTML = day;
+        }
+        var review_time = document.getElementsByName('review-time');
+        for(i=0; i<review_time.length; i++){
+            review_time[i].innerHTML = time;
+        }
+        
+        var shipping_cost = document.getElementsByName('shipping_method');    
+        var labels =''
+        for(i=0; i<shipping_cost.length; i++){
+            if(shipping_cost[i].checked == 1){               
+                labels = document.getElementById('p_'+shipping_cost[i].getAttribute('id')).innerHTML;                  
+                //var shipping_price = document.getElementById('shipping_price');                
+                //shipping_price.innerHTML  = '<span></span>'+labels;   
+                var shipping_price = document.querySelectorAll("#shipping_price");
+                for(var index=0; index < shipping_price.length; index++){
+                    shipping_price[index].innerHTML = labels;
+                }               
+            }
+        }
+    }
+    function tostep3(){
+        var validate = document.querySelectorAll("#shipping-new-address-form .required-entry");
+        
+        var success=true;
+        for(var index=0; index< validate.length; index++){
+            
+            if(validate[index].value.length==0){
+                if (!hasClass(validate[index],'validation-failed')){
+                    addClass(validate[index],'validation-failed');
+                    var stickyNode = document.createElement("div");
+                    stickyNode.className='validation-advice';
+                    stickyNode.innerHTML = 'This is a required field.';
+                    stickyNode.id = "advice-required-entry-" +validate[index].id ;
+                    insertAfter(stickyNode,validate[index]);
+                }
+                success = false;
+            }else{
+                if (hasClass(validate[index],'validation-failed')){
+                    removeClass(validate[index],'validation-failed');
+                    var div = document.getElementById("advice-required-entry-" +validate[index].id );
+                    div.parentNode.removeChild(div);
+                }
+            }
+        }
+        if(success && document.getElementById('gift-message-whole-message').value.length==0){
+            //success = confirm('');
+            success = false;
+            document.getElementById('popup').show();
+        }
+        if(success){
+            next();
+        }
+    }
+    
+    function hasClass(ele,cls) {
+        return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+    }
+ 
+    function addClass(ele,cls) {
+        if (!this.hasClass(ele,cls)) ele.className += " "+cls;
+    }
+ 
+    function removeClass(ele,cls) {
+        if (hasClass(ele,cls)) {
+            var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+            ele.className=ele.className.replace(reg,' ');
+        }
+    }
+    function insertAfter(newElement,targetElement) {
+        //target is what you want it to go after. Look for this elements parent.
+        var parent = targetElement.parentNode;
+ 
+        //if the parents lastchild is the targetElement...
+        if(parent.lastchild == targetElement) {
+            //add the newElement after the target element.
+            parent.appendChild(newElement);
+        } else {
+            // else the target has siblings, insert the new element between the target and it's next sibling.
+            parent.insertBefore(newElement, targetElement.nextSibling);
+        }
+    }
+    function popupYes(){
+        //alert('Yes');
+        document.getElementById('popup').hide();
+        next();
+    }
+    
+    function popupNo(){
+        //alert('No');
+        document.getElementById('popup').hide();        
+    }
+</script>
+
+<div id="popup" style="display: none;">
+    <div  style="opacity:0.4;filter:alpha(opacity=40);z-index:100;left:0;top:0;width:100%; height: 100%; position: fixed; background-color: #333;">
+
+    </div>
+    <div style="width: 300px; height: 100px; background-color: #fff;margin:auto;margin-top:200px;padding: 20px;position: fixed; top:0;z-index:110;">
+        <label id="msg" style="font-size:13px;">You have not filled up any gift message. <br/>
+            To proceed, click <b>Yes</b>. <br/>
+            To fill in your message to your recipient, click <b>No</b> to stay on this page.</label>
+        <div style="text-align: center;">
+            <button type="button" class="button" onclick="popupYes();"><span><span>Yes</span></span></button>
+            <button type="button" class="button" onclick="popupNo();"><span><span>No</span></span></button>            
+        </div>
+    </div>  
+
+</div>

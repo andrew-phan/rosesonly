@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Ant_Quotsupport>
+      <version>0.1.0</version>
+    </Ant_Quotsupport>
+  </modules>
+  <global>
+    <helpers>
+      <quotsupport>
+        <class>Ant_Quotsupport_Helper</class>
+      </quotsupport>
+    </helpers>
+	<blocks>
+	  <quotsupport>
+		<class>Ant_Quotsupport_Block</class>
+	  </quotsupport>
+	  <Quotation>
+		<rewrite>
+			<Adminhtml_Edit>Ant_Quotsupport_Block_Adminhtml_Edit</Adminhtml_Edit>
+		</rewrite>
+	  </Quotation>
+	</blocks>
+	<models>
+	  <quotsupport>
+		<class>Ant_Quotsupport_Model</class>
+		<!--resourceModel>deliverymanager_mysql4</resourceModel-->
+	  </quotsupport>
+	  <!--adminhtml>
+		<rewrite>
+			<Sales_Order_Create>Ant_Quotsupport_Model_Sales_Order_Create</Sales_Order_Create>
+		</rewrite>
+	  </adminhtml-->
+	</models>
+  </global>
+  <admin>
+	<routers>
+	  <quotsupport>
+	    <use>admin</use>
+		<args>
+		  <module>Ant_Quotsupport</module>
+		  <frontName>quotsupport</frontName>
+		</args>
+	  </quotsupport>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <quotsupport module="quotsupport">
+		<title>Quotsupport</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <quotsupportbackend module="quotsupport">
+			<title>Backend Page Title</title>
+			<sort_order>0</sort_order>
+			<action>quotsupport/adminhtml_quotsupportbackend</action>
+		  </quotsupportbackend>
+		</children>
+	  </quotsupport>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<!--admin>
+		  <children>
+			<quotsupport translate="title" module="quotsupport">
+			  <title>Quotsupport</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <quotsupportbackend translate="title">
+			<title>Backend Page Title</title>
+		  </quotsupportbackend>
+			  </children>
+			</quotsupport>
+		  </children>
+		</admin-->
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<quotsupport>
+		  <file>quotsupport.xml</file>
+		</quotsupport>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

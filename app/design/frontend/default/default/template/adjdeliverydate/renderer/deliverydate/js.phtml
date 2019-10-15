@@ -1,0 +1,39 @@
+<?php
+/**
+ * Product:     Delivery Date
+ * Package:     AdjustWare_Deliverydate_1.0.13_395941
+ * Purchase ID: TV9byO7sQKTwpQGRiiOgqFtWDhKtDztzSEUuAFJORn
+ * Generated:   2012-10-09 15:42:26
+ * File path:   app/design/frontend/default/default/template/adjdeliverydate/renderer/deliverydate/js.phtml
+ * Copyright:   (c) 2012 AITOC, Inc.
+ */
+?>
+<script type="text/javascript">
+    
+    var aitDeliverydateInitialization = Class.create(
+    {
+        initialize: function() 
+        {
+            this.validatorUrl = '<?php echo $this->getValidationUrl(); ?>';
+            this.fields = <?php echo Mage::helper('core')->jsonEncode($this->getFormIds()); ?>;
+            this.initFields();
+        },
+        
+        initFields: function()
+        {
+            var fields = $A(this.fields);
+            fields.each(this.setFieldObserver.bind(this));
+            
+        },
+        
+        setFieldObserver: function(fieldName)
+        {
+            var aitDdValidator = new aitDeliverydateValidator(this.validatorUrl , fieldName);
+            $(fieldName).observe('change', aitDdValidator.validate.bind(aitDdValidator));
+        }
+
+    });
+    
+    new aitDeliverydateInitialization();
+
+</script>

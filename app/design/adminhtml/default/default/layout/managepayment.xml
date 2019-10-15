@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <action method="addTab">
+                <name>managepayment</name>
+                <block>managepayment/adminhtml_customer_edit_tabs</block>
+            </action>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <?php echo $this->getChildHtml('custom_head') ?>        
+    </head>
+    <body>
+        <div class="wrapper">            
+            <div class="page">       
+                <div class="header-break"></div>
+                <div class="main-container col1-layout">
+                    <div class="main">
+                        <div class="col-main">
+                            <?php echo $this->getChildHtml('global_messages') ?>
+                            <?php echo $this->getChildHtml('content') ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

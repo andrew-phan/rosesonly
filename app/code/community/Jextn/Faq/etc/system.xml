@@ -1,0 +1,48 @@
+<config>
+<tabs>
+   <jextn translate="label" module="faq">
+            <label>Jextn Modules</label>
+            <sort_order>100</sort_order>
+        </jextn>
+    </tabs>
+    <sections>
+        <faq translate="label" module="faq">
+            <label>FAQ</label>
+            <tab>jextn</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <faq translate="label">
+                    <label>FAQ</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable FAQ</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+						<title translate="label">
+                            <label>FAQ Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                    </fields>
+                </faq>
+            </groups>
+        </faq>
+    </sections>
+</config>

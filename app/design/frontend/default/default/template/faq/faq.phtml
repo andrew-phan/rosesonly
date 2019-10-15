@@ -1,0 +1,18 @@
+<div class="faq-skin">
+<h4><?php echo $this->__('GET HELP WITH YOUR PURCHASE') ?></h4>
+<ul id="mymenu">
+<?php foreach ($this->getFaqCollection() as $faq) { ?>	
+	<li>
+		<p><?php echo $faq->getQuestion(); ?></p>
+		<div>
+			<div class="padded clearfix">
+				<?php echo $faq->getAnswer(); ?>
+			</div>
+		</div>
+	</li>
+<?php } ?>
+</ul>
+</div>
+<script type="text/javascript">
+	var menu1 = new YAHOO.widget.AccordionView('mymenu', {collapsible: true, width: 'auto', expandItem: 0, animationSpeed: '0.5', animate: true, effect: YAHOO.util.Easing.easeBothStrong});
+</script>

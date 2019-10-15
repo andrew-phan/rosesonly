@@ -1,0 +1,63 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php if (isset($_GET['cancel'])):?>
+<div class="page-message">
+    <h1><?php echo $this->__('Opps. Looks like you met some issues during checkout!') ?></h1>
+</div>
+<div class="cart-empty">    
+    <p><?php echo $this->__('Goods new is we have received your order details though its incomple.') ?></p>
+    <p><?php echo $this->__('Our customer service officer will be calling you shortly within the next hour.')?></p>
+    <br/>
+    <p><?php echo $this->__('Alternatively, let us help you by calling us at (65) 6256 1818 or emailing us at <a href="mailto:custsvc.sg@rosesonlyasia.com">custsvc.sg@rosesonlyasia.com</a>.')?></p>
+</div>
+<?php else:?>
+<script>
+    if(readCookie('progress')==1){
+        writeCookie('progress',0);
+        window.location = "?cancel=1";
+    }
+ </script>
+<div class="page-title">
+    <h3><?php echo $this->__('Shopping Cart is Empty') ?></h3>
+</div>
+<div class="cart-empty">
+    <?php 
+        //echo $this->getMessagesBlock()->getGroupedHtml();
+        $message = $this->getMessagesBlock()->getGroupedHtml();
+
+        $migsOrderId = Mage::getSingleton('checkout/session')->getMigsResult();
+        if($migsOrderId){
+           Mage::app()->getResponse()->setRedirect(Mage::helper('adminhtml')->getUrl("checkout/onepage/failure"));
+        }
+        else echo $message;
+    ?>
+    <?php echo $this->getChildHtml('checkout_cart_empty_widget'); ?>
+    <p><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+    <p><button type="button" title="Continue Shopping" class="button btn-proceed-checkout" onclick="window.location='<?php echo $this->getContinueShoppingUrl(); ?>'"><span><span>Continue Shopping</span></span></button></p>
+    <?php echo $this->getChildHtml('shopping.cart.table.after'); ?>
+</div>
+<?php endif; ?>

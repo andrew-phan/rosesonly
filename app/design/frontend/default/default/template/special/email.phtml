@@ -1,0 +1,73 @@
+<style> 
+    .head{height: 85px;width: 100%;
+          background: url("../skin/frontend/default/f002/images/white_logo.png") no-repeat scroll 30px 5px #77a192;
+    }
+    .info{width:800px;margin:auto;}
+    .info p{text-align: center;}
+    .info table {width: 800px;}
+    .info label{width:80px;display: inline-block;}
+    p{padding: 0;}
+    p.msg{color:red; font-size:20px;}
+</style>
+<div class="head"></div>
+<form class="info" method="post">
+    <div>
+        <p class="msg"><?php echo $this->getData('msg') ?></p>
+        <p>Forward your email to a friend...</p>
+        <p>Recipients' Information</p>
+    </div>
+    <table>
+        <tr>
+            <td><label>Name:</label><input name="name[0]" size="15"/></td>
+            <td><label>Email:</label><input name="email[0]" size="25"/></td>
+        </tr>
+        <tr> 
+            <td><label>Name:</label><input name="name[1]" size="15"/></td> 
+            <td><label>Email:</label><input name="email[1]" size="25"/></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label><input name="name[2]" size="15"/></td>
+            <td><label>Email:</label><input name="email[2]" size="25"/></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label><input name="name[3]" size="15"/></td>
+            <td><label>Email:</label><input name="email[3]" size="25"/></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label><input name="name[4]" size="15"/></td>
+            <td><label>Email:</label><input name="email[4]" size="25"/></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label><input name="name[5]" size="15"/></td>
+            <td><label>Email:</label><input name="email[5]" size="25"/></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label><input name="name[6]" size="15"/></td>
+            <td><label>Email:</label><input name="email[6]" size="25"/></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label><input name="name[7]" size="15"/></td>
+            <td><label>Email:</label><input name="email[7]" size="25"/></td>
+        </tr> 
+        <tr>
+            <td>Type your message here:</td>
+            <td><textarea name="message" rows="3" cols="30"></textarea></td>
+        </tr>
+        <tr>
+            <td>Your name:</td>
+            <td><input name="your_name" size="15"/></td>
+        </tr>
+        <tr>
+            <td>Your email address:</td>
+            <td><input name="your_address"/></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="hidden" value="<?php echo $_GET['subject']?>" name="subject"/>
+                <input type="hidden" value="<?php echo $_GET['template']?>" name="template"/>
+                <input type="hidden" value="1" name="send"/>
+            </td>            
+            <td><button type="submit">Submit </button></td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,92 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $current_store_code = Mage::app()->getStore()->getCode(); ?>
+<div class="footer-primary-container section-container checkout-footer">
+    <div class="footer-primary footer container">
+        <div class="grid-full">
+            <div class="footer-block">
+                <div class="grid12-12 footer-info">
+                    <div class="collapsible mobile-collapsible">
+                        <div>
+                            <h3 class="block-title heading">About Roses Only</h3>
+                        </div>
+                        <div class="footerl block-content grid12-12" style="float: left">
+                            <img style="float: left;margin-bottom: 15px;margin-right: 10px;" src="<?php echo $this->getSkinUrl('images/logo.png') ?>"/>
+                            <div><?php echo $this->getCopyright(); ?></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear_both"></div>
+                <div class="footer-bottom">
+                    <div class="payment">
+                        <img src="<?php echo $this->getSkinUrl('images/foot_payment.jpg') ?>">
+                    </div>
+                    <script type="text/javascript">
+                        var list = document.getElementsByClassName("price");
+                        for (var i = 0; i < list.length; i++) {
+                            var inner = list[i].innerHTML.replace(".00", "");
+                            //alert(inner);
+                            list[i].innerHTML = inner;
+                        }
+                    </script>
+                    <!--Start of Zopim Live Chat Script-->
+                    <script type="text/javascript">
+                        window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+                            d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+                            _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+                            $.src='//v2.zopim.com/?1V1sKQXpVOCz9qf5ahprOLScHXabMRQH';z.t=+new Date;$.
+                                type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+                    </script>
+                    <!--End of Zopim Live Chat Script-->
+                </div>
+            </div></div></div></div>

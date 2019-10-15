@@ -1,0 +1,33 @@
+<?php  
+/**
+* 
+* Author : RkD aka ROBIN
+* Email  : rkd711@gmail.com
+* 
+*/
+$_product = $this->getProduct();
+$formattedPrice = Mage::helper('core')->currency($_product->getPrice(), true, false);
+?>
+<div class="product-view quick-view">    
+    <div class="product-img-box">
+            <?php echo $this->getProductImages() ?>
+        </div>
+
+    <div class="product-shop">
+        <div class="product-name">
+                <h1><?php echo $_product->getName(); ?></h1>
+        </div>       
+        <?php echo $this->getReviewsSummaryHtml()?>        
+        <div class="price-box">
+            <span class="regular-price">
+                <span class="price"><?php echo $formattedPrice ?></span>
+            </span>
+        </div>
+        <h4><?php echo $this->__('Quick Overview') ?></h4>
+        <div class='short-description'><?php echo $_product->getDescription(); ?></div>
+
+        
+
+    </div>
+    <div class="clear"></div>
+</div>

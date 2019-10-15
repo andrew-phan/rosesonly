@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Bgupdating>
+            <version>0.1.0</version>
+        </Ant_Bgupdating>
+    </modules>
+    <global>
+        <helpers>
+            <bgupdating>
+                <class>Ant_Bgupdating_Helper</class>
+            </bgupdating>
+        </helpers>
+        <models>
+            <bgupdating>
+                <class>Ant_Bgupdating_Model</class>
+                <resourceModel>bgupdating_mysql4</resourceModel>
+            </bgupdating>
+        </models>
+    </global>    
+    <crontab>
+        <jobs>                       
+            <bgupdating_checkbestsellerproduct>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr><!-- daily at 1:00 AM -->
+                </schedule>
+                <run>
+                    <model>bgupdating/cron::checkBestSellerProduct</model>
+                </run>
+            </bgupdating_checkbestsellerproduct>
+        </jobs>
+    </crontab>
+</config> 

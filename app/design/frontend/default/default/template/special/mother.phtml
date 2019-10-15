@@ -1,0 +1,281 @@
+<div class="top"></div>
+<div class="view_other">
+    <div class="view_other_left">
+        You are viewing our Mother's Day Gift Range.
+    </div>
+    <div class="view_other_right">To view our normal range, <a href="<?php echo $this->getUrl('homepage'); ?>">click here.</a></div>
+</div>         
+<div class="main">
+    <div class="main_top"></div>   
+    <div class="banner">
+        <?php $this->setGroupCode('mother_day');?>
+        <?php if ($this->hasValidGroup()): ?>
+
+            <?php $group = $this->getGroup() ?>
+            <?php $banners = $this->getBanners() ?>
+            <?php if ($this->getGroup()->getBannerCount() == 1): ?>
+                <div id="<?php echo $this->getWrapperId() ?>" class="ibanners-single <?php echo $this->getWrapperClass() ?>">
+                    <?php foreach ($banners as $banner): ?>
+                        <?php if ($banner->hasUrl()): ?>
+                            <a href="<?php echo $banner->getUrl() ?>" title="<?php echo $this->escapeHtml($banner->getTitle()) ?>">
+                            <?php endif; ?>
+                            <img src="<?php echo $banner->getImageUrl() ?>" alt="<?php echo $this->escapeHtml($banner->getAltText()) ?>" />
+                            <?php if ($banner->hasUrl()): ?>
+                            </a>
+                        <?php endif; ?>
+                        <?php if ($banner->getHtml()): ?>
+                            <div class="html"><?php echo $banner->getHtml() ?></div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php elseif ($this->getGroup()->getBannerCount() > 1): ?>
+                <div id="<?php echo $this->getWrapperId() ?>-wrapper" class="<?php echo $this->getWrapperClass() ?>">
+                    <div id="<?php echo $this->getWrapperId() ?>" class="ibanners <?php if ($group->isAnimationEnabled()): ?>animated<?php else: ?>static<?php endif; ?>">
+                        <ul>
+                            <?php foreach ($banners as $banner): ?>
+                                <li id="ibanner-<?php echo $banner->getId() ?>" class="banner">
+                                    <?php if ($banner->getImageUrl()): ?>
+                                        <?php if ($banner->hasUrl()): ?>
+                                            <a href="<?php echo $banner->getUrl() ?>" title="<?php echo $this->escapeHtml($banner->getTitle()) ?>"<?php if ($banner->getUrlTarget()): ?> target="<?php echo $banner->getUrlTarget() ?>"<?php endif; ?>>
+                                            <?php endif; ?>
+                                            <img src="<?php echo $banner->getImageUrl() ?>" alt="<?php echo $this->escapeHtml($banner->getAltText()) ?>" />
+                                            <?php if ($banner->hasUrl()): ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php if ($banner->getHtml()): ?>
+                                        <div class="html"><?php echo $banner->getHtml() ?></div>
+                                    <?php endif; ?>
+                                </li>
+                            <?php endforeach; ?>
+                            <?php if ($group->isAnimationEnabled() && $this->getGroup()->getCarouselEffect() != 'fade'): ?>
+                                <?php
+                                /**
+                                 * When using the scroll effect, the first slide must be duplicated at the end of the slide list
+                                 * This ensures a smooth scrolling action when moving between the last and first slide
+                                 */
+                                ?>
+                                <?php $banner = $banners->getFirstItem() ?>
+                                <li id="ibanner-<?php echo $banner->getId() ?>-2" class="banner">
+                                    <?php if ($banner->getImageUrl()): ?>
+                                        <?php if ($banner->hasUrl()): ?>
+                                            <a href="<?php echo $banner->getUrl() ?>" title="<?php echo $this->escapeHtml($banner->getTitle()) ?>"<?php if ($banner->getUrlTarget()): ?> target="<?php echo $banner->getUrlTarget() ?>"<?php endif; ?>>
+                                            <?php endif; ?>
+                                            <img src="<?php echo $banner->getImageUrl() ?>" alt="<?php echo $this->escapeHtml($banner->getAltText()) ?>" />
+                                            <?php if ($banner->hasUrl()): ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php if ($banner->getHtml()): ?>
+                                        <div class="html"><?php echo $banner->getHtml() ?></div>
+                                    <?php endif; ?>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                    <?php if ($this->canAnimate()): ?>
+                        <?php if ($this->getControlsPosition() !== ''): ?>
+                            <div class="controls controls-<?php echo $this->getControlsPosition() ?><?php if ($group->getControlsOverlap()): ?> controls-ol<?php endif; ?>">
+                                <div class="control-prev">
+                                    <a href="#" class="carousel-control" rel="prev"><img src="<?php echo $this->getSkinUrl('images/ibanners/arrow-left.png') ?>" alt="<?php echo $this->__('Previous') ?>" /></a>
+                                </div>
+                                <div class="control-next">
+                                    <a href="#" class="carousel-control" rel="next"><img src="<?php echo $this->getSkinUrl('images/ibanners/arrow-right.png') ?>" alt="<?php echo $this->__('Next') ?>" /></a>
+                                </div>			
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+                <?php if ($this->canAnimate()): ?>
+                    <script type="text/javascript">
+                        //<![CDATA[
+            <?php
+            /**
+             * Reset the carousel to the first slide
+             * Without these two lines, some browsers will start the carousel at the incorrect position
+             * after a refresh
+             */
+            ?>
+                                $('<?php echo $this->getWrapperId() ?>').scrollLeft = 0;
+                                $('<?php echo $this->getWrapperId() ?>').scrollTop = 0;
+            			
+                                new Carousel('<?php echo $this->getWrapperId() ?>', $('<?php echo $this->getWrapperId() ?>').select('li.banner'), $('<?php echo $this->getWrapperId() ?>-wrapper').select('.carousel-control'), {
+                                    duration: <?php echo $group->getCarouselDuration() ?>,
+                                    auto: <?php if ($group->getCarouselAuto()): ?>true<?php else: ?>false<?php endif; ?>,
+                                    frequency: <?php echo $group->getCarouselFrequency() ?>,
+                                    visibleSlides: <?php echo $group->getCarouselVisibleSlides() ?>,
+                                    circular: true,
+                                    wheel: false,
+                                    effect: '<?php echo $this->getGroup()->getCarouselEffect() ?>',
+                                    transition: '<?php echo $this->getGroup()->getCarouselTransition() ?>',
+                                    selectedClassName: 'active'
+                                });
+                                //]]>
+                    </script>
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>  
+    <div class="delivery_love"></div>
+    <div class="content">
+        <div class="left_col">
+            <div class="pink_roses"></div>
+            <div class="products">
+                <ul>
+                    <?php
+                    $products1[] = Mage::getModel('catalog/product')->load('364');
+                    $products1[] = Mage::getModel('catalog/product')->load('365');
+                    $products1[] = Mage::getModel('catalog/product')->load('366');
+                    ?>
+                    <?php foreach ($products1 as $_product) : ?>
+                        <li>
+                            <!-- <?php echo $_product->getAdditionalDay();?>-->
+                            <div class="product-image">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350); ?>" width="181px" height="181px" /></a>
+                            </div>
+                            <?php echo $this->getPriceHtml($_product, true); ?>                            
+                            <a href="<?php echo $_product->getProductUrl() ?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName()) ?></div></a>
+                            <span class="free_del"> Free Del on Fri & Sat!</span>
+                            <div class="command">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><div class="buy_now"></div></a>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>                
+                </ul>
+            </div>
+            <div class="pink_roses_fayer_geisha_heart_chocolate"></div>
+            <div class="products">
+                <ul>
+                    <?php
+                    $products2[] = Mage::getModel('catalog/product')->load('367');
+                    $products2[] = Mage::getModel('catalog/product')->load('368');
+                    $products2[] = Mage::getModel('catalog/product')->load('370');
+                    ?>
+                    <?php foreach ($products2 as $_product) : ?>
+                        <li>
+                            <!-- <?php echo $_product->getAdditionalDay();?>-->
+                            <div class="product-image">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350); ?>" width="181px" height="181px" /></a>
+                            </div>
+                            <?php echo $this->getPriceHtml($_product, true); ?>                            
+                            <a href="<?php echo $_product->getProductUrl() ?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName()) ?></div></a>
+                            <span class="free_del"> Free Del on Fri & Sat!</span>
+                            <div class="command">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><div class="buy_now"></div></a>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>                
+                </ul>
+            </div>
+            <div class="pink_roses_chandon"></div>
+            <div class="products">
+                <ul>
+                    <?php
+                    $products3[] = Mage::getModel('catalog/product')->load('371');
+                    $products3[] = Mage::getModel('catalog/product')->load('372');
+                    $products3[] = Mage::getModel('catalog/product')->load('373');
+                    ?>
+                    <?php foreach ($products3 as $_product) : ?>
+                        <li>
+                            <!-- <?php echo $_product->getAdditionalDay();?>-->
+                            <div class="product-image">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350); ?>" width="181px" height="181px" /></a>
+                            </div>
+                            <?php echo $this->getPriceHtml($_product, true); ?>                            
+                            <a href="<?php echo $_product->getProductUrl() ?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName()) ?></div></a>
+                            <span class="free_del"> Free Del on Fri & Sat!</span>
+                            <div class="command">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><div class="buy_now"></div></a>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>                
+                </ul>
+            </div>
+            <div class="pink_roses_moet_chandon_champagne"></div>
+            <div class="products">
+                <ul>
+                    <?php
+                    $products4[] = Mage::getModel('catalog/product')->load('374');
+                    $products4[] = Mage::getModel('catalog/product')->load('375');
+                    $products4[] = Mage::getModel('catalog/product')->load('376');
+                    ?>
+                    <?php foreach ($products4 as $_product) : ?>
+                        <li>
+                            <!-- <?php echo $_product->getAdditionalDay();?>-->
+                            <div class="product-image">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350); ?>" width="181px" height="181px" /></a>
+                            </div>
+                            <?php echo $this->getPriceHtml($_product, true); ?>                            
+                            <a href="<?php echo $_product->getProductUrl() ?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName()) ?></div></a>
+                            <span class="free_del"> Free Del on Fri & Sat!</span>
+                            <div class="command">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><div class="buy_now"></div></a>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>                
+                </ul>
+            </div>
+        </div>
+        <div class="right_col">
+            <div class="get_off"></div>
+            <div class="pink_roses_lilies"></div>
+            <div class="products">
+                <ul>
+                    <?php
+                    $products5[] = Mage::getModel('catalog/product')->load('378');
+                    ?>
+                    <?php foreach ($products5 as $_product) : ?>
+                        <li>
+                            <!-- <?php echo $_product->getAdditionalDay();?>-->
+                            <div class="product-image">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350); ?>" width="185px" height="185px" /></a>
+                            </div>
+                            <?php echo $this->getPriceHtml($_product, true); ?>
+                            
+                            <a href="<?php echo $_product->getProductUrl() ?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName()) ?></div></a>
+                            <div class="command">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><div class="buy_now"></div></a>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>                
+                </ul>
+            </div>
+            <div class="pink_roses_priceless_love"></div>
+            <div class="products">
+                <ul>
+                    <?php
+                    $products6[] = Mage::getModel('catalog/product')->load('379');
+                    $products6[] = Mage::getModel('catalog/product')->load('380');
+                    $products6[] = Mage::getModel('catalog/product')->load('381');
+                    ?>
+                    <?php foreach ($products6 as $_product) : ?>
+                        <li>
+                            <!-- <?php echo $_product->getAdditionalDay();?>-->
+                            <div class="product-image">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350); ?>" width="181px" height="181px" /></a>
+                            </div>
+                            <?php echo $this->getPriceHtml($_product, true);?> 
+                            <a href="<?php echo $_product->getProductUrl() ?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName()) ?></div></a>
+                            <span class="free_del"> Free Del on Fri & Sat!</span>
+                            <div class="command">
+                                <a href="<?php echo $_product->getProductUrl() ?>"><div class="buy_now"></div></a>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>                
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="message">
+        <p class="title">Prices stated are not inclusive of delivery charges.</p>
+        <p>Deliver love with only the finest roses at www.RosesOnly.com.sg.</p>
+        <p>Bringing together 45 years of floristry experience, Australia's favorite online florist - Roses Only has arrived in Singapore to deliver the world's finest long stemmed roses accompanied by fine French champagne, premium wines, teddy bears and chocolates.</p>
+    </div>
+    <div class="note">
+        <p class="title">Send a Gift of Love this Mother's Day from Roses Only</p>
+        <p>This Mother's Day, deliver love to your Mum with the best roses in Singapore. Spoil your Mum this Mother's Day, Sunday 12th May 2013 with beautiful gifts and roses delivered to her door. Our classic roses and fragrant lilied make the perfect gift to indulge your Mum on her special day. Take this opportunity to day Thank You for all the love and support your Mum, Mother-in-law, Grandmother or Mother figure have provided over the years. Show her how much you appreciate her and make her fell special with a gift designed especially from our Mother's Day Gifts range. Choose roses and then add a bottle of sparking wine, chocolates or fine champagne for a Mother's Day gift she will truly adore. </p>
+        <br/>
+        <p>Roses are synonymous with love. What better way to tell your Mum you love her on Mother's Day than with a Roses Only Signature box of the world's finest roses?</p>
+    </div>
+</div>

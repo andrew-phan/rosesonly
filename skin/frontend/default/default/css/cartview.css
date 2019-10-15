@@ -1,0 +1,23 @@
+#cartview{float:right;position:relative;margin-right:9px;font-weight:bold;margin-top:6px;}
+#cartview a, #cartview a:hover{color:#333;text-decoration:none;}
+#cartview:hover{background-color:#dee0df;}
+#cartview-link{overflow:hidden;text-align:right;padding:0px 4px 0px 21px;background:url(../images/i-cart.png) no-repeat 3px;}
+#cartview-panel{width:272px;position:absolute;right:0;text-align:left;z-index:4000;}
+#cartview-panel .block-title{display:none}
+.block-cart .block-content{background-color:#f3f3f3;border:none;}
+.block-content .bar{background-color:#dee0df;height:16px;text-align:center;border:none;}
+.bar .up, .bar .down{width:20px;height:14px;margin:auto;}
+.bar .up{background:url(../images/i-up.png) no-repeat 0 4px;}
+.bar .down{background:url(../images/i-down.png) no-repeat 0 4px;}
+.product-description{color:#a09d9d;background-color:none;}
+.features-detail a{color:#a09d9d;}
+.shipping-fee{margin-left:110px;margin-bottom:0;margin-top:5px;color:#999999;}
+.subtotal{margin-left:110px;}
+.summary .label{width:50px;float:left;display:block;}
+.summary .spacer{padding-right:15px;}
+#cart-sidebar li{padding:2px 10px !important;}
+#cart-sidebar a{font-size:12px;font-weight:normal;}
+.features-detail a{font-size:11px !important;}
+#cart-sidebar a.btn-remove{width:15px !important;}
+#cart-sidebar .price{font-weight:bold;color:#000;}
+#cart-sidebar .options{color:rgb(127,122,122);}

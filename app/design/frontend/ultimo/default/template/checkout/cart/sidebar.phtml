@@ -1,0 +1,142 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Shoping cart sidebar
+ *
+ * @see Mage_Checkout_Block_Cart_Sidebar
+ */
+?>
+<?php 
+    $shippingCost = null;
+    if(array_key_exists('delivery_cost', $_COOKIE) && !$_COOKIE['delivery_cost']){
+        $shippingCost = $_COOKIE['delivery_cost'];
+    } else if(Mage::getStoreConfig("onestepcheckout/config/default_shippingcost")) {
+        $shippingCost = Mage::getStoreConfig("onestepcheckout/config/default_shippingcost");
+    }
+?>
+<input type="hidden" id="shippingCost" value="<?php echo $shippingCost; ?>"/>
+<script type="text/javascript">
+    window.onload = function () {
+        if(readCookie('shipping_cost').length>0){       
+            var shippingCost = document.getElementById('shippingCost');
+            shippingCost.value = readCookie('shipping_cost');
+            var sidebar_shipping_cost = document.getElementById('sidebar_shipping_cost');
+            if(sidebar_shipping_cost)
+                sidebar_shipping_cost.innerHTML = shippingCost.value;
+        
+            if(document.getElementById('sidebar_total'))
+                var sidebar_total = Number(document.getElementById('sidebar_total').value);
+            
+            var sidebar_total_show = document.getElementById('sidebar_total_show');        
+            if(sidebar_total_show){
+                var delivery = Number(readCookie('shipping_cost').replace(/[^0-9\.]+/g,""));
+                var total = "<?php echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() . ''; ?>" 
+                    + (sidebar_total+ delivery);
+                sidebar_total_show.innerHTML = total;
+            }
+        }
+    
+        /* Hoang add*/
+        var freedays_input = document.getElementById('freedays');
+        if(freedays_input)
+            var freedays = freedays_input.value;
+        var selectedDate = document.getElementById('_deliverydate');
+        if(freedays)
+            var pos = freedays.indexOf( selectedDate.value);    
+    
+        var shipping_cost = document.getElementsByClassName('shipping_cost');        
+        if(pos >= 0 && shipping_cost.length>0){                                                            
+            for(var i=0; i< shipping_cost.length; i ++){
+                shipping_cost[i].innerHTML = <?php
+echo "'" . Mage::app()->getLocale()->currency(Mage::app()->getStore()->
+                getCurrentCurrencyCode())->getSymbol() . "0'"
+?>;                
+            }                                                                                                                  
+        }else{
+            var default_shipping_cost_input = document.getElementById('default_shipping_cost');
+            if(default_shipping_cost_input)
+                var default_shipping_cost = default_shipping_cost_input.value;
+            if(default_shipping_cost)
+                for(var i=0; i< shipping_cost.length; i ++){
+                    shipping_cost[i].innerHTML = <?php echo "'" . Mage::app()->getLocale()->currency(Mage::app()->getStore()->
+                getCurrentCurrencyCode())->getSymbol() . "'" ?>+Math.round(default_shipping_cost,2);
+            } 
+        }
+    }
+</script>
+<?php if ($this->getIsNeedToDisplaySideBar()): ?>
+    <div class="block block-cart">
+        <?php $_cartQty = $this->getSummaryCount() ?>
+        <div class="block-title">
+            <strong><span><?php echo $this->__('My Cart') ?></span></strong>
+        </div>
+        <div class="block-content">
+            <?php $_items = $this->getRecentItems() ?>
+            <?php if (count($_items)): ?> 
+                <div class="bar"><div class="up"></div></div>
+                <ol id="cart-sidebar" class="mini-products-list">
+                    <?php foreach ($_items as $_item): ?>
+                        <?php echo $this->getItemHtml($_item) ?>
+                    <?php endforeach; ?>
+                </ol>
+                <div class="bar"><div class="down"></div></div>
+                <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
+            <?php else: ?>
+                <p class="empty"><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+            <?php endif ?>
+
+            <?php if ($_cartQty > 0): ?>
+                <div class="summary">
+                    <p class="shipping-fee"><span class="label">Delivery</span>
+                        <span class="spacer">:</span>
+                        <span id="sidebar_shipping_cost"><?php echo Mage::helper('checkout')->formatPrice($shippingCost) ?></span></p>
+                    <p class="subtotal">
+                        <?php if ($this->canApplyMsrp()): ?>
+                            <span class="map-cart-sidebar-total"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
+                        <?php else: ?>
+                            <input type="hidden" id="sidebar_total" value="<?php echo $this->getSubtotal() ?>"/>
+                            <span class="label"><?php echo $this->__('Total') ?></span>
+                            <span class="spacer">:</span>
+                            <span id="sidebar_total_show"><?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal() + $shippingCost) ?></span>
+                            <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+                                <br />(<?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?>)
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </p>
+                </div>
+            <?php endif ?>
+
+            <?php if ($_cartQty && $this->isPossibleOnepageCheckout()): ?>
+                <div class="actions">
+                    <?php echo $this->getChildHtml('extra_actions') ?>
+                    <button type="button" title="<?php echo $this->__('Checkout') ?>" class="menu-button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
+                </div>
+            <?php endif ?>
+
+
+        </div>
+    </div>
+<?php endif; ?>

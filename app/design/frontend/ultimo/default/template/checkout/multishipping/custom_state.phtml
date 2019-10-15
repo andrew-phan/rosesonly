@@ -1,0 +1,41 @@
+
+<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
+    jQuery(document).ready(function(){
+        toggle_steps(2);
+    });
+    function toggle_steps(step_num){
+        if(step_num==2)
+        {
+
+            jQuery('#step2').addClass('current');
+            jQuery('#step3').removeClass('current');
+        }
+
+        else{
+
+            jQuery('#step3').addClass('current');
+            jQuery('#step2').removeClass('current');
+        }
+    }
+
+    function gotonextstep(){
+
+            toggle_steps(3);
+
+    }
+
+</script>
+
+<div class="top_checkout">
+    <!--<h1 class="onestepcheckout-title">Secure Checkout</h1>-->
+    <ul class="checkoutsteps">
+        <?php /*foreach ($this->getSteps() as $_step): */?><!--
+            <li id="step2" title="<?php /*echo $_step->getLabel() */?>"<?php /*if($_step->getIsActive()): */?> class="current"<?php /*endif; */?>><span class="step_number"><?php /*echo $_step->getLabel() */?></span></li>
+        --><?php /*endforeach; */?>
+        <li id="step1"><span class="step_number">1</span><a href="<?php echo $this->getUrl('checkout/cart') ?>">Shopping Cart</a></li>
+        <li id="step2" onclick="toggle_steps(2)"><span class="step_number">2</span><a href="javascript:void(0);">Select Addresses</a></li>
+        <li id="step3" onclick="gotonextstep()"><span class="step_number">3</span><a href="javascript:void(0);">Recipient Information</a></li>
+        <li id="step4" onclick="toggle_steps(2)"><span class="step_number">4</span><a href="javascript:void(0);">Billing Information</a></li>
+        <li id="step5" onclick="gotonextstep()"><span class="step_number">5</span><a href="javascript:void(0);">Review & Place Order</a></li>
+    </ul>
+</div>

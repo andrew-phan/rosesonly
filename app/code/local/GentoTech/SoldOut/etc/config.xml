@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <GentoTech_SoldOut>
+            <version>0.1.0</version>
+        </GentoTech_SoldOut>
+    </modules>
+
+    <frontend>
+
+        <layout>
+            <updates>
+                <gentotech_soldout>
+                    <file>gentotech_soldout.xml</file>
+                </gentotech_soldout>
+            </updates>
+        </layout>
+
+    </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <GentoTech_SoldOut>
+                            <title>Soldout Module</title>
+                            <sort_order>10</sort_order>
+                        </GentoTech_SoldOut>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <soldout>
+                                            <title>GentoTech</title>
+                                        </soldout>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <global>
+        <blocks>
+            <soldout>
+                <class>GentoTech_SoldOut_Block</class>
+            </soldout>
+            <!--<catalog>
+                <rewrite>
+                    <product_list>GentoTech_SoldOut_Block_Soldoutproduct</product_list>
+                </rewrite>
+            </catalog>-->
+        </blocks>
+        <helpers>
+            <soldout>
+                <class>GentoTech_SoldOut_Helper</class>
+            </soldout>
+        </helpers>
+    </global>
+</config>

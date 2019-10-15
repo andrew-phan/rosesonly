@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <advancereports_adminhtml_advancereports_index>
+        <reference name="content">
+            <block type="advancereports/adminhtml_advancereports" name="advancereports" />
+        </reference>
+    </advancereports_adminhtml_advancereports_index>
+    <advancereports_adminhtml_advancereports_customer_index>
+        <reference name="content">
+            <block type="advancereports/adminhtml_advancereports_customer" name="advancereports_customer" />
+            <block type="latepayment/adminhtml_latepayment" name="latepayment" />
+        </reference>
+    </advancereports_adminhtml_advancereports_customer_index>
+</layout>

@@ -1,0 +1,10 @@
+<?php foreach ($this->getTotals() as $_code => $_total): ?>
+    <?php if ($_total->getBlockName()): ?>
+        <?php echo $this->getChildHtml($_total->getBlockName(), false); ?>
+    <?php else:?>
+    <p>
+        <span style="width: 150px;display: inline-block;"><?php echo $this->escapeHtml($_total->getLabel());?>:</span> 
+        <span><?php echo $this->formatValue($_total) ?></span>   
+    </p>
+    <?php endif?>
+<?php endforeach?>

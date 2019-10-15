@@ -1,0 +1,156 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php if ($this->getItems()->getSize() && 0): ?>
+    <div class="block block-related">
+        <div class="block-title related">
+            <strong><span><?php echo $this->__('You\'ll also love') ?></span></strong>
+        </div>
+        <div class="block-content">        
+            <ol class="mini-products-list">
+                <?php foreach ($this->getItems() as $_item): ?>
+                    <li>
+                        <p><a href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a></p>
+                        <h5><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h5>
+                        <?php echo $this->getPriceHtml($_item, true) ?>
+                    </li>
+                <?php endforeach ?>
+            </ol>
+            <script type="text/javascript">decorateList('block-related', 'none-recursive')</script>
+        </div>
+        <script type="text/javascript">
+            //<![CDATA[
+            $$('.related-checkbox').each(function(elem){
+                Event.observe(elem, 'click', addRelatedToProduct)
+            });
+
+            var relatedProductsCheckFlag = false;
+            function selectAllRelated(txt){
+                if (relatedProductsCheckFlag == false) {
+                    $$('.related-checkbox').each(function(elem){
+                        elem.checked = true;
+                    });
+                    relatedProductsCheckFlag = true;
+                    txt.innerHTML="<?php echo $this->__('unselect all') ?>";
+                } else {
+                    $$('.related-checkbox').each(function(elem){
+                        elem.checked = false;
+                    });
+                    relatedProductsCheckFlag = false;
+                    txt.innerHTML="<?php echo $this->__('select all') ?>";
+                }
+                addRelatedToProduct();
+            }
+
+            function addRelatedToProduct(){
+                var checkboxes = $$('.related-checkbox');
+                var values = [];
+                for(var i=0;i<checkboxes.length;i++){
+                    if(checkboxes[i].checked) values.push(checkboxes[i].value);
+                }
+                if($('related-products-field')){
+                    $('related-products-field').value = values.join(',');
+                }
+            }
+            //]]>
+        </script>
+    </div>
+<!--?php endif; ?-->
+
+<?php elseif (0): ?>
+<!--?php if (0):  ?-->
+
+
+<?php
+$_related = $this->getProduct();
+// get the parent id to skip
+$_parentid = $_related->getId();
+
+if ($_related) {
+    // get collection of categories this product is associated with
+    $categories = $_related->getCategoryCollection()
+            ->setPage(1, 1)
+            ->load();
+
+    // if the product is associated with any category
+    if ($categories->count())
+        foreach ($categories as $_category) {
+            $cur_category = Mage::getModel('catalog/category')->load($_category->getId());
+            ?>
+
+            <div class="block">
+                <div class="block-title upselled"><strong><span><?php echo $this->__('You\'ll also love') ?></span></strong></div>
+                <ol class="mini-products-list">
+
+
+                    <?php
+                    $visibility = array(
+                        Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+                        //Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG
+                    );
+
+                    $products = Mage::getResourceModel('catalog/product_collection')
+                            ->addCategoryFilter($_category)
+                            ->addAttributeToFilter('visibility', $visibility)
+                            ->addAttributeToSelect('small_image');
+
+                    $products->getSelect()->limit(3);
+
+
+                    // count the number of displayed products
+                    $_i = 0;
+
+                    foreach ($products as $productModel) {
+                        $_related = Mage::getModel('catalog/product')->load($productModel->getId());
+                        $_realtedid = $_related->getId();
+
+                        // prevents displaying the same product your are already on
+                        if ($_realtedid != $_parentid && $_i < 4):
+                            ?>
+
+                            <li>
+                                <p><a href="<?php echo $_related->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_related, 'small_image')->resize(125) ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_related->getName()) ?>" /></a></p>
+                                <h5><a href="<?php echo $_related->getProductUrl() ?>"><?php echo $this->htmlEscape($_related->getName()) ?></a></h5>
+                                <?php echo $this->getPriceHtml($_related, true) ?>
+                            </li>
+
+                            <?php
+                            // increment displayed products
+                            $_i++;
+                        endif;
+                    }
+                    ?>
+
+                    </tr>
+
+                    <?php
+                }
+        }
+        ?>
+    </ol>
+    <script type="text/javascript">decorateTable('upsell-product-table')</script>
+</div>
+<?php endif; ?>

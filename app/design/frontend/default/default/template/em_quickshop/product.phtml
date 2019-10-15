@@ -1,0 +1,72 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+    <head>
+        <?php echo $this->getChildHtml('head') ?>
+        <base target="_parent" />
+    </head>
+    <body<?php echo $this->getBodyClass() ? ' class="' . $this->getBodyClass() . '"' : '' ?>>
+        <div class="quickshop-main">
+            <?php echo $this->getChildHtml('content') ?>
+            <script>
+                window.onload = function ()
+                { 
+                    var dl = document.querySelectorAll(".quickshop-main .product-options dl");
+                    for(var index=0; index<dl.length; index++){                       
+                        dl[index].show();
+                    }
+                    var dt = document.querySelectorAll('.bundle-title');
+                    var dd = document.querySelectorAll('.bundle-content');
+                    for (var i=0; i <dd.length; i++ ){
+                        dd[i].setAttribute("class", "unactive");
+                    }
+                    for (var index=0; index <dt.length; index++ ){
+                        dt[index].onclick = function(){
+                            for (var d=0; d <dt.length; d++ ){
+                                dt[d].setAttribute("class", "unactive");
+                                document.getElementById("c-"+dt[d].getAttribute("id")).setAttribute("class", "unactive");
+                            }
+                            this.setAttribute("class", "active");
+                            document.getElementById("c-"+this.getAttribute("id")).setAttribute("class", "active");                   
+                        }
+                    }
+                    dt[0].setAttribute("class", "active");
+                    dd[0].setAttribute("class", "active");
+                }
+            </script>
+        </div>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </body>
+</html>
+
+

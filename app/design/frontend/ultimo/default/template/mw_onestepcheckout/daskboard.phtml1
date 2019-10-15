@@ -1,0 +1,747 @@
+<?php if(Mage::getStoreConfig('onestepcheckout/config/enabled')):?>
+
+
+    <script type="text/javascript">
+    var message_payment = "<?php echo Mage::helper('onestepcheckout')->__('Please select a payment method for your order!');?>";//giup dua cac' chuoi~ nay` vao file .csv
+    var message_ship = "<?php echo Mage::helper('onestepcheckout')->__('Please select a shipping method for your order!');?>";
+
+    function updateShippingMethod()	//update review order khi click shipping method
+    {
+        urls= '<?php echo Mage::getUrl('onestepcheckout/index/updateshippingmethod') ?>';
+
+        $MW_Onestepcheckout('#message-box').html('');
+        $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+        $MW_Onestepcheckout('#loading-mask').css('display','block');
+        $MW_Onestepcheckout.ajax({
+            type: "POST",
+            url: urls,
+            data: "shipping_method="+$MW_Onestepcheckout('input[name=shipping_method]:checked').val(),
+            success: function(msg){
+                msg=msg.replace("[]","");
+                $MW_Onestepcheckout('#checkout-review-load').html(msg);
+                $MW_Onestepcheckout('#loading-mask').css('display','none');
+                $MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+                updateTax();
+            }
+        });
+
+        var delivery = Number(readCookie('shipping_cost').replace(/[^0-9\.]+/g,""));
+        if(delivery == 0){
+            s_method_freeshipping_freeshipping.setAttribute('checked','checked');
+            s_method_tablerate_bestway.setAttribute('checked','');
+            setFreeDelivery();
+        }
+
+    }
+    function setFreeDelivery(){
+        urls= '<?php echo Mage::getUrl('onestepcheckout/index/updateshippingmethod') ?>';
+        $MW_Onestepcheckout('#message-box').html('');
+        $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+        $MW_Onestepcheckout('#loading-mask').css('display','block');
+        $MW_Onestepcheckout.ajax({
+            type: "POST",
+            url: urls,
+            data: "shipping_method=freeshipping_freeshipping",
+            success: function(msg){
+                msg=msg.replace("[]","");
+                $MW_Onestepcheckout('#checkout-review-load').html(msg);
+                $MW_Onestepcheckout('#loading-mask').css('display','none');
+                $MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+                updateTax();
+            }
+        });
+    }
+    function updatePaymentMethod(value)	//update review order khi click payment method
+    {
+       $MW_Onestepcheckout('#message-box').html('');
+        $MW_Onestepcheckout('#loading-mask').css('display','block');
+        $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+        $MW_Onestepcheckout.ajax({
+            type: "POST",
+            url: "<?php echo Mage::getUrl('onestepcheckout/index/updatepaymentmethod')?>",
+            data: "payment%5Bmethod%5D="+value,
+            success: function(msg){
+                if(msg.search("<script")!=0){
+                    //alert(msg.search("<script"));
+                    $MW_Onestepcheckout('#checkout-review-load').html(msg);
+                    updateTax();
+                }
+                //else
+                //	$MW_Onestepcheckout('#checkout-review-load').append(msg);	//message thong bao info payment method ko hop le
+                $MW_Onestepcheckout('#loading-mask').css('display','none');
+                $MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+            }
+        });
+    }
+    function updateCoupon(code,isremove){		//update review order va tab coupon khi nhap coupon
+        $MW_Onestepcheckout('#message-box').html('');
+        $MW_Onestepcheckout('#loading-mask').css('display','block');
+        $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+        $MW_Onestepcheckout.ajax({
+            type: "POST",
+            url: "<?php echo Mage::getUrl('onestepcheckout/index/updatecoupon')?>",
+            data: "coupon_code="+code+"&remove="+isremove,
+            success: function(msg){
+                str=jQuery.parseJSON(msg);
+                //console.debug(str.coupon);
+                //console.debug(str.view);
+                $MW_Onestepcheckout('#tab-coupon').html(str.coupon);
+                $MW_Onestepcheckout('#checkout-review-load').html(str.view);
+                $MW_Onestepcheckout('#loading-mask').css('display','none');
+                $MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+                updateTax();
+            }
+        });
+    }
+    function updateQtyProduct(){	//update review order khi click update cart
+        qtydata=$MW_Onestepcheckout("input[name^='cart\[']"); //selector all element have name ~ cart[
+        //console.debug(qtydata.length);
+        str='';
+        for(var i=0;i< qtydata.length;i++){
+            //console.debug(qtydata[i]);
+            str_escape=escape(qtydata[i].name)+"="+qtydata[i].value;
+            str+=str_escape;
+            if(i!=qtydata.length-1){str+="&"}
+        }
+        //str_escape=escape(str);
+        //console.debug(str_escape);
+        $MW_Onestepcheckout('#message-box').html('');
+        $MW_Onestepcheckout('#loading-mask').css('display','block');
+        $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+        $MW_Onestepcheckout.ajax({
+            type: "POST",
+            url: "<?php echo Mage::getUrl('onestepcheckout/index/updateqty')?>",
+            data: str,
+            success: function(msg){
+                str=jQuery.parseJSON(msg);
+
+                if(str.view.search("<script")!=0){
+                    //alert(msg.search("<script"));
+                    $MW_Onestepcheckout('#checkout-review-load').html(str.view);
+                }
+                else
+                    $MW_Onestepcheckout('#checkout-review-load').append(str.view);
+                $MW_Onestepcheckout('#loading-mask').css('display','none');
+                $MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+                updateTax();
+            }
+        });
+    }
+    function removeProduct(id){		//update review order khi remove product
+        //kiem tra xem co block gift message
+        hasgift=(typeof($MW_Onestepcheckout('#allow-gift-message-container'))!='undefined')?1:0;
+        //alert(typeof($MW_Onestepcheckout('#allow-gift-message-container')));
+        //console.debug($hasgift);
+        $MW_Onestepcheckout('#message-box').html('');
+        $MW_Onestepcheckout('#loading-mask').css('display','block');
+        $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+        $MW_Onestepcheckout.ajax({
+            type: "POST",
+            url: "<?php echo Mage::getUrl('onestepcheckout/index/removeproduct')?>",
+            data: "id="+id+'&hasgiftbox='+hasgift,
+            success: function(msg){
+                str=jQuery.parseJSON(msg);
+
+                if(str.view.search("<script")!=0){
+                    if(str.giftbox){
+                        $MW_Onestepcheckout('#checkout-review-load').html(str.view);
+                        $MW_Onestepcheckout('#onepage-checkout-shipping-method-additional-load').html(str.giftbox);
+
+                    }else{
+                        $MW_Onestepcheckout('#checkout-review-load').html(str.view);
+
+                    }
+                }
+                else{
+                    $MW_Onestepcheckout('#checkout-review-load').append(str.view);
+
+                }
+                $MW_Onestepcheckout('#loading-mask').css('display','none');
+                $MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+                updateTax();
+            }
+        });
+    }
+    // chay khi onload song trang
+    $MW_Onestepcheckout(function(){
+        //add fancybox
+
+        <?php if(!Mage::getStoreConfig('onestepcheckout/config/is_disable')):?>
+        <?php  if(Mage::getStoreConfig('onestepcheckout/addfield/zip') !=2):?>	// neu config field postcode la khac' required , remove required-entry field postcode
+        $MW_Onestepcheckout('#billing\\:postcode').removeClass('required-entry');	//required - entry dc them toi field postcode khi onestepcheckout run
+        $MW_Onestepcheckout('#shipping\\:postcode').removeClass('required-entry');
+        <?php endif?>
+        <?php  if(Mage::getStoreConfig('onestepcheckout/addfield/state') !=2):?>  //tuong tu voi field region state
+        $MW_Onestepcheckout('#billing\\:region_id').removeClass('validate-select');
+        $MW_Onestepcheckout('#shipping\\:region_id').removeClass('validate-select');
+        <?php endif?>
+        <?php endif?>
+        <?php if(Mage::getStoreConfig("onestepcheckout/config/default_shippingmethod")):?>	//neu config default shipping method cho checkout thi add checked cho input shipping method
+        var defaultshippingmethod = "<?php echo Mage::getStoreConfig("onestepcheckout/config/default_shippingmethod")?>";
+        var defaultshippingmethodId = "#s_method_"+defaultshippingmethod;
+        if(!$MW_Onestepcheckout(defaultshippingmethodId).checked)
+            $MW_Onestepcheckout(defaultshippingmethodId).attr('checked','checked');	//fix truong hop lan dau tien vao checkout thi shipping method khong dc check
+        <?php endif?>
+        $MW_Onestepcheckout('#billing-new-address-form').clearForm(); //xoa du lieu tren form billing address neu' co du lieu san~ tren cac field input
+
+        <?php
+
+        // neu customer dang login ($islogin)va co thong tin cho address ($had_address)
+
+            $islogin=0;
+            if(Mage::getSingleton('customer/session')->isLoggedIn()){
+                $islogin=1;	//dang login
+            }
+
+        ?>
+
+
+        var completeajax=1;
+
+        if($MW_Onestepcheckout('input[name=shipping_method]:checked').val()){	//neu shipping method co ton tai 1 phuong thuc' duoc checked thi update view
+            $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+            $MW_Onestepcheckout.ajax({
+                type: "POST",
+                url:"<?php echo Mage::getUrl('onestepcheckout/index/updateshippingmethod')?>",
+                data: "shipping_method="+$MW_Onestepcheckout('input[name=shipping_method]:checked').val(),
+                success: function(msg){
+                    msg=msg.replace("[]","");
+                    $MW_Onestepcheckout('#checkout-review-load').html(msg);
+                    //$MW_Onestepcheckout('#loading-mask').css('display','none');
+                    updateTax();
+                }
+            });
+        }
+
+        var delivery = Number(readCookie('shipping_cost').replace(/[^0-9\.]+/g,""));
+        if(delivery == 0){
+            s_method_freeshipping_freeshipping.setAttribute('checked','checked');
+            s_method_tablerate_bestway.setAttribute('checked','');
+            //if(currentdate.getHours()==21)
+            //    alert(s_method_tablerate_bestway.checked);
+            setFreeDelivery();
+        }
+
+        if($MW_Onestepcheckout("input[name=payment\[method\]]:checked").val() && payment_load()){ //neu payment method co ton tai 1 phuong thuc' duoc checked va config cho phep payment load thi update reiew
+            //updatePaymentMethod($MW_Onestepcheckout("input[name=payment\[method\]]:checked").val());
+            $MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+            value=$MW_Onestepcheckout("input[name=payment\[method\]]:checked").val();
+            //$MW_Onestepcheckout('.btn-checkout').attr('disabled','disabled');
+            $MW_Onestepcheckout.ajax({
+                type: "POST",
+                url: "<?php echo Mage::getUrl('onestepcheckout/index/updatepaymentmethod')?>",
+                data: "payment%5Bmethod%5D="+value,
+                success: function(msg){
+                    if(msg.search("<script")!=0){
+                        //alert(msg.search("<script"));
+                        $MW_Onestepcheckout('#checkout-review-load').html(msg);
+                    }
+                    else
+                        $MW_Onestepcheckout('#checkout-review-load').append(msg);
+                    //$MW_Onestepcheckout('#loading-mask').css('display','none');
+                    //$MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+                    updateTax();
+                }
+            });
+        }
+        $MW_Onestepcheckout('.btn-checkout').removeAttr('disabled');
+        //valid form khi click nut PLACE ORDER
+        $MW_Onestepcheckout('.btn-checkout').click(function(e){
+            //	First validate the form
+            //$MW_Onestepcheckout('#onestep_form').submit();
+            //return true;
+            var form = new VarienForm('onestep_form');
+            var logic=true;
+            <?php if(Mage::helper('onestepcheckout')->onlyProductDownloadable()):?>
+            var notshipmethod=1;
+            <?php else:?>
+            var notshipmethod=$MW_Onestepcheckout("input[name=shipping_method]:checked").val();
+            <?php endif?>
+            if(!$MW_Onestepcheckout("input[name=payment[method]]:checked").val() || !notshipmethod){
+                logic=false;
+            }
+            if(!$MW_Onestepcheckout("input[name=payment[method]]:checked").val()){	//neu cac method payment chua duoc chon
+                if(!$MW_Onestepcheckout('#advice-required-entry_payment').length){	//neu' phan tu valid chua duoc hien len, thi` cho no hien len
+                    $MW_Onestepcheckout('#checkout-payment-method-load').append('<dt><div class="validation-advice" id="advice-required-entry_payment" style="">'+message_payment+'</div></dt>');
+                    //if($MW_Onestepcheckout('#advice-required-entry_payment').attr('display')!="none"){
+                    //$MW_Onestepcheckout('#advice-required-entry_payment').css('display','block');
+                }
+            }
+            else
+                $MW_Onestepcheckout('#advice-required-entry_payment').remove();
+
+            if(!notshipmethod){
+                if(!$MW_Onestepcheckout('#advice-required-entry_shipping').length){
+                    $MW_Onestepcheckout('#checkout-shipping-method-loadding').append('<dt><div class="validation-advice" id="advice-required-entry_shipping" style="">'+message_ship+'</div></dt>');
+
+                }
+
+            }
+            else
+                $MW_Onestepcheckout('#advice-required-entry_shipping').remove();
+
+
+            if(!form.validator.validate())	{
+                val=$MW_Onestepcheckout('#billing\\:email').val();
+                emailvalidated=Validation.get('IsEmpty').test(val) || /^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*@([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*\.(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]){2,})$/i.test(val);
+
+                updateEmailmsg(val);
+                Event.stop(e);
+            }
+            else{
+                if(logined()!=1){
+
+                    var msgerror=1;
+                    val=$MW_Onestepcheckout('#billing\\:email').val();
+                    emailvalidated=Validation.get('IsEmpty').test(val) || /^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*@([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*\.(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]){2,})$/i.test(val);
+
+                    msgerror=updateEmailmsg(val);
+
+                }
+
+                if(logic){
+                    $MW_Onestepcheckout('#onestep_form').submit();
+                    $MW_Onestepcheckout('#loading-mask').css('display','block');
+                    $MW_Onestepcheckout('.btn-checkout').attr("disabled","disabled");
+                }
+                else {
+                    return false;
+                }
+            }
+            return false;
+        });
+
+
+    });
+    </script>
+    <div class="checkout-progress-block">
+        <img src="<?php echo $this->getSkinUrl('images/rosesonly/enter-details.png');?>" alt="<?php echo $this->__('enter-details')?>" width="545" height="93" />
+    </div>
+    <hidden value="Welcome to One Step Checkout Pro"></hidden>
+    <hidden value="Please enter your details below to complete your purchase."></hidden>
+    <h1 class="onestepcheckout-title"><?php echo $this->__(Mage::getStoreConfig('onestepcheckout/config/page_title'))?></h1>
+    <ul class="checkoutsteps">
+        <li id="step1" class="current">Shopping Cart</li>
+        <li id="step2">Recipient Information</li>
+        <li id="step1">Review & Place Order</li>
+    </ul>
+<!--    <p class="onestepcheckout-description">--><?php //echo $this->__(Mage::getStoreConfig('onestepcheckout/config/page_content'))?><!--</p>-->
+    <div id="message-box">
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() //cho phep' dua ra cac thong bao' khi ton tai addError?>
+    </div>
+
+
+
+    <div class="onestepcheckout-threecolumns checkoutcontainer onestepcheckout-skin-generic">
+
+        <div class="review">
+            <div>
+                <?php echo $this->getChildHtml('review');?>
+            </div>
+        </div>
+        <form id="onestep_form" action="<?php echo $this->getUrl('onestepcheckout/index/updateordermethod') ?>" method="POST">
+            <div class="onestepcheckout-step1">
+                        <div id="shipping_show" class="onepage-left">
+                            <p class="onestepcheckout-numbers onestepcheckout-numbers-1"><?php echo $this->__('Recipient address');?></p>
+                            <?php echo $this->getChildHtml('shipping');?>
+                        </div>
+                <div  class="onepage-right">
+                    <p class="onestepcheckout-numbers onestepcheckout-numbers-2"><?php echo $this->__('Gift Message'); ?><br /><span><?php echo $this->__('(only English is supported)'); ?></span></p>
+                    <?php echo $this->getChildHtml('giftmessage_additional'); ?>
+                </div>
+
+            </div>
+            <div class="onestepcheckout-column-2">
+                <div id="onestepcheckout-column-container">
+                    <?php if(!Mage::helper('onestepcheckout')->onlyProductDownloadable()):?>
+                        <div class="onestepcheckout-column-middle no-bg">
+                            <p class="onestepcheckout-numbers onestepcheckout-numbers-3"><?php echo $this->__('Delivery');?></p>
+                            <div>
+                                <?php echo $this->getChildHtml('shipping_method');?>
+                            </div>
+                            <p class="onestepcheckout-numbers onestepcheckout-numbers-4"><?php echo $this->__('Billing address');?></p>
+                            <div class="step-content">
+                                <?php echo $this->getChildHtml('billing');?>
+                            </div>
+                        </div>
+
+                    <?php endif?>
+                    <div class="onestepcheckout-column-right">
+                        <p class="onestepcheckout-numbers onestepcheckout-numbers-5"><?php echo $this->__('Payment method');?></p>
+                        <div class="step-content">
+                            <?php echo $this->getChildHtml('payment');?>
+                        </div>
+                    </div>
+                    <div class="clear_both">&nbsp;</div>
+
+                </div>
+            </div>
+            <div class="clear_both">&nbsp;</div>
+        </form>
+        <?php if(version_compare(Mage::getVersion(),'1.4.0.1','>='))://fix cho magento 1.3?>
+            <div style="display: none;">
+                <div id="inline1" style="width:400px;height:235px;overflow:auto;">
+                    <?php echo $this->getChildHtml('login');?>
+                </div>
+                <div id="inline3" style="width:440px;height:190px;overflow:auto;">
+                    <?php echo $this->getChildHtml('forgotpassword');?>
+                </div>
+                <div id="inline2" style="width:<?php echo Mage::getStoreConfig('onestepcheckout/termcondition/boxwidth')?>;height:<?php echo Mage::getStoreConfig('onestepcheckout/termcondition/boxheight')?>;overflow:auto;">
+                    <h1><?php echo $this->__('Terms and Conditions');?> </h1>
+                    <br>
+                    <?php echo $this->__(Mage::getStoreConfig('onestepcheckout/termcondition/content_options'));?>
+                </div>
+            </div>
+        <?php else:?>
+            <div style="display: none;">
+                <div id="inline1" >
+                    <?php echo $this->getChildHtml('login');?>
+                </div>
+                <div id="inline3" >
+                    <?php echo $this->getChildHtml('forgotpassword');?>
+                </div>
+                <div id="inline2" style="width:<?php echo Mage::getStoreConfig('onestepcheckout/termcondition/boxwidth')?>;height:<?php echo Mage::getStoreConfig('onestepcheckout/termcondition/boxheight')?>;overflow:auto;">
+                    <h1><?php echo $this->__('Terms and Conditions');?> </h1>
+                    <br>
+                    <?php echo $this->__(Mage::getStoreConfig('onestepcheckout/termcondition/content_options'));?>
+                </div>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="clear_both">&nbsp;</div>
+    <div style="left: -2px; width: 1200px; min-height: 710px; display: none;top:51%;" id="loading-mask">
+        <p id="loading_mask_loader" class="loader"><img alt="Loading..." src="<?php echo $this->getSkinUrl('mw_onestepcheckout/images/ajax-loader-tr.gif')?>"><br>Please wait...</p>
+    </div>
+<?php endif?>
+<script>
+
+    function update_review(){
+        var name = document.getElementById('shipping:firstname').value + " " +document.getElementById('shipping:lastname').value;
+        var address = document.getElementById('shipping:street1').value;
+        var message_form = document.getElementById('gift-message-whole-message');
+        if(message_form!=null && message_form.value.length==0)
+            message_form.value = readCookie('msg');
+        var message ='';
+        if(message_form!=null) message= message_form.value;
+        var day_form = document.getElementById('_deliverydate');
+        var day;
+        if(day_form!=null)
+            day = day_form.value;
+        var times = document.querySelectorAll(".onestepcheckout_time");
+        //alert(times.length);
+        var time="Any time"
+        for(var i=0; i<times.length; i++){
+            //alert(times[i].checked);
+            if(times[i].checked==true)
+                time= times[i].value;
+        }
+
+        if(name.length>0){
+            var review_name = document.getElementsByName('review-name');
+            for(i=0; i<review_name.length; i++){
+                review_name[i].innerHTML = name;
+            }
+        }
+
+        if(address.length>0){
+            var review_address = document.getElementsByName('review-address');
+            for(i=0; i<review_address.length; i++){
+                review_address[i].innerHTML = address;
+            }
+        }
+
+        var review_message = document.getElementsByName('review-message');
+        for(i=0; i<review_message.length; i++){
+            review_message[i].innerHTML = message;
+        }
+
+        if(day!=null && day.length>0){
+            var review_day = document.getElementsByName('review-day');
+            for(i=0; i<review_day.length; i++){
+                review_day[i].innerHTML = day;
+            }
+        }
+
+        if(time.length>0){
+            var review_time = document.getElementsByName('review-time');
+            for(i=0; i<review_time.length; i++){
+                review_time[i].innerHTML = time;
+            }
+        }
+
+
+    }
+    window.onload = function () {
+
+        var day = document.getElementById("_deliverydate");
+        var times = document.querySelectorAll(".onestepcheckout_time");
+        <?php
+            $session = Mage::getSingleton('core/session');
+            $delivery_date = $session->getData('_deliverydate');
+            $delivery_time = $session->getData('onestepcheckout_time');
+            if($delivery_date==null){
+        ?>
+        var date= readCookie('delivery_date');
+        if(date.length>0)
+            day.value = date;
+        var time= readCookie('delivery_time');
+        <?php }else {?>
+        var date= '<?php echo $delivery_date;?>';
+        if(date.length>0)
+            day.value = date;
+
+        var time= '<?php echo $delivery_time;?>';
+        <?php }?>
+
+        //alert(readCookie('delivery_time'));
+        var select = false;
+        for (var i=0; i<times.length; i++){
+            if (time.length>0 && times[i].value.toLowerCase() == time.toLowerCase()){
+                times[i].checked = true;
+                select = true;
+            }
+            else
+                times[i].checked = false;
+        }
+
+        if(select==false && time.length>0){
+            var timerange = document.getElementById('delivery_time_range_div');
+            var inner = timerange.innerHTML;
+            inner = inner.replace('checked="checked"','');
+            var html = '<input checked="checked" type="radio" class="onestepcheckout_time" name="onestepcheckout_time" value="'+time+'" class="validate-select"/>';
+            html += '<span>'+time+'</span>';
+            html += inner;
+            timerange.innerHTML = html;
+        }
+        if(time.length == 0){
+            times[0].checked = true;
+        }
+    }
+    var delivery = Number(readCookie('shipping_cost').replace(/[^0-9\.]+/g,""));
+    var s_method_tablerate_bestway = document.getElementById('s_method_tablerate_bestway');
+    var s_method_freeshipping_freeshipping = document.getElementById('s_method_freeshipping_freeshipping');
+    var currentdate = new Date();
+    //if(currentdate.getHours()==21)
+    //    alert(delivery);
+
+    if(delivery == 0){
+        s_method_freeshipping_freeshipping.setAttribute('checked','checked');
+        s_method_tablerate_bestway.setAttribute('checked','');
+        //if(currentdate.getHours()==21)
+        //    alert(s_method_tablerate_bestway.checked);
+        setFreeDelivery();
+    }
+    else{
+        s_method_tablerate_bestway.setAttribute('checked','checked');
+        s_method_freeshipping_freeshipping.setAttribute('checked','');
+    }
+    //if(currentdate.getHours()==21)
+    //alert($MW_Onestepcheckout('input[name=shipping_method]:checked').val());
+    updateTax();
+
+
+    }
+
+    function updateTax(){
+        var tax_total = document.getElementById('tax_total');
+        var grand_total = Number(tax_total.innerHTML.replace(/[^0-9\.]+/g,""));
+
+        var tax = document.getElementsByClassName('checkout-tax') ;
+        var tax_amount = Math.round(grand_total*0.07*100)/100;
+        //alert(tax_amount);
+        for(var index=0; index < tax.length; index++){
+            tax[index].innerHTML = '<span class="price">(GST : ' + <?php echo "'" . Mage::app()->getLocale()->currency(Mage::app()->getStore()->
+                    getCurrentCurrencyCode())->getSymbol() . "'" ?> + tax_amount + ')</span>';
+        }
+    }
+</script>
+
+<?php
+// Hau added: 07/02/2013
+// check if user is hhonor
+$current_store_code = Mage::app()->getStore()->getCode();
+
+if(strcmp($current_store_code, 'hhonors') == 0)
+{
+    ?>
+    <script>
+        function checkHHonors()
+        {
+            if(jQuery("#hhonors_account_number").val() =='' || jQuery("#hhonors_bonus_code").val() ==''){
+                //validate at here
+                jQuery('#error_message').html('* Please input fullfil information');
+                return;
+            }
+            jQuery.post("<?php echo Mage::getUrl('hhonors_action/index/checkhhonors'); ?>",
+                jQuery("#hhonors_form").serialize(),
+                function(data){
+                    if(data == 'true'){
+                        //close popup at here
+                        //alert('Thanks for your information');
+                        closeHHonorForm();
+                    }else
+                    {
+                        jQuery('#error_message').html('Your information is not correct. Please check again.');
+                    }
+
+                });
+        }
+
+        function closeHHonorForm()
+        {
+            jQuery(".modal_popup").addClass('display_none');
+        }
+
+    </script>
+
+    <style>
+        .modal_popup
+        {
+            height: 800px;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 1216px;
+            z-index: 1001;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .my_inline_popup
+        {
+            position:fixed;
+            top: 50%;
+            left: 50%;
+            width:34em;
+            height:15em;
+            margin-top: -9em; /*set to a negative number 1/2 of your height*/
+            margin-left: -17em; /*set to a negative number 1/2 of your width*/
+            border: 1px solid #ccc;
+            background-color: #f3f3f3;
+            padding-top:20px;
+            padding-left:20px;
+        }
+        .my_inline_popup #title
+        {
+            font-size:20px;
+            margin-bottom:10px;
+            opacity: 1.0;
+        }
+        .my_inline_popup #error_message
+        {
+            font-size:15px;
+            color:red;
+            margin-bottom:10px;
+        }
+        .my_inline_popup #row
+        {
+            float:left;
+            width: 100%;
+            margin-bottom: 10px;
+            color: #666666;
+            font-size:16px;
+        }
+
+        .my_inline_popup #row input
+        {
+            border: 1px solid #BFBFBF;
+            border-radius: 3px 3px 3px 3px;
+            padding: 5px 3px;
+            width: 160px;
+        }
+
+        .my_inline_popup #row #col1
+        {
+            width: 50%;
+            float:left;
+        }
+
+        .my_inline_popup #row #col2
+        {
+            width: 50%;
+            float:left;
+        }
+
+        .my_inline_popup #submit_row
+        {
+            margin-left: 50%;
+        }
+
+        .my_inline_popup #submit_row #submit_buton
+        {
+            background: #73a193;
+            color : white;
+            font-size:16px;
+            font-weight:bold;
+            padding:10px;
+            border:none;
+            border-radius: 5px;
+        }
+
+        .my_inline_popup #submit_row #submit_buton:hover
+        {
+            cursor:pointer;
+        }
+        .my_inline_popup #close_hhonorform
+        {
+            position:absolute;
+            margin-left: 90%;
+            margin-top:-3%;
+            cursor: pointer;
+            font-size:18px;
+            font-weight: bold;
+        }
+
+        .display_none
+        {
+            display:none;
+        }
+    </style>
+
+    <div class="modal_popup">
+        <form id='hhonors_form' onSubmit="return false;">
+            <div class='my_inline_popup'>
+                <!--<div id='close_hhonorform' onClick="closeHHonorForm()">X</div>-->
+                <div id='title'>Earn 1,000 HHonor points with any purchase from Roses Only!</div>
+                <div id='error_message'></div>
+                <div id='row'>
+                    <div id='col1'>
+                        HHonors account number:
+                    </div>
+                    <div id='col2'>
+                        <input type='text' name='hhonors_account_number' id='hhonors_account_number'/><br/>
+                    </div>
+                </div>
+                <div id='row' style="display:none;">
+                    <div id='col1'>
+                        HHonors bonus code:
+                    </div>
+                    <div id='col2'>
+                        <input type='hidden' value="XXXXXX" name='hhonors_bonus_code' id='hhonors_bonus_code'/> <br/>
+                    </div>
+                </div>
+                <div id='submit_row'>
+                    <button id='submit_buton' onClick='checkHHonors();'>Confirm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<?php
+}
+$isLoggin = $this->helper('customer')->isLoggedIn();
+if($isLoggin)
+{
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    ?>
+    <script>
+        window.onload = function () {
+            jQuery("#hhonors_account_number").val('<?php echo $customer->getData('hhonors_number'); ?>');
+            jQuery("#hhonors_bonus_code").val('<?php echo $customer->getData('hhonors_bonus_code'); ?>');
+            var delivery = Number(readCookie('shipping_cost').replace(/[^0-9\.]+/g,""));
+            if(delivery == 0){
+                s_method_freeshipping_freeshipping.setAttribute('checked','checked');
+                s_method_tablerate_bestway.setAttribute('checked','');
+                setFreeDelivery();
+            }
+    </script>
+<?php
+}
+?>

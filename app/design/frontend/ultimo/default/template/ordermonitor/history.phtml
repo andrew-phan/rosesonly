@@ -1,0 +1,245 @@
+<?php
+/**
+ * Copyright (C) 2011 MageMods.co
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_orders = $this->getOrders(); ?>
+<?php
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$name = $customer->getName();
+
+
+$customer_email = $customer->getEmail();
+$collection = Mage::getModel('sales/order')
+    ->getCollection()
+    ->addAttributeToFilter('customer_email',array('like'=>$customer_email));
+
+foreach($collection as $order){
+    //do something
+    $order_id = $order->getId();
+
+
+
+    $order = Mage::getModel("sales/order")->load($order_id); //load order by order id
+
+    $ordered_items = $order->getAllItems();
+
+    foreach($ordered_items as $item){     //item detail
+        if($item->getProductType() == "bundle"){
+
+            //echo $item->getItemId(); //product id
+
+           // echo $item->getSku();
+            //echo $item->getQtyOrdered(); //ordered qty of item
+
+           // echo $item->getName();
+        }
+        }
+
+        //die;
+    }
+
+
+?>
+<div class="welcome-msg">
+    <p class="hello"><strong><?php echo $this->__('Welcome back, %s!', $name) ?></strong></p>
+    <p class="account-tabs">
+        <span><a href="<?php echo $this->getUrl('customer/account');?>">Overview</a></span>
+        <span><a href="<?php echo $this->getUrl('customer/account/edit');?>">Account Info</a></span>
+        <span><a href="<?php echo $this->getUrl('wishlist');?>">Wish Lists</a></span>
+        <span><a href="<?php echo $this->getUrl('customer/address');?>">Address Book</a></span>
+        <span style="background-color:#999"><a href="<?php echo $this->getUrl('sales/order/history');?>">Past Orders</a></span>
+    </p>
+</div><br /><br />
+<div class="page-title">
+    <h4><?php echo $this->__('PAST ORDERS') ?></h4>
+</div>
+<?php echo $this->getPagerHtml(); ?>
+<?php if($_orders->getSize()): ?>
+<table class="data-table past-order" id="my-orders-table">
+    <!--<col width="1" />
+    <col width="1" />
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />-->
+    <thead>
+        <tr style="background-color: #e5e5e5;">
+            <th><?php echo $this->__('Order Number') ?></th>
+            <th><?php echo $this->__('Product Name') ?></th>
+            <th><?php echo $this->__('Delivery Date & Time') ?></th>
+            <th><?php echo $this->__('Unit Price') ?></th>
+            <th><?php echo $this->__('Qty') ?></th>
+            <th><?php echo $this->__('Subtotal') ?></th>
+            <th><?php echo $this->__('Status') ?></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <?php //echo $this->getChildHtml('order_totals') ?>
+    </tfoot>
+    <tbody>
+
+        <?php
+        $arrTemp = array();
+        foreach ($_orders as $_order){
+
+            $order_id = $_order->getId();
+            $arrTemp[$order_id]=array();
+
+            $order = Mage::getModel("sales/order")->load($order_id); //load order by order id
+            $items = $order->getAllVisibleItems();
+            $count_items = count($items);
+            $first = true;
+
+                foreach($items as $_item){
+
+                $arrTemp[$order_id][] = $_item;
+
+                //$ordered_items = $_order->getAllItems();
+                //foreach($ordered_items as $item){
+                    //if($item->getProductType() == "bundle"){
+
+                //$ordered_items = $order->getAllItems();
+                //$name = array();
+                //$unitPrice = array();
+                //$qty = array();
+               // $sub_total = array();
+               //foreach($ordered_items as $item){
+                    //if($item->getProductType() == "bundle"){
+
+                        /*$optionsArr = $item->getProductOptions();*/
+                        //var_dump($optionsArr['options']);
+                        //foreach ($optionsArr['options'] as $option){
+
+            ?>
+
+        <tr>
+            <?php
+            if ($first == true):?>
+                <td rowspan="<?php echo $count_items +1 ?>"><span style="font-weight:bold"><?php echo $_order->getRealOrderId() ?></span><br /><?php echo $this->__('Ordered on '). '<br/>' . $this->formatDate($_order->getCreatedAtStoreDate()) ?></td>
+                <?php $first = false; ?>
+            <?php endif ?>
+
+                <td>
+                <?php // if ($_order->hasProductUrl()):?>
+                    <span><a href="<?php echo $_order->getProductUrl() ?>" style="font-weight: bold"><?php
+                        //$ordered_items = $order->getAllItems();
+                       // foreach($ordered_items as $item){
+                           // if($item->getProductType() == "bundle"){
+
+                                echo $name = $_item->getName();
+                           // }
+                       // }
+                            ?></a></span><br /><br />
+
+                    <div class="col2-set generic-box">
+                        <div class="col-1">
+                            <p style="font-weight: bold"><?php echo $this->__('Deliver to:') ?></p>
+                            <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
+                        </div>
+                        <div class="col-2">
+                            <p style="font-weight: bold"><?php echo $this->__('Card Message:') ?></p>
+                            <?php if ($this->helper('giftmessage/message')->getEscapedGiftMessage($_order)): ?>
+                                <p><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></p>
+                            <?php else: ?>
+                                (No gift message)
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                <!--<span><a href="<?php /*//echo $_order->getProductUrl() */?>"><?php
+                    /*                            if ($option['label'] == 'Size Options'){
+                                                     $name = $item->getName(). '(' . $option['value'] . ' ';
+                                                }
+                                                if ($option['label'] == 'Color'){
+                                                    echo $name .= $option['value'] .')';
+                                                 }
+
+                                                */?></a></span>-->
+
+
+                </td>
+
+                 <?php //}}?>
+
+                <?php
+                $orders = Mage::getModel('onestepcheckout/onestepcheckout')->getCollection()->addFieldToFilter('sales_order_id',$order_id);
+                $class_orders = get_class($orders);	//cha ve name class cua doi tuong
+                $o ='';
+
+                foreach($orders as $order)	//$orders chua nhieu doi tuong. va` chi lay dc doi tuong con qua foreach
+                {
+                    $o = $order;
+                }
+                ?>
+                <td>
+                    <span><?php if($o):?><?php echo $o->getMwDeliverydateDate(); ?><?php endif?></span><br>
+                    <span><?php if($o):?><?php echo $o->getMwDeliverydateTime(); ?><?php endif?></span><br>
+                </td>
+                <td>
+                    <?php
+                    echo $unitPrice = $_item->getOriginalPrice();
+                    /*$ordered_items = $order->getAllItems();
+                    foreach($ordered_items as $item){
+                         if($item->getProductType() == "bundle"){
+                            echo $unitPrice = $item->getOriginalPrice();
+                         }
+                    }
+                    */?>
+                </td>
+                <td>
+                    <?php
+                    echo $qty = $_item->getQtyToInvoice();
+                    ?>
+                </td>
+                <td>
+                    <?php
+                    echo $sub_total = $_item->getRowTotalInclTax();
+                    ?>
+                </td>
+                <td><em><?php echo $_order->getStatusLabel() ?></em></td>
+                <!--<td><?php /*echo $_order->getSubtotalInclTax() */?></td>-->
+
+
+        <?php// }} ?>
+
+        </tr>
+
+        <?php
+            }
+        ?>
+        <tr>
+            <td class="past-order-total" colspan="6">
+                <div style="float: right">
+                    <p><span><?php echo $this->__('Total ') . '&nbsp;&nbsp;' ?></span><?php echo $_order->formatPrice($_order->getSubtotalInclTax()) ?></p>
+                    <p><span><?php echo $this->__('+ Delivery Charge ') . '&nbsp;&nbsp;' ?></span></p>
+                    <p style="font-weight: bold"><span><?php echo $this->__('Grand Total ') . '&nbsp;&nbsp;' ?></span><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></p>
+                    <p><span><?php echo $this->__('(GST: ') ?></span><?php echo $_order->formatPrice($_order->getTaxAmount()) . ')'?></p>
+                </div>
+            </td>
+
+        </tr>
+        <?php } ?>
+    <?php// var_dump($arrTemp); ?>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo $this->__('You have placed no orders.'); ?></p>
+<?php endif ?>
+

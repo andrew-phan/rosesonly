@@ -1,0 +1,46 @@
+<?php if (Mage::registry('current_product')) {
+	$sku = Mage::registry('current_product')->getSku();
+	if($sku=='PPROA03'){
+		echo '<p class="term '.$sku.'">Terms & Conditions:<br/>'.
+			'1. This promotion is valid from 1 October to 31 December 2013 and valid for PayPal members only.<br/>'.
+			'2. Promotion cannot be used in conjunction with other promotions, discounts, coupons or privileges</br>'.
+			'3. Delivery terms & conditions apply.<br/>'.
+			'4. In the event of product unavailability, Roses Only reserves the right to replace any item with another of equivalent or higher value.<br/>'.
+			'5. Roses Only reserves the rights to amend the promotions and its terms and conditions without prior notice.</p>';
+	}
+}
+?>
+<!--div id="customer-reviews">
+    <div class="review-bar"><h3 class="title-review">Customer Reviews</h3></div>
+    <?php $_items = $this->getReviewsCollection()->getItems(); ?>
+    <?php if (count($_items)): ?>
+        <div class="table-review">
+            <table width="100%">
+                <?php foreach ($_items as $_review) : ?>
+                    <tr>
+                        <td width="180px;">
+                            <?php $_votes = $_review->getRatingVotes(); ?>
+                            <?php if (count($_votes)): ?>                           
+                                <?php foreach ($_votes as $_vote): ?>
+
+                                    <label class="rate"><?php echo $this->escapeHtml($_vote->getRatingCode()) ?>:</label>
+                                    <div class="rating-box">
+                                        <div class="rating" style="width:<?php echo $_vote->getPercent() ?>%;"></div>
+                                    </div>                                
+                                    <?php break; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            <p class="rate"><?php echo $this->htmlEscape($_review->getNickname()); ?></p>
+                        </td>
+                        <td>
+                            <p class="review-title"><?php echo $this->htmlEscape($_review->getTitle()); ?></p>
+                            <p class="review-content"><?php echo $this->htmlEscape($_review->getDetail()); ?></p>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    <?php else : ?>
+        <p>Be the first customer to review this product</p>
+    <?php endif; ?>
+</div-->

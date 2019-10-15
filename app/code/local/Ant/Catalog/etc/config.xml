@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Ant_Catalog>
+            <version>0.1.0</version>
+        </Ant_Catalog>
+    </modules>
+    <global>
+        <blocks>
+            <catalog>
+                <rewrite>
+                    <product_list_toolbar>Ant_Catalog_Block_Product_List_Toolbar</product_list_toolbar>
+                    <product_list>Ant_Catalog_Block_Product_List</product_list>
+                    <product_view_options_type_select>Ant_Catalog_Block_Product_View_Options_Type_Select</product_view_options_type_select>
+                    <layer_view>Ant_Catalog_Block_Layer_View</layer_view>
+                    <product_view_options>Ant_Catalog_Block_Product_View_Options</product_view_options>
+                </rewrite>
+            </catalog>
+        </blocks>
+    </global>
+</config>

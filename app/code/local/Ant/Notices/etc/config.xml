@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Notices>
+            <version>0.1.0</version>
+        </Ant_Notices>
+    </modules>
+    <global>
+        <helpers>
+            <notices>
+                <class>Ant_Notices_Helper</class>
+            </notices>
+        </helpers>
+        <blocks>
+            <notices>
+                <class>Ant_Notices_Block</class>
+            </notices>
+        </blocks>
+        <models>
+            <notices>
+                <class>Ant_Notices_Model</class>
+                <resourceModel>notices_mysql4</resourceModel>
+            </notices>
+            <notices_mysql4>
+                <class>Ant_Notices_Model_Mysql4</class>
+                <entities>
+                    <notices>
+                        <table>notice</table>
+                    </notices>
+                </entities>
+            </notices_mysql4>
+        </models>
+        <resources>
+            <notices_setup>
+                <setup>
+                    <module>Ant_Notices</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </notices_setup>
+            <notices_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </notices_write>
+            <notices_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </notices_read>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <notices>
+                <use>admin</use>
+                <args>
+                    <module>Ant_Notices</module>
+                    <frontName>notices</frontName>
+                </args>
+            </notices>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <notices module="notices">
+                <title>Notices</title>
+                <sort_order>100</sort_order>
+                <children>
+                    <notices module="notices">
+                        <title>Manage Notices</title>
+                        <sort_order>0</sort_order>
+                        <action>notices/adminhtml_notices</action>
+                    </notices>
+                </children>
+            </notices>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <notices translate="title" module="notices">
+                            <title>Notices</title>
+                            <sort_order>1000</sort_order>
+                            <children>
+                                <notices translate="title">
+                                    <title>Manage Notices</title>
+                                </notices>
+                            </children>
+                        </notices>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <notices>
+                    <file>notices.xml</file>
+                </notices>
+            </updates>
+        </layout>
+    </adminhtml>
+</config> 

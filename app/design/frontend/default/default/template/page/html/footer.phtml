@@ -1,0 +1,115 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="footer-block">
+<div class="footer-info">
+    <div>
+        <span>
+            <!--a href="< ?php echo $this->getUrl('') ?>">Roses Only Singapore</a-->
+            <a href="<?php echo $this->getUrl('security') ?>">Security</a>
+            |<a href="<?php echo $this->getUrl('privacy') ?>">Privacy</a>
+            |<a href="<?php echo $this->getUrl('delivery') ?>">Delivery</a>
+            <!--a href="< ?php echo $this->getUrl('sales/guest/form') ?>">Returns</a-->
+            |<a href="<?php echo $this->getUrl('refunds') ?>">Refunds</a>
+            <!--|a href="< ?php echo $this->getUrl('terms-conditions') ?>">Terms & Conditions</a-->
+            |<a href="<?php echo $this->getUrl('faq') ?>">FAQ</a>
+            |<a href="<?php echo $this->getUrl('contacts') ?>">Contact us</a>
+            <!--|<a href="<?php echo $this->getUrl('customer-service') ?>">Customer Service</a-->
+			<br>
+			<a href="http://www.rosesonly.com.sg/">Online Florist</a>
+            |<a href="http://rosesonly.com.sg/occasion/birthday.html">Birthday Gifts</a>
+            |<a href="http://rosesonly.com.sg/occasion/anniversary.html">Anniversary Gifts</a>
+            |<a href="http://rosesonly.com.sg/occasion/new-baby.html">New Baby Gifts</a>
+            |<a href="http://rosesonly.com.sg/recipent/for-her/l/romantic-gifts.html">Romantic Gifts</a>
+			<!--<br>
+			<a href="http://rosesonly.com.sg/occasion/mother-s-day.html">Mother's Day Gifts</a>
+            |<a href="http://rosesonly.com.sg/occasion/valentine-s-day.html">Valentine's Day Gifts</a>-->
+        </span>
+    </div>
+    <!--div>      
+        <span class="first"><a>Join the newsletter</a>
+            |<a href="< ?php echo $this->getUrl('contacts') ?>">Contact us</a>     
+            |<a href="< ?php echo $this->getUrl('sitemap') ?>">Site map</a></span>
+    </div-->
+    <div class="clearBoth"></div>
+    <div class="label-payment"><span>Available Payment Methods</span></div>
+    <div class="footer-payment"></div>
+</div>
+<div class="footer-container">
+    <div class="footer">
+        <div class="footerl">
+            <p class="legality">
+                <?php echo $this->getCopyright() ?> 		    
+            </p>            
+        </div>
+        <!--
+        <div class="informational">
+        <?php echo $this->getChildHtml('footer_links') ?>
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('payments')->toHtml(); ?>
+        </div>
+       
+        <script type="text/javascript">var switchTo5x=true;</script>
+        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+        <script type="text/javascript">stLight.options({publisher: "8bccbb2a-3b05-4fef-92f7-42611b3e301e"});</script>
+        
+        <div style="float:right;">
+            <span class='st_sharethis_large' displayText='ShareThis'></span>
+            <span class='st_facebook_large' displayText='Facebook'></span>
+            <span class='st_googleplus_large' displayText='Google +'></span>
+            <span class='st_twitter_large' displayText='Tweet'></span>
+            <span class='st_linkedin_large' displayText='LinkedIn'></span>
+            <span class='st_email_large' displayText='Email'></span>
+            <span class='st_fblike_large' displayText='Facebook Like'></span>
+         </div>
+        -->
+    </div>
+    <script type="text/javascript">
+        var list = document.getElementsByClassName("price");       
+        for (var i = 0; i < list.length; i++) {
+            var inner = list[i].innerHTML.replace(".00",""); 
+            //alert(inner);
+            list[i].innerHTML = inner;
+        }
+    </script>
+</div>
+</div>
+<script type="text/javascript">
+adroll_adv_id = "GA4CTPZ6NFDM3DC56NYUXE";
+adroll_pix_id = "4JNR2ZT2TBHT3INKMJ34UQ";
+(function () {
+var oldonload = window.onload;
+window.onload = function(){
+   __adroll_loaded=true;
+   var scr = document.createElement("script");
+   var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+   scr.setAttribute('async', 'true');
+   scr.type = "text/javascript";
+   scr.src = host + "/j/roundtrip.js";
+   ((document.getElementsByTagName('head') || [null])[0] ||
+    document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+   if(oldonload){oldonload()}};
+}());
+</script>

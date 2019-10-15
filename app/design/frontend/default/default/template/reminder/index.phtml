@@ -1,0 +1,36 @@
+<div class="box-account">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th colspan='4'>UP COMING CELEBRATIONS</th>
+            </tr>
+        </thead>
+
+        <tbody>		
+            <?php foreach ($data as $reminder) { ?>	
+                <tr>
+                    <td><?php echo $reminder->getName() . ' ' . $reminder->getOccasion(); ?></td>			
+                    <td><?php if ($reminder->getDate() != '') echo date_format(date_create($reminder->getDate()), 'd-m-Y') ?></td>
+                    <td><?php
+            if ($reminder->getDate() != '') {
+                $today = date("d-m-Y");
+                $distance = floor(abs(strtotime($today) - strtotime($reminder->getDate())) / (60 * 60 * 24));
+                if ($distance == 0) {
+                    echo 'Today';
+                }else
+                    echo $distance . ' to go';
+            }
+            ?></td>
+                    <td><a href="#">Shop for gift</a></td>
+                </tr>
+<?php } ?>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan='2'><?php echo $this->getChildHtml('fbintegration_index') ?></td>
+                <td colspan='2'><a href="<?php echo Mage::getUrl('reminder/manage') ?>"><b>Manage Reminder</b></a></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

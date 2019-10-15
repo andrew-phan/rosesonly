@@ -1,0 +1,1319 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="icon" href="http://rosesonly.com.sg/media/favicon/default/favicon_1.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="http://rosesonly.com.sg/media/favicon/default/favicon_1.ico" type="image/x-icon">
+    <style type="text/css">
+        @font-face
+        {
+            font-family: slab;
+            src: url(http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/Twentytwelve_Slab/TwentytwelveSlab-Bold.ttf);
+        }
+        button{
+            width: 180px;
+            height: 25px;
+            border-radius: 7px;
+            background-color: #b72226;
+            border: none;
+            color: #ffffff;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .product-name{
+            font-family: Calibri;
+        }
+        .align-right{
+            text-align:right;width: 600px;margin-top: -95px;margin-left: 275px;margin-bottom: 7px; font-weight: 600; font-size: 14px; font-family: Calibri;
+        }
+
+        #footer_links a{
+            text-decoration: none;
+        }
+        #footer_links a:hover{
+            text-decoration: underline;
+        }
+    </style>
+    <title>Online Flowers Delivery - Flower, Roses & Gifts by Roses Only</title>
+
+    <style>
+        .table_only_love{
+            width: 225px; color:#8c1d1d; margin-left: -65px;padding-bottom: 30px;
+        }
+
+        .table_my_sweet_valentine{
+            width: 225px; color:#8c1d1d; margin-left: 162px;margin-top: -1450px; padding-bottom: 30px;
+        }
+
+        .table_forever_yours{
+            width: 225px; color:#8c1d1d; margin-left: 387px;margin-top: -1451px; padding-bottom: 31px;
+        }
+
+        .table_supreme{
+            width: 225px; color:#8c1d1d; margin-left: 614px; margin-top: -902px;padding-bottom: 30px;
+        }
+    </style>
+
+    <style id="fix_for_firefox">
+        .table_only_love{
+            width: 225px; color:#8c1d1d; margin-left: -65px;padding-bottom: 30px;
+        }
+
+        .table_my_sweet_valentine{
+            width: 225px; color:#8c1d1d; margin-left: 162px;margin-top: -1492px; padding-bottom: 30px;
+        }
+
+        .table_forever_yours{
+            width: 225px; color:#8c1d1d; margin-left: 387px;margin-top: -1487px; padding-bottom: 31px;
+        }
+
+        .table_supreme{
+            width: 225px; color:#8c1d1d; margin-left: 614px; margin-top: -920px;padding-bottom: 30px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function isIE() {
+            return ((navigator.appName == 'Microsoft Internet Explorer') || ((navigator.appName == 'Netscape') && (new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})").exec(navigator.userAgent) != null)));
+        }
+
+        $(document).ready(function(){
+            if (!/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && !isIE()){ //test for Firefox/x.x or Firefox x.x (ignoring remaining digits);
+                $("#fix_for_firefox").remove();
+            }
+        });
+
+    </script>
+</head>
+<body style="height: 100%;  width: 100%;  padding: 0;  margin: 0; background: #a91519">
+<div id="wrapper" style="position: relative;  width: 800px;  min-height: 400px;
+  margin: 100px auto;  color: #333;">
+<div id="header" style="background-color: #ffffff; width:901px; height:500px;margin-top: -95px; margin-left: -65px;">
+    <div id="info">
+        <a href="http://rosesonly.com.sg/"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/logo.png" style="text-align:left"></a>
+        <div class="align-right">
+            Singapore Wide Delivery Call: (65) 6256 1818<br\>
+            </br><span style="padding-bottom:15px">Fax: (65) 6256 1612</span></br>
+            <p style=" margin-top: 10px;margin-bottom: 7px; ">Mon to Fri 9.00am to 7.00pm</p>
+            <a href="http://rosesonly.com.sg/homepage" style=" color: #8c1d1d; "><i style="color:#8c1d1d">You are viewing Valentine's Day Gift Range. To view our normal range, click here</i></a>
+        </div>
+        <img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/banner.png">
+    </div>
+</div>
+<div style="margin-top:60px; color:#ffffff; text-align:center">
+    <p style="font-size:28px; font-family: slab;margin-top: -15px;margin-bottom: 5px;"> <img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/happy-valentine.png"></p>
+    <p style=" font-family: Calibri; ">This Valentine's Day, surprise your girlfriend, wife and loved one with the best roses in Singapore.</br>
+        Let Roses Only Singapore deliver your Valentine gifts that oozes exclamations of "I love you" loud and clear.</p>
+</div>
+<table cellspacing="0" cellpadding="0" border="0" background="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/onlylove.png" class="table_only_love">
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('510');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+    <tr>
+        <td> <a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-902.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/1.png" style="margin-top: 80px;;margin-left: 20px;"> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-902.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:100px; font-family: Calibri; font-size: 12px; font-weight: bold" >Single Red Rose Only Love Gift Box</div></a>
+            <div style="display: inline-block;width: 80px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-902.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 511 -->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('511');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-903.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/2.png" style="padding-top: 30px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-903.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:100px; font-family: Calibri; font-size: 12px; font-weight: bold" >6 Red Roses Only Love Gift Box</div></a>
+            <div style="display: inline-block;width: 80px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-903.html"><button>BUY NOW</button></a></td></tr>
+
+
+    <!-- product 512-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('512');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td> <a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-904.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/3.png" style="padding-top: 30px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-904.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:115px; font-family: Calibri; font-size: 12px; font-weight: bold" >12 Red Roses Only Love Gift Box</div></a>
+            <div style="display: inline-block;width: 50px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-904.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 513-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('513');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-905.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/4.png" style="padding-top: 30px;;margin-left: 20px;"></a>  </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-905.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:115px; font-family: Calibri; font-size: 12px; font-weight: bold" >24 Red Roses Only Love Gift Box</div></a>
+            <div style="display: inline-block;width:55px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-905.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 514-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('514');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-906.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/5.png" style="padding-top: 30px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-906.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:115px; font-family: Calibri; font-size: 12px; font-weight: bold" >36 Red Roses Only Love Gift Box</div></a>
+            <div style="display: inline-block;width: 60px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-906.html"><button>BUY NOW</button></a></td></tr>
+
+
+</table>
+
+<!-- column 2 -->
+
+<table cellspacing="0" cellpadding="0" border="0" background="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/my-sweet-valentines.png" class="table_my_sweet_valentine">
+
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('515');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td> <a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-907.html"> <img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/6.png" style="margin-top: 80px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-907.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:120px; font-family: Calibri; font-size: 12px; font-weight: bold" >
+                    Single Rose My Sweet Valentines Gift Box</div></a>
+            <div style="display: inline-block;width: 60px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-907.html"><button>BUY NOW</button></a></td></tr>
+
+
+    <!-- product 516 -->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('516');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-908.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/7.png" style="padding-top: 30px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-908.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:115px; font-family: Calibri; font-size: 12px; font-weight: bold" >
+                    6 Red Roses My Sweet Valentines Gift Box</div></a>
+            <div style="display: inline-block;width: 60px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-908.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 517-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('517');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+
+    <tr>
+        <td> <a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-909.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/8.png" style="padding-top: 30px;;margin-left: 20px;"></a> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-909.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 11px; font-weight: bold" >
+                    12 Red Roses My Sweet Valentines Gift Box</div></a>
+            <div style="display: inline-block;width: 60px;text-align: right;margin-left: 2px;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-909.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 518-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('518');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-910.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/9.png" style="padding-top: 30px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-910.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 11px; font-weight: bold" >
+                    24 Red Roses My Sweet Valentines Gift Box</div></a>
+            <div style="display: inline-block;width: 60px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-910.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 519-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('519');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/10.png" style="padding-top: 30px;;margin-left: 20px;"></a> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 11px; font-weight: bold" >
+                    36 Red Roses My Sweet Valentines Gift Box</div></a>
+            <div style="display: inline-block;width: 55px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box.html"><button>BUY NOW</button></a></td></tr>
+
+</table>
+
+
+<!--- col 3 -->
+
+
+<table cellspacing="0" cellpadding="0" border="0" background="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/forever-yours.png" class="table_forever_yours">
+
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('520');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-911.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/11.png" style="margin-top: 80px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-911.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 11px; font-weight: bold" >
+                    Single Red Rose Forever Yours Gift Box</div></a>
+            <div style="display: inline-block;width: 70px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-911.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 521-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('521');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-912.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/12.png" style="padding-top: 30px;;margin-left: 20px;"></a> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-912.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 12px; font-weight: bold" >
+                    6 Red Roses Forever Yours Gift Box</div></a>
+            <div style="display: inline-block;width: 60px;text-align: right;margin-left: 2px;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-912.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 522-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('522');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-913.html"> <img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/13.png" style="padding-top: 30px;;margin-left: 20px;"></a> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-913.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 12px; font-weight: bold;" >
+                    12 Red Roses Forever Yours Gift Box</div></a>
+            <div style="display: inline-block;width: 70px;text-align: right;margin-left: 0px;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-913.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 523-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('523');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-914.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/14.png" style="padding-top: 30px;;margin-left: 20px;"></a> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-914.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 12px; font-weight: bold" >
+                    24 Red Roses Forever Yours Gift Box</div></a>
+            <div style="display: inline-block;width: 70px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-914.html"><button>BUY NOW</button></a></td></tr>
+
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('524');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-915.html"> <img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/15.png" style="padding-top: 30px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-915.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 12px; font-weight: bold" >
+                    36 Red Roses Forever Yours Gift Box</div></a>
+            <div style="display: inline-block;width: 60px;text-align: right;margin-left: 2px;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-915.html"><button>BUY NOW</button></a></td></tr>
+
+</table>
+<img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/tag.png" style=" position: absolute; left: 615px; top: 645px;">
+
+<!-- column 4 -->
+
+<table cellspacing="0" cellpadding="0" border="0" background="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/supereme-love.png" class="table_supreme">
+    <!-- product 526-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('526');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-916.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/16.png" style="margin-top: 80px;;margin-left: 20px;"> </a></td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-916.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:110px; font-family: Calibri; font-size: 11px; font-weight: bold" >
+                    12 Red Roses Supreme Love Gift Box</div></a>
+            <div style="display: inline-block;width: 70px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-916.html"><button>BUY NOW</button></a></td></tr>
+
+    <!-- product 523-->
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('528');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-917.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/17.png" style="padding-top: 30px;;margin-left: 20px;"></a> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-917.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:115px; font-family: Calibri; font-size: 12px; font-weight: bold" >
+                    24 Red Roses Supreme Love Gift Box</div></a>
+            <div style="display: inline-block;width: 70px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-917.html"><button>BUY NOW</button></a></td></tr>
+
+
+    <?php
+    $_product = Mage::getModel('catalog/product')->load('529');
+    $_priceModel = $_product->getPriceModel();
+    list($_minimalPriceTax, $_maximalPriceTax) = $_priceModel->getTotalPrices($_product, null, null, false);
+    list($_minimalPriceInclTax, $_maximalPriceInclTax) = $_priceModel->getTotalPrices($_product, null, true, false);
+    $_id = $_product->getId();
+
+    $_weeeTaxAmount = 0;
+    if ($_product->getPriceType() == 1) {
+        $_weeeTaxAmount = Mage::helper('weee')->getAmount($_product);
+        $_weeeTaxAmountInclTaxes = $_weeeTaxAmount;
+        if (Mage::helper('weee')->isTaxable()) {
+            $_attributes = Mage::helper('weee')->getProductWeeeAttributesForRenderer($_product, null, null, null, true);
+            $_weeeTaxAmountInclTaxes = Mage::helper('weee')->getAmountInclTaxes($_attributes);
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, array(0, 1, 4))) {
+            $_minimalPriceTax += $_weeeTaxAmount;
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+        if ($_weeeTaxAmount && Mage::helper('weee')->typeOfDisplay($_product, 2)) {
+            $_minimalPriceInclTax += $_weeeTaxAmountInclTaxes;
+        }
+
+        if (Mage::helper('weee')->typeOfDisplay($_product, array(1, 2, 4))) {
+            $_weeeTaxAttributes = Mage::helper('weee')->getProductWeeeAttributesForDisplay($_product);
+        }
+    }
+
+    $_options = Mage::helper('core')->decorateArray($_product->getOptions());
+    $unsual_price = 0;
+    foreach ($_options as $_option){
+        foreach ($_option->getValues() as $_value) {
+            if(strlen($_value->getSpecialTo())>0)
+                $special_to = new DateTime($_value->getSpecialTo());
+            if ($special_from != null || $special_to != null){
+                $now = new DateTime();
+                if (($special_from ==null || $now>= $special_from) &&($special_to ==null || $now <= $special_to)){
+                    $show = true;
+                    if(strlen($_value->getSpecialLabel())>0){
+                        $unsual_price = $_value->getSpecialLabel();
+                        if (strpos($unsual_price, 'Usual: ') !== FALSE){
+                            $unsual_price = substr($unsual_price, 7);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ?>
+
+    <tr>
+        <td><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-918.html"><img src="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/products/18.png" style="padding-top: 30px;;margin-left: 20px;"></a> </td>
+    </tr>
+    <tr>
+        <td class="product-name"style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-918.html" style="color: rgb(140, 29, 29);"><div style="display:inline-block;width:115px; font-family: Calibri; font-size: 12px; font-weight: bold" >
+                    36 Red Roses Supreme Love Gift Box</div></a>
+            <div style="display: inline-block;width: 70px;text-align: right;font-weight: 700;" ><del><span style="color:#000000;font-size:13px"> <?php echo $unsual_price;?></del></br>
+                <span style="font-size:13px;"><?php echo Mage::helper('core')->currency($_minimalPriceTax); ?></div></td>
+
+    </tr>
+    <tr><td style="padding-left: 20px;"><a href="http://rosesonly.com.sg/occasion/valentine-s-day/single-red-rose-cherished-love-gift-box-918.html"><button>BUY NOW</button></a></td></tr>
+
+
+</table>
+<table id="footer_links" cellspacing="0" cellpadding="0" border="0" background="http://rosesonly.com.sg/skin/frontend/default/f002/special/vday_2014/footer.png" style=" color:#50300e; margin-left: -66px; width:905px; height:110px; text-align: center; font-family: segoe UI; font-size: 14px;">
+    <tr>
+        <td>
+            <a href="http://rosesonly.com.sg/security/" style=" color: #50300e;">Security</a>
+            <span>|</span>
+            <a href="http://rosesonly.com.sg/privacy/" style=" color: #50300e; ">Privacy</a>
+            <span>|</span>
+            <a href="http://rosesonly.com.sg/delivery/" style=" color: #50300e; ">Delivery</a>
+            <span>|</span>
+            <a href="http://rosesonly.com.sg/refunds/" style=" color: #50300e; ">Refunds</a>
+            <span>|</span>
+            <a href="http://rosesonly.com.sg/faq/" style=" color: #50300e; ">FAQ</a>
+            <span>|</span>
+            <a href="http://rosesonly.com.sg/contacts/" style=" color: #50300e; ">Contact Us</a>
+        <td>
+    </tr>
+    <tr>
+        <td style=" padding-bottom: 30px; ">Available Payment Methods</td>
+    </tr>
+</table>
+<div style="text-align:center;width:905px;color:#ffffff;margin-left: -65px;font-size: 12px;">&copy; 2012 Roses Only Singapore - Order the finest roses online from the leading Australian online florist. Get the best long stemmed boxed roses delivered by Roses Only Singapore, a collaboration with FarEastFlora.com and let us help you to ensure your girlfriend, wife or just that special person knows you love and appreciate them. </div>
+</div>
+
+</body>
+</html>

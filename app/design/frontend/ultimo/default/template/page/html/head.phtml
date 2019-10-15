@@ -1,0 +1,71 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title><?php echo $this->getTitle() ?></title>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<?php if (Mage::registry('current_product')) : ?>
+	<meta content="Website" property="og:type">
+	<meta content="<?php echo Mage::registry('current_product')->getName()?>" property="og:title">
+	<meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+    <meta property="og:image" content="<?php echo Mage::helper('catalog/image')->init(Mage::registry('current_product'), 'image')->resize(300,300);?>" />
+<?php endif;?>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.js') ?>"></script>
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+
+<script type="text/javascript">
+    function showSearch(){
+        var search = document.getElementById('fsearch');
+        if(search!=null){
+            if(search.style.display=='marker')
+                search.style.display='none';
+            if(search.style.display=='table')
+                search.style.display='block';
+            else
+                search.style.display='none';
+        }
+    }
+    function showSearch1(flag){
+        var search1 = document.getElementById('fsearch');
+        if(search1!=null){
+            if(search1.style.display=='block'){
+                search1.style.display='marker';
+            }
+            else
+                search1.style.display='table';
+        }
+    }
+    function showSearch2(flag){
+        var search1 = document.getElementById('fsearch');
+        if(search1!=null){
+            if(search1.style.display=='none'){
+                search1.style.display='marker';
+            }
+            else
+                search1.style.display='table';
+        }
+    }
+    function writeCookie(name,value) {       
+        document.cookie = name + "=" + value + ";path=/";
+    }
+    function readCookie(name) {
+        var i, c, ca, nameEQ = name + "=";
+        ca = document.cookie.split(';');
+        for(i=0;i < ca.length;i++) {
+            c = ca[i];
+            while (c.charAt(0)==' ') {
+                c = c.substring(1,c.length);
+            }
+            if (c.indexOf(nameEQ) == 0) {
+                return c.substring(nameEQ.length,c.length);
+            }
+        }
+        return '';
+    }
+</script>
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>

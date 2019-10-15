@@ -1,0 +1,235 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $current_store_code = Mage::app()->getStore()->getCode(); ?>
+<div class="footer-primary-container section-container">
+    <div class="footer-primary footer container">
+        <div class="grid-full">
+<div class="footer-block">
+    <!--<div class="footer-info">-->
+    <div class="grid12-12 footer-top">
+            <div class="about grid12-6">
+                <div class="collapsible mobile-collapsible">
+
+                        <h3 class="block-title heading">About Roses Only</h3>
+                        <div class="block-content">
+                            <div class="copyright">
+                                <img src="<?php echo $this->getSkinUrl('images/logo.png') ?>"/>
+                                <div class="footerl">
+                                    <?php
+                                    if (strcmp($current_store_code, 'hhonors') == 0 && !$this->getIsHomePage()) {
+                                        echo '<div class="hhonors"><img width="100%" src="' . $this->getSkinUrl('images/brand.png') . '"/>';
+                                        echo 'Terms & Conditions:<br/>Offer valid from 19 August to 31 July 2014. Offer is subject to availability.'
+                                            . ' Offer may not be used in conjunction with any other coupon, promotion or offer.'
+                                            . ' You must provide your Hilton HHonors member number and bonus code (if applicable) at the time of transaction to participate in this offer.'
+                                            . ' HHonors Points are awarded based upon completed sales (excluding cancellations) at standard published retail prices on <a href="http://www.rosesonly.com.sg/HHonors">http://www.rosesonly.com.sg/HHonors</a> website only.'
+                                            . ' Calculation of HHonors points to be awarded will exclude tax and GST charges.'
+                                            . ' HHonors Points are awarded base on the date the product is delivered, not the date of placement of order.'
+                                            . ' Transactions must be made online at <a href="http://www.rosesonly.com.sg/HHonors">http://www.rosesonly.com.sg/HHonors</a>.'
+                                            . ' All deliveries are within Singapore only, deliveries can be arranged with Roses Only at an addition fee of S$6 per trip'
+                                            . ' In the event of unavailability, Roses Only Singapore reserves the right to replace any item with other item of equal or higher value.'
+                                            . ' All Roses Only <a href="'.$this->getUrl('terms-conditions').'">terms and conditions</a> apply.'
+                                            . ' Bonus Points earned on Base Points do not count toward sllite tier qualification.'
+                                            . ' Please allow 6-8 weeks for points to appear in your HHonors account.<br/><br/>'
+                                            . 'Hilton HHonors membership, earning of Points & Miles &trade;, and redemption of Points are subject to <a href="http://hhonors3.hilton.com/en/terms/">HHonors Terms and Conditions.</a>'
+                                            . '</div>';
+                                    }else if(strcmp($current_store_code, 'dbs') == 0 && !$this->getIsHomePage()) {
+                                        echo '<div class="hhonors">'
+                                            . 'Terms & Conditions:<br/>1. This promotion is valid from 1 October to 30 September 2014 and valid for DBS Cardmembers only.<br/>2. Promotion cannot be used in conjunction with other promotions, discounts, coupons or privileges.<br/>3. Delivery terms & conditions apply.<br/>4. In the event of product unavailability, Roses Only reserves the right to replace any item with another of equivalent or higher value.<br/>5. Roses Only reserves the rights to amend the promotions and its terms and conditions without prior notice. '
+                                            . '</div>';
+                                    }
+                                    else {
+                                        ?>
+                                        <p class="legality y">
+                                            <?php echo $this->getCopyright(); ?>
+                                        </p>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="more-information grid12-3">
+                <div class="collapsible mobile-collapsible">
+                    <!--<div class="more_links">-->
+                        <h3 class="block-title heading">More Information</h3>
+                        <div class="block-content">
+                            <div class="more_links">
+                                <ul>
+                                    <li><a href="<?php echo $this->getUrl('security') ?>">Security</a></li>
+                                    <li><a href="<?php echo $this->getUrl('privacy') ?>">Privacy</a></li>
+                                    <li><a href="<?php echo $this->getUrl('delivery') ?>">Delivery</a></li>
+                                    <li><a href="<?php echo $this->getUrl('refunds') ?>">Refunds</a></li>
+                                    <li><a href="<?php echo $this->getUrl('faq') ?>">FAQ</a></li>
+                                    <li><a href="<?php echo $this->getUrl('contacts') ?>">Contact us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    <!--</div>-->
+                </div>
+            </div>
+            <div class="company-info grid12-3">
+                <div class="collapsible mobile-collapsible">
+
+                    <h3 class="block-title heading">Company Info</h3>
+                    <div class="block-content">
+                        <div class="company_info">
+                            <ul class="info_items">
+                                <li class="fone">
+                                    Call Us (65) 6256 1818<br/>
+                                    Fax (65) 6256 1612
+                                </li>
+                                <li class="mail">
+                                    info.sg@rosesonlyasia.com<br/>
+                                    custsvc.sg@rosesonlyasia.com
+                                </li>
+                                <li class="addr">
+                                    565 Thomson Road<br/>
+                                    Singapore 298184
+                                </li>
+                            </ul>
+                            <p class="social">
+                                <h3>Socialise with us</h3>
+                                <a href="https://www.facebook.com/RosesOnlySingapore"><img src="<?php echo $this->getSkinUrl('images/foot_fb.jpg') ?>"></a>
+                                <a href="https://www.pinterest.com/rosesonlysg/"><img src="<?php echo $this->getSkinUrl('images/foot_pin.jpg') ?>"></a>
+                                <a href="https://instagram.com/rosesonlysg/"><img src="<?php echo $this->getSkinUrl('images/foot_in.jpg') ?>"></a>
+                            </p>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clear_both"></div>
+    <div class="footer-bottom  grid12-12">
+        <div class="footer-primary-bottom-spacing">
+            <div class="item item-left payment">
+                <img src="<?php echo $this->getSkinUrl('images/foot_payment.jpg') ?>">
+            </div>
+            <div class="item item-right newsletter">
+                <?php echo $this->getChildHtml('newsletter') ?>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var list = document.getElementsByClassName("price");
+            for (var i = 0; i < list.length; i++) {
+                var inner = list[i].innerHTML.replace(".00", "");
+                //alert(inner);
+                list[i].innerHTML = inner;
+            }
+        </script>
+		<!--Start of Zopim Live Chat Script-->
+		<script type="text/javascript">
+		window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+		d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+		_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+		$.src='//v2.zopim.com/?1V1sKQXpVOCz9qf5ahprOLScHXabMRQH';z.t=+new Date;$.
+		type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+		</script>
+		<!--End of Zopim Live Chat Script-->
+    </div>
+</div></div></div></div>
+
+
+
+
+<!-- Google Code for Sale Conversion Page -->
+
+<script type="text/javascript">
+
+    /* <![CDATA[ */
+
+    var google_conversion_id = 996308914;
+
+    var google_conversion_language = "en";
+
+    var google_conversion_format = "3";
+
+    var google_conversion_color = "ffffff";
+
+    var google_conversion_label = "AQjYCP7AhQQQsu-J2wM";
+
+    var google_conversion_value = 1.00;
+
+    var google_conversion_currency = "SGD";
+
+    var google_remarketing_only = false;
+
+    /* ]]> */
+
+</script>
+
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+
+</script>
+
+<noscript>
+
+    <div style="display:inline;">
+
+        <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/996308914/?value=1.00&amp;currency_code=SGD&amp;label=AQjYCP7AhQQQsu-J2wM&amp;guid=ON&amp;script=0"/>
+
+    </div>
+
+</noscript>
+
+
+
+<!-- Google Code for New Remarketing -->
+
+<!-- Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. For instructions on adding this tag and more information on the above requirements, read the setup guide: google.com/ads/remarketingsetup -->
+
+<script type="text/javascript">
+
+    /* <![CDATA[ */
+
+    var google_conversion_id = 996308914;
+
+    var google_conversion_label = "5PUUCP743QkQsu-J2wM";
+
+    var google_custom_params = window.google_tag_params;
+
+    var google_remarketing_only = true;
+
+    /* ]]> */
+
+</script>
+
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+
+</script>
+
+<noscript>
+
+    <div style="display:inline;">
+
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/996308914/?value=1.00&amp;currency_code=SGD&amp;label=5PUUCP743QkQsu-J2wM&amp;guid=ON&amp;script=0"/>
+
+    </div>
+
+</noscript>

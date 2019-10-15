@@ -1,0 +1,113 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+?>
+
+<?php /* @var $this Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Checkbox */ ?>
+<?php $_option = $this->getOption() ?><?php /*echo '<pre>'; print_r($_option->getId()); echo '</pre>';die; */?>
+<?php $_selections = $_option->getSelections() ?>
+<?php $_backgroundColor = $this->getBackgroundColor();?>
+<?php $_quickView = Mage::getStoreConfig('bundleoption_section_one/group_1/field_enable_quickview'); ?>
+<dt><label<?php if ($_option->getRequired()) echo ' class="required"' ?>><?php echo $this->htmlEscape($_option->getTitle()) ?><?php if ($_option->getRequired()) echo '<em>*</em>' ?></label></dt>
+<dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+    <div class="robbie-bundle-option-wrapper custom-options-robbie">
+    <?php if (count($_selections) == 1 && $_option->getRequired()): ?>
+        <?php echo $this->getSelectionQtyTitlePrice($_selections[0]) ?>
+        <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>"/>
+    <?php else:?>
+        <!-- <ul class="options-list"> -->
+        <?php 
+            $counter = 0;
+            $li_count = count($_selections);
+            $ul_count = ceil($li_count/2);
+            
+        ?>  
+        <?php foreach($_selections as $_selection): ?>
+        <?php if($counter%3 == 0):?>
+            <ul class="options-list robbie-bundle-options">
+        <?php endif;?>  
+        <?php if(($counter+1)%2==0) $class = 'even'; else $class = 'odd';?>
+
+            <li class='add-on <?php echo $class?>'>
+                <label for="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>">
+                <?php if($_quickView): ?>
+                    <a href="<?php echo $this->getUrl('bundleoption/product/bundleAjax/id/' . $_selection->getData('product_id')) ?>" title="Quick View" class="ajax quick-view-rob" >
+                        <img for="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>" src="<?php echo $this->jsonData($_selection->getSelectionId(),false) ?>" class="product-image ajax" />
+                    </a>
+                <?php else: ?>
+                    <img for="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>" src="<?php echo $this->jsonData($_selection->getSelectionId(),false) ?>" class="product-image" />    
+                <?php endif; ?>
+
+                </label>
+                <div class="clear"></div>
+                <!--BOF Checkbox -->
+                <input onclick="bundle.changeSelection(this)" class="change-container-classname checkbox bundle-option-<?php echo $_option->getId() ?> <?php if ($_option->getRequired()) echo 'validate-one-required-by-name' ?>" id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>" type="checkbox" name="bundle_option[<?php echo $_option->getId() ?>][]"<?php if ($this->_isSelected($_selection)) echo ' checked="checked"' ?><?php if (!$_selection->isSaleable()) echo ' disabled="disabled"' ?> value="<?php echo $_selection->getSelectionId() ?>"/>              
+                
+                <span class="label-wapper"><label for="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>"><?php echo $this->getSelectionQtyTitlePrice($_selection) ?></label></span>
+           
+                <?php if($_option->getRequired()): ?>
+                    <?php echo $this->setValidationContainer('bundle-option-'.$_option->getId().'-'.$_selection->getSelectionId(), 'bundle-option-'.$_option->getId().'-container') ?>
+                <?php endif; ?>
+
+            </li>
+
+
+        <?php $counter++; ?>
+        <?php if( ($li_count == ($counter)) || (($counter)%3 == 0) ): ?>        
+            </ul>
+        <?php endif;?>        
+        <?php endforeach; ?>
+        <!-- </ul> -->
+        <div id="bundle-option-<?php echo $_option->getId() ?>-container"></div>
+        <!-- <div id="show-msg"></div> -->
+    <?php endif; ?>
+    </div>
+</dd>
+<?php if(!empty($_backgroundColor)):?>
+<script type="text/javascript">
+//<![CDATA[
+jQuery(document).ready(function(){
+    jQuery('div.robbie-bundle-option-wrapper ul li > input').on('click',function(){
+        if( jQuery(this).is(':checked') ){
+            jQuery(this).parent('li').css('background','<?php echo $_backgroundColor ?>');            
+        }else {
+            jQuery(this).parent('li').css('background','none');
+        }     
+    });
+    jQuery(".robbie-bundle-option-wrapper input[type='checkbox']").click(function(){
+        if(jQuery(this).prop('checked') == false){
+            var id = jQuery(this).attr('id');
+            jQuery("."+id+"-label").hide();
+        }
+    });
+});  
+
+
+//]]>
+
+
+</script>
+<?php endif;?>

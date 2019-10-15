@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Managepayment>
+            <version>0.1.0</version>
+        </Ant_Managepayment>
+    </modules>
+    <global>
+        <blocks>
+            <managepayment>
+                <class>Ant_Managepayment_Block</class>
+            </managepayment>
+        </blocks>
+        <!--models>
+            <managepayment>
+                <class>Ant_Managepayment_Model</class>
+            </managepayment>
+        </models-->
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <managepayment>
+                    <file>managepayment.xml</file>
+                </managepayment>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>

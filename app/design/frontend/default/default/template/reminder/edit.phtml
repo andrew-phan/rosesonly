@@ -1,0 +1,17 @@
+<div class="box-account">
+	<div class="box-head">
+		<h2>Edit Reminders</h2>
+	</div>
+	<?php echo $this->data?>
+	<?php echo $this->getReminderCollection()?>
+	<?php foreach ($this->getReminderCollection() as $reminder) { ?>	
+		<li>
+			<p><?php echo $reminder->getName(); ?></p>
+			<div>
+				<div class="padded clearfix">
+					<?php echo $reminder->getOccasion(); ?>
+				</div>
+			</div>
+		</li>
+	<?php } ?>
+</div>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Egrove_Amex>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Egrove_Amex>
+    </modules>
+</config> 

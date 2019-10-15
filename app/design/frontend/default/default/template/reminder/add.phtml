@@ -1,0 +1,57 @@
+<div class="box-account">
+    <div class="box-head">
+        <h2>New Reminders</h2>
+    </div>
+    <div>
+        Use contacts list for reminders    
+    </div>
+    <form action="<?php echo $this->getFormAction() ?>" method="post" id="reminder-add-form">
+        <table class="data-table">
+            <thead>
+                <tr><th>REMINDER NOTIFICATION</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div><label>REMINDER</label><input name="occasion" type="text"/></div>
+                        <div><label>TITLE</label><input name="title" type="text"/></div>
+                        <div><label>NAME</label>                            
+                            <select name="name">
+                                <?php foreach ($friends as  $friend) {?>
+                                <option><?php echo $friend->getName()?></option>
+                                <?php }?>
+                            </select>
+                        
+                        </div>
+                        <div><label>GENDER</label><input name="gender" type="text"/></div>
+                        <div>
+                            <label>DATE</label>
+                            <input name="dates" id="dates" type="text"/>
+                            <img title="Select date" id="_dob_trig" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>" class="v-middle">
+                        </div>
+                        <script type="text/javascript">                           				
+                            Calendar.setup({
+                                inputField : 'dates',
+                                ifFormat : '%m/%d/%Y',                                
+                                button : '_dob_trig',
+                                align : 'Bl',
+                                singleClick : true
+                            });
+                        </script>
+                        <div style="padding-top:4px;"><label>DELIVERY ADDRESS</label><textarea name="address" type="text" style="width: 380px;max-width: 380px;"></textarea></div>
+                        <div><label>NOTIFICATION TYPE</label><input name="notification_type" type="text"/></div>
+                        <div><label>GIFT TYPE</label><input name="gift_type" type="text"/></div>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="text-align:right;">
+                        <button>Add another</button>
+                        <input type="submit" value="Submit" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

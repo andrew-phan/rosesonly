@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<modules>
+		<Ant_Checkout>
+			<version>0.1.0</version>
+		</Ant_Checkout>
+	</modules>
+	<global>
+		<models>
+			<checkout>
+				<rewrite>
+					<type_multishipping>Ant_Checkout_Model_Type_Multishipping</type_multishipping>
+				</rewrite>
+			</checkout>
+		</models>
+	</global>
+	<frontend>
+		<routers>
+			<checkout>
+				<use>standard</use>
+				<args>
+					<modules>
+						<Ant_Checkout before="Mage_Checkout">Ant_Checkout</Ant_Checkout>
+					</modules>					
+				</args>
+			</checkout>
+		</routers>
+	</frontend>
+</config>

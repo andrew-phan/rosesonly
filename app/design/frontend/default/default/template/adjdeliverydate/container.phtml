@@ -1,0 +1,21 @@
+<?php
+/**
+ * Product:     Delivery Date
+ * Package:     AdjustWare_Deliverydate_1.0.13_395941
+ * Purchase ID: TV9byO7sQKTwpQGRiiOgqFtWDhKtDztzSEUuAFJORn
+ * Generated:   2012-10-09 15:42:26
+ * File path:   app/design/frontend/default/default/template/adjdeliverydate/container.phtml
+ * Copyright:   (c) 2012 AITOC, Inc.
+ */
+?>
+<?php echo $this->getChildHtml('availablecopy') ?>
+
+<ul>
+<?php foreach($this->getFields() as $field): ?>
+    <li>
+        <div class="input-box">
+		<?php echo $field->getHtml() ?>
+		<div>
+	</li>
+<?php endforeach?>
+</ul>

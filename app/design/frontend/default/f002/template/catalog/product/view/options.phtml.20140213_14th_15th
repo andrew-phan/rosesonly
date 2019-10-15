@@ -1,0 +1,1009 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Catalog_Block_Product_View_Options */
+?>
+<?php
+    date_default_timezone_set('Asia/Singapore');
+    $time=Mage::getStoreConfig('onestepcheckout/deliverydate/addtimerange');	//kq:  string(85) "a:1:{s:18:"_1289468104191_191";a:2:{s:6:"regexp";s:4:"6:20";s:5:"value";s:4:"8:20";}}"
+    $timeranges_count = 0;
+    $timeranges = array();
+    if($time){
+        $arraytime=unserialize($time);
+        foreach($arraytime as $time=>$timerange){
+            $timeranges[] = implode(" - ",$timerange);
+            $timeranges_count++;
+        }
+    }
+    if ($timeranges_count==3){
+        $full_range = $timeranges;
+        $afternoon_range = array($timeranges[1],$timeranges[2]);
+        $night_range = array($timeranges[2]);
+    } else{
+        $full_range = array('9:00am - 1:00pm','2:00pm - 5:30pm', '7:00pm - 11:00pm');
+        $afternoon_range = array('2:00pm - 5:30pm', '7:00pm - 11:00pm');
+        $night_range = array( '7:00pm - 11:00pm');
+    }
+
+    $_options = Mage::helper('core')->decorateArray($this->getOptions()) ;
+    $_product = $this->getProduct() ;
+    $freedays = Mage::getStoreConfig("onestepcheckout/deliverydate/freeday");
+
+
+    // check if it is valentine product
+    $cats = $_product->getCategoryIds();
+    $is_valentine_product = false;
+    foreach ($cats as $category_id){
+        if($category_id == 50){
+            $is_valentine_product = true;
+            break;
+        }
+    }
+    $begin_valentine_date = new DateTime('02/10/2014');
+    $end_valentine_date = new DateTime('02/15/2014');
+
+
+ ?>
+<input type="hidden" id="freedays" value="<?php echo $freedays;?>"/>
+<?php
+$bundled_product = new Mage_Catalog_Model_Product();
+$bundled_product->load($_product->getId());
+$selectionCollection = $bundled_product->getTypeInstance(true)->getSelectionsCollection(
+        $bundled_product->getTypeInstance(true)->getOptionsIds($bundled_product), $bundled_product
+);
+$bundled_items = array();
+//$a = 1;
+echo '<dl style="display:none">';
+foreach ($selectionCollection as $option) {
+    //if ($a == 1) {
+    //    print_r($option);
+    //    $a = 0;
+    //}
+    $bundled_items[] = array($option->product_id, $option->option_id, $option->selection_id, $option->selection_qty);
+    echo '<input type="hidden" name="bundle_option[' . $option->option_id . ']" value="' . $option->selection_id . '">';
+    echo '<input onkeyup="bundle.changeOptionQty(this, event)" onblur="bundle.changeOptionQty(this, event)" id="bundle-option-' . $option->option_id . '-qty-input" class="input-text qty" type="hidden" name="bundle_option_qty[' . $option->option_id . ']" value="' . $option->selection_qty . '"/>';
+}
+echo '</dl>';
+?>
+
+<?php if (count($_options)): ?>
+    <script type="text/javascript">
+        //<![CDATA[
+        var optionFileUpload = {
+            productForm : $('product_addtocart_form'),
+            formAction : '',
+            formElements : {},
+            upload : function(element){
+                this.formElements = this.productForm.select('input', 'select', 'textarea', 'button');
+                this.removeRequire(element.readAttribute('id').sub('option_', ''));
+
+                template = '<iframe id="upload_target" name="upload_target" style="width:0; height:0; border:0;"><\/iframe>';
+
+                Element.insert($('option_'+element.readAttribute('id').sub('option_', '')+'_uploaded_file'), {after: template});
+
+                this.formAction = this.productForm.action;
+
+                var baseUrl = '<?php echo $this->getUrl('*/product/upload') ?>';
+                var urlExt = 'option_id/'+element.readAttribute('id').sub('option_', '');
+
+                this.productForm.action = parseSidUrl(baseUrl, urlExt);
+                this.productForm.target = 'upload_target';
+                this.productForm.submit();
+                this.productForm.target = '';
+                this.productForm.action = this.formAction;
+            },
+            removeRequire : function(skipElementId){
+                for(var i=0; i<this.formElements.length; i++){
+                    if (this.formElements[i].readAttribute('id') != 'option_'+skipElementId+'_file' && this.formElements[i].type != 'button') {
+                        this.formElements[i].disabled='disabled';
+                    }
+                }
+            },
+            addRequire : function(skipElementId){
+                for(var i=0; i<this.formElements.length; i++){
+                    if (this.formElements[i].readAttribute('name') != 'options_'+skipElementId+'_file' && this.formElements[i].type != 'button') {
+                        this.formElements[i].disabled='';
+                    }
+                }
+            },
+            uploadCallback : function(data){
+                this.addRequire(data.optionId);
+                $('upload_target').remove();
+
+                if (data.error) {
+
+                } else {
+                    $('option_'+data.optionId+'_uploaded_file').value = data.fileName;
+                    $('option_'+data.optionId+'_file').value = '';
+                    $('option_'+data.optionId+'_file').hide();
+                    $('option_'+data.optionId+'').hide();
+                    template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'" alt=""><\/a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')" title="Remove file" \/>Remove file<\/a>';
+
+                    Element.insert($('option_'+data.optionId+'_uploaded_file'), {after: template});
+                }
+            },
+            removeFile : function(optionId)
+            {
+                $('option_'+optionId+'_uploaded_file').value= '';
+                $('option_'+optionId+'_file').show();
+                $('option_'+optionId+'').show();
+
+                $('option_'+optionId+'_file_box').remove();
+            }
+        }
+        var optionTextCounter = {
+            count : function(field,cntfield,maxlimit){
+                if (field.value.length > maxlimit){
+                    field.value = field.value.substring(0, maxlimit);
+                } else {
+                    cntfield.innerHTML = maxlimit - field.value.length;
+                }
+            }
+        }
+
+        Product.Options = Class.create();
+        Product.Options.prototype = {
+            initialize : function(config) {
+                this.config = config;
+                this.reloadPrice();
+                document.observe("dom:loaded", this.reloadPrice.bind(this));
+            },
+            reloadPrice : function() {
+                var config = this.config;
+                var skipIds = [];
+                $$('body .product-custom-option').each(function(element){
+                    var optionId = 0;
+                    element.name.sub(/[0-9]+/, function(match){
+                        optionId = parseInt(match[0], 10);
+                    });
+                    if (config[optionId]) {
+                        var configOptions = config[optionId];
+                        var curConfig = {price: 0};
+                        if (element.type == 'checkbox' || element.type == 'radio') {
+                            if (element.checked) {
+                                if (typeof configOptions[element.getValue()] != 'undefined') {
+                                    curConfig = configOptions[element.getValue()];
+                                }
+                            }
+                        } else if(element.hasClassName('datetime-picker') && !skipIds.include(optionId)) {
+                            dateSelected = true;
+                            $$('.product-custom-option[id^="options_' + optionId + '"]').each(function(dt){
+                                if (dt.getValue() == '') {
+                                    dateSelected = false;
+                                }
+                            });
+                            if (dateSelected) {
+                                curConfig = configOptions;
+                                skipIds[optionId] = optionId;
+                            }
+                        } else if(element.type == 'select-one' || element.type == 'select-multiple') {
+                            if ('options' in element) {
+                                $A(element.options).each(function(selectOption){
+                                    if ('selected' in selectOption && selectOption.selected) {
+                                        if (typeof(configOptions[selectOption.value]) != 'undefined') {
+                                            curConfig = configOptions[selectOption.value];
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            if (element.getValue().strip() != '') {
+                                curConfig = configOptions;
+                            }
+                        }
+                        if(element.type == 'select-multiple' && ('options' in element)) {
+                            $A(element.options).each(function(selectOption) {
+                                if (('selected' in selectOption) && typeof(configOptions[selectOption.value]) != 'undefined') {
+                                    if (selectOption.selected) {
+                                        curConfig = configOptions[selectOption.value];
+                                    } else {
+                                        curConfig = {price: 0};
+                                    }
+                                    optionsPrice.addCustomPrices(optionId + '-' + selectOption.value, curConfig);
+                                    optionsPrice.reload();
+                                }
+                            });
+                        } else {
+                            optionsPrice.addCustomPrices(element.id || optionId, curConfig);
+                            optionsPrice.reload();
+                        }
+                    }
+                });
+            }
+        }
+        function validateOptionsCallback(elmId, result) {
+            var container = $(elmId).up('ul.options-list');
+            if (result == 'failed') {
+                container.removeClassName('validation-passed');
+                container.addClassName('validation-failed');
+            } else {
+                container.removeClassName('validation-failed');
+                container.addClassName('validation-passed');
+            }
+        }
+        var opConfig = new Product.Options(<?php echo $this->getJsonConfig() ?>);
+        //]]>
+    </script>
+    <dl>
+        <?php $i = 0;
+        foreach ($_options as $_option): ?>
+            <!--?php echo $this->getOptionHtml($_option) ?-->
+            <dt id="lbloptions_<?php echo $_option->getId(); ?>" class="bundle-title">
+            <span><span>
+                    <label<?php if ($_option->getIsRequire()) echo ' class="required"' ?>>
+        <?php echo++$i . '. ' . $this->htmlEscape($_option->getTitle()) ?>
+                    </label></span></span>
+            </dt>
+            <dd id="c-lbloptions_<?php echo $_option->getId(); ?>" <?php if ($_option->decoratedIsLast) { ?> class="last bundle-content"<?php } else { ?>class="bundle-content" <?php } ?> >
+                <div class="input-box">
+                    <?php echo $this->getValuesHtml($_option) ?>
+                    <?php if ($_option->getIsRequire()): ?>
+                        <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX): ?>
+                            <span id="options-<?php echo $_option->getId() ?>-container"></span>
+                        <?php endif; ?>
+        <?php endif; ?>
+                </div>
+            </dd>
+            <div class="option_bottom"></div>
+    <?php endforeach; ?>
+        <dt class="bundle-title" id="lblonestepcheckout_time">
+        <span><span>
+                <label>
+    <?php echo++$i . '. ' . $this->__('Delivery') ?>
+                </label></span></span>
+        <label class="required"></label>
+        </dt>
+        <div class="clearBoth"></div>
+
+        <dd id="c-lblonestepcheckout_time" class="bundle-content">
+            <div id="deliveryshow">
+                <?php
+                /*
+                 * Get start date, end date according to
+                 * - start date of all items, get the max
+                 * - end date of all items, get the min
+                 * - lead time of all items, get the max
+                 * - national date
+                 * - additional date
+                 * - weekend
+                 * - available week
+                 */
+
+                $is_debuging = FALSE;
+
+                $start_date_available = NULL;
+                $end_date_available = NULL;
+                $lead_time_max = 0;
+
+                $lead_time = $_product->getLeadTime();
+				echo '<input type="hidden" id="lead_time" value="'.$lead_time.'"/>';
+                $start_date = DateTime::createFromFormat('Y-m-d H:i:s', $_product->getStartDate());
+                $end_date = DateTime::createFromFormat('Y-m-d H:i:s', $_product->getEndDate());
+
+                /* Hoang add */
+
+                $special_earliest_delivery_date = DateTime::createFromFormat('Y-m-d H:i:s',$_product->getEarliestDeliveryDate());
+                $special_earliest_delivery_time = $_product->getAttributeText('earliest_delivery_time');
+
+                $special_earliest_delivery_start = new DateTime();
+                if(strlen($_product->getEarliestDeliveryStart())>0)
+                    $special_earliest_delivery_start= DateTime::createFromFormat('Y-m-d H:i:s',$_product->getEarliestDeliveryStart());
+
+                $special_earliest_delivery_end = new DateTime();
+                if(strlen($_product->getEarliestDeliveryEnd())>0)
+                    $special_earliest_delivery_end  = DateTime::createFromFormat('Y-m-d H:i:s',$_product->getEarliestDeliveryEnd());
+
+
+                $delivery_from = DateTime::createFromFormat('Y-m-d H:i:s', $_product->getDeliveryFrom());
+                $delivery_to = DateTime::createFromFormat('Y-m-d H:i:s', $_product->getDeliveryTo());
+				//echo 'End date:'.$_product->getDeliveryTo();
+                $order_date = new DateTime();
+
+//                $order_date->setDate(2014, 2, 12);
+//                $order_date->setTime(1, 0, 0);
+
+                if (!$start_date || ($delivery_from > $start_date))
+                    $start_date = $delivery_from;
+
+                if (!$end_date || ($delivery_to < $end_date))
+                    $end_date = $delivery_to;
+
+                /* end add */
+
+                if ($start_date && (!$start_date_available || $start_date > $start_date_available)) {
+                    $start_date_available = $start_date;
+                    if ($is_debuging)
+                        Mage::log('2');
+                }
+
+                if ($end_date && (!$end_date_available || $end_date < $end_date_available)) {
+                    $end_date_available = $end_date;
+                    if ($is_debuging)
+                        Mage::log('3');
+                }
+
+                if ($lead_time && $lead_time > $lead_time_max) {
+                    $lead_time_max = $lead_time;
+                    if ($is_debuging)
+                        Mage::log('4');
+                }
+
+                if (!$start_date_available) {
+                    if ($is_debuging)
+                        Mage::log('There is no Start Date - Init one');
+                    $start_date_available = new DateTime();
+                }
+
+                if (!$end_date_available) {
+                    if ($is_debuging)
+                        Mage::log('There is no End Date - Init one');
+                    $end_date_available = new DateTime(); //the time cannot reach
+                    $end_date_available->setDate(9999, 12, 21);
+                }
+
+                //set special specialearliest delivery date
+
+                $special_earliest = FALSE;
+                if($order_date >= $special_earliest_delivery_start && $order_date <=$special_earliest_delivery_end ){
+                    if($start_date < $special_earliest_delivery_date){
+                        $start_date = $special_earliest_delivery_date;
+                        //$lead_time = 0;
+                        //$lead_time_max = 0;
+                        $special_earliest = TRUE;
+                    }
+                }
+
+                $start_date_available->setTime(0, 0, 0);
+                $end_date_available->setTime(0, 0, 0);
+
+                if ($is_debuging)
+                    Mage::log('FINISHED LOADING START, END DATE');
+                if ($is_debuging)
+                    Mage::log('Final Start Date: ' . $start_date_available->format('d/m/Y'));
+                if ($is_debuging)
+                    Mage::log('Final End Date: ' . $end_date_available->format('d/m/Y'));
+
+                $delivery_allowed_period = Mage::getStoreConfig("onestepcheckout/deliverydate/rangeday");
+		echo '<!--delivery_allowed_period'.$delivery_allowed_period.'-->';
+                //echo $end_date_available->format('d/m/Y');
+                if ($is_debuging)
+                    Mage::log('Delivery Allowed Period: ' . $delivery_allowed_period);
+                if ($delivery_allowed_period > 0) {
+                    $new_end_date_available = new DateTime();
+                    $new_end_date_available->setDate($order_date->format('Y'), $order_date->format('m'), $order_date->format('d'));
+                    $new_end_date_available->setTime(0, 0, 0);
+
+                    date_add($new_end_date_available, new DateInterval('P' . $delivery_allowed_period * 7 . 'D'));
+
+                    if ($new_end_date_available < $end_date_available) {
+                        $end_date_available = $new_end_date_available;
+                        if ($is_debuging)
+                            Mage::log('Limited End Date To: ' . $end_date_available->format('d/m/Y'));
+                    }
+                }
+                //echo $end_date_available->format('d/m/Y');
+                if ($is_debuging)
+                    Mage::log('FINISHED CHECKING START, END DATE AND LEAD TIME OF ALL PRODUCTS');
+                if ($is_debuging)
+                    Mage::log('Final Start Date: ' . $start_date_available->format('d/m/Y'));
+                if ($is_debuging)
+                    Mage::log('Final End Date: ' . $end_date_available->format('d/m/Y'));
+                if ($is_debuging)
+                    Mage::log('Max Lead Time: ' . $lead_time_max);
+
+                //check being weekend and additional date and national date
+                $additional_date = Mage::getStoreConfig("onestepcheckout/deliverydate/enableday");
+                $product_additional_date = $_product->getAdditionalDay();
+                if (strlen($product_additional_date) > 0)
+                    $additional_date .= ',' . $product_additional_date;
+
+                $national_date = Mage::getStoreConfig("onestepcheckout/deliverydate/disableday");
+                $weekend_days_of_week = Mage::getStoreConfig("onestepcheckout/deliverydate/weekend");
+
+                if ($is_debuging)
+                    Mage::log('LOAD SPECIAL DATES');
+                if ($is_debuging)
+                    Mage::log('Additional Dates:' . $additional_date);
+                if ($is_debuging)
+                    Mage::log('National Dates:' . $national_date);
+                if ($is_debuging)
+                    Mage::log('Weekend Days:' . $weekend_days_of_week);
+
+                /*
+                 * Compare today and got start date, end date
+                 * if start date < todate <end date
+                 * then do the timing logic
+                 * else get the first available date
+                 */
+
+
+                $can_delivery = TRUE;
+                $earliest_delivery_date = new DateTime();
+
+                $earliest_delivery_time = array();
+                $is_same_day = TRUE;
+
+                $session = Mage::getSingleton('customer/session');
+                $time_zone = $session->getCustomer()->getTimezone();
+                $timeoffset_customer = Mage::getModel('core/date')->calculateOffset($time_zone);
+                $timeoffset = $timeoffset_customer - Mage::getModel('core/date')->getGmtOffset($time_zone);
+
+                $same_date_12 = new DateTime();
+                //$same_date_12->setDate(2013, 2, 14);
+                $same_date_12->setTime(12, 0, 0);
+
+                if ($timeoffset >= 0) {
+                    $same_date_12->add(new DateInterval('PT' . $timeoffset . 'S'));
+                } else {
+                    $same_date_12->sub(new DateInterval('PT' . (-$timeoffset) . 'S'));
+                }
+
+                $same_date_17 = new DateTime();
+                $same_date_17->setTime(17, 0, 0);
+
+                if ($timeoffset >= 0) {
+                    $same_date_17->add(new DateInterval('PT' . $timeoffset . 'S'));
+                } else {
+                    $same_date_17->sub(new DateInterval('PT' . (-$timeoffset) . 'S'));
+                }
+                echo '<!--Order date :'.$order_date->format('d-m-Y H:i:s').'<br/>';
+                echo 'Order 12 :'.$same_date_12->format('d-m-Y H:i:s').'<br/>';
+                echo 'Order 27 :'.$same_date_17->format('d-m-Y H:i:s').'<br/>-->';
+                //if ($order_date >= $start_date_available && $order_date <= $end_date_available) {
+                if ($is_debuging)
+                    Mage::log('IN RANGE');
+
+                $earliest_delivery_date->setDate($order_date->format('Y'), $order_date->format('m'), $order_date->format('d'));
+
+                /* Hoang add */
+                if ($start_date > $order_date) {
+                    $earliest_delivery_date->setDate($start_date->format('Y'), $start_date->format('m'), $start_date->format('d'));
+                }
+                /* end add */
+
+                $earliest_delivery_date->setTime(0, 0, 0);
+
+                //Calculate all conditions
+                $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                $is_after_5pm_for_same_date = ($is_same_day === TRUE && $order_date > $same_date_17);
+
+                if ($is_debuging)
+                    Mage::log('CHECK VALID DATE WITHOUT LEAD TIME');
+                //get earliest date without lead time checking
+                while (!$is_additional_date
+                        && ($is_national_dates || $is_weekends || $is_after_5pm_for_same_date)
+                        && $special_earliest!==TRUE) {
+                    //echo 'adddddddd'.$special_earliest;
+                    if ($is_national_dates)
+                        if ($is_debuging)
+                            Mage::log('Is National Date - ' . $national_date);
+                    if ($is_weekends)
+                        if ($is_debuging)
+                            Mage::log('Is Weekend - ' . $weekend_days_of_week);
+                    if ($is_after_5pm_for_same_date)
+                        if ($is_debuging)
+                            Mage::log('Is After 5PM - ' . $order_date->format('G') . ':' . $order_date->format('i'));
+
+                    //Increase one day
+                    $a = 2;
+                    date_add($earliest_delivery_date, new DateInterval('P1D'));
+                    if ($is_debuging)
+                        Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+
+                    //Is not same day any more
+                    $is_same_day = FALSE;
+
+                    //Re-calculate all conditions
+                    $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                    $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                    $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                    $is_after_5pm_for_same_date = FALSE; //Always return FALSE because delivery date is not same date any more
+                    if ($is_debuging)
+                        Mage::log($earliest_delivery_date->format('w'));
+                }
+
+                if ($is_debuging)
+                    Mage::log('CHECK LEAD TIME');
+                while ($lead_time_max > 0) {
+                    //Increase one day
+                    date_add($earliest_delivery_date, new DateInterval('P1D'));
+                    if ($is_debuging)
+                        Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+
+                    //Is not same day any more
+                    $is_same_day = FALSE;
+
+                    //Re-calculate all conditions
+                    $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                    $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                    $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                    $is_after_5pm_for_same_date = FALSE; //Always return FALSE because delivery date is not same date any more
+                    //Check whether the added date for lead time is valid
+                    $a = 0;
+                    while (!$is_additional_date && ($is_national_dates || $is_weekends)) {
+                        if ($is_national_dates)
+                            if ($is_debuging)
+                                Mage::log('Is National Date - ' . $national_date);
+                        if ($is_weekends)
+                            if ($is_debuging)
+                                Mage::log('Is Weekend - ' . $weekend_days_of_week);
+
+                        //Increase one day
+                        date_add($earliest_delivery_date, new DateInterval('P1D'));
+                        $a = 1;
+                        if ($is_debuging)
+                            Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+
+                        //Re-calculate all conditions
+                        $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                        $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                        $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                    }
+
+                    //Add successfully a lead time date
+                    $lead_time_max--;
+                }
+                echo '<!--'.$earliest_delivery_date->format('d/m/Y').'-'.$end_date_available->format('d/m/Y').'-->';
+                if ($earliest_delivery_date > $end_date_available) {
+                    //Mage::log('DELIVERY DATE > END DATE AVAILABLE - CANNOT ORDER');
+                    $can_delivery = FALSE;
+                } else {
+                    if ($is_same_day == TRUE) {
+                        if ($is_debuging)
+                            Mage::log('8');
+
+                        if ($order_date < $same_date_12) {
+                            //order time is before 12:00am
+                            $earliest_delivery_time = $afternoon_range;
+                            if ($is_debuging)
+                                Mage::log('9');
+                        } else if ($order_date < $same_date_17) {
+                            //order time is from 12:01am to 5:00pm
+                            $earliest_delivery_time = $night_range;
+                            if ($is_debuging)
+                                Mage::log('10');
+                        }else{
+                            // next day
+                            $earliest_delivery_time = $afternoon_range;
+                        }
+                    } else {
+                        // not the same day
+                        $jd=cal_to_jd(CAL_GREGORIAN,date("m"),date("d"),date("Y"));
+                        $day_in_week = jddayofweek($jd,0);
+
+                        //echo 'day_in_week'.$day_in_week;
+
+                        if(($order_date >= $same_date_17) || $day_in_week==0 || $day_in_week == 6)
+                            $earliest_delivery_time = $afternoon_range;
+                        else
+                            $earliest_delivery_time = $full_range;
+                        if ($is_debuging)
+                            Mage::log('11');
+                    }
+
+                    if($special_earliest ===TRUE){
+                        $index = 0;
+                        $earliest_delivery_time = array();
+                        //echo '$special_earliest_delivery_time'.$special_earliest_delivery_time;
+                        for($i=0; $i<sizeof($full_range); $i++){
+                            if($special_earliest_delivery_time==$full_range[$i]){
+                                $index = $i;
+                                break;
+                            }
+                        }
+                        for($j=$index; $j<sizeof($full_range); $j++){
+                            $earliest_delivery_time[]=$full_range[$j];
+                        }
+                    }
+
+                    if ($is_debuging)
+                        Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+                    if ($is_debuging)
+                        Mage::log('Delivery Time:');
+                    if ($is_debuging)
+                        Mage::log($earliest_delivery_time);
+                }
+                //} else {
+                //    if ($is_debuging) Mage::log('OUT OF RANGE - CANNOT ORDER');
+                //    $can_delivery = FALSE;
+                //}
+                ?>
+
+                <?php if (!$can_delivery) : ?> <!-- Cannot delivery -->
+                    <strong><?php echo Mage::helper('sales')->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+    <?php else : ?> <!-- Show delivery time -->
+                    <table width="100%" class="options-list">
+                        <tr>
+                            <td>
+                                <div class="<?php echo $a; ?> delivery_date">
+        <?php echo $this->__('Earliest Delivery Date:') ?>
+                                    <span><?php
+                                        $cheat_begin_valentine_date = new DateTime('02/14/2014');
+                                        if(!$is_valentine_product){
+                                            if($earliest_delivery_date < $cheat_begin_valentine_date)
+                                                $earliest_delivery_date = $cheat_begin_valentine_date;
+                                            echo $earliest_delivery_date->format('d/m/Y');
+                                        }else{
+                                            if($earliest_delivery_date){
+                                                if($earliest_delivery_date < $cheat_begin_valentine_date)
+                                                    $earliest_delivery_date = $cheat_begin_valentine_date;
+                                                echo $earliest_delivery_date->format('d/m/Y');
+                                            }
+                                            else{
+                                                echo $cheat_begin_valentine_date->format('d/m/Y');
+                                            }
+                                        }
+                                        if($earliest_delivery_date <= $cheat_begin_valentine_date)
+                                            echo ' ' . " 7:00pm - 10:00pm";
+                                        else echo $earliest_delivery_time[0];
+                                  ?></span>
+                                </div>
+                                <?php
+//        echo '<b class="' . $a . '">Earliest Delivery Date: ' . $earliest_delivery_date->format('d/m/Y') . ' ' . $earliest_delivery_time[0] .
+                                '</b>';
+                                ?>
+                                <br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display:inline;"><?php echo $this->__('Delivery Date*:'); ?></div>
+                                <?php
+                                if(!$is_valentine_product){
+                                    ?>
+                                        <input type="text"
+                                        name="_deliverydate"
+                                        id="_deliverydate"
+                                        readonly="true"
+                                        value="<?php if ($can_delivery): echo $earliest_delivery_date->format('d/m/Y');
+                                        endif;
+                                        ?>"
+                                <?php
+                                }else{
+                                ?>
+
+                                <input type="text"
+                                       name="_deliverydate"
+                                       id="_deliverydate"
+                                       readonly="true"
+                                       value="<?php if ($can_delivery){
+                                           if($earliest_delivery_date){
+                                               if($earliest_delivery_date < $begin_valentine_date)
+                                                   echo $begin_valentine_date->format('d/m/Y');
+                                               else echo $earliest_delivery_date->format('d/m/Y');
+                                           }
+                                           else{
+                                                echo $begin_valentine_date->format('d/m/Y');
+                                           }
+                                       }
+                                       ?>"
+                                <?php }?>
+
+                                       class="required-entry"/>
+
+                                <img title="Select date"
+                                     id="_deliverydate_trig"
+                                     src="<?php echo $this->getSkinUrl('images/rosesonly/calender.png'); ?>"
+                                     class="v-middle"/>
+                                <script type="text/javascript">
+                                    function disabledDate(date, y, m, d) {
+                                        var disabled_date = "<?php echo $national_date; ?>";
+                                        var additional_date = "<?php echo $additional_date; ?>";
+                                        var weekend_days = [<?php echo $weekend_days_of_week; ?>];
+                                        var canDelivery = <?php echo $can_delivery; ?>;
+                                        var earliest_date = new Date(<?php echo $earliest_delivery_date->format('Y') . "," . ($earliest_delivery_date->format('m') - 1) . "," . $earliest_delivery_date->format('d'); ?>);
+                                        var ending_date= new Date(<?php echo $end_date_available->format('Y') . "," . ($end_date_available->format('m') - 1) . "," . $end_date_available->format('d'); ?>);
+
+                                        date.setHours(0,0,0);
+
+                                        if(!canDelivery) return true;
+                                        if (date < earliest_date) return true;
+                                        //if (date >= ending_date) return true;
+                                        if (date > ending_date) return true; //[Hoang]
+                                        //var sdate = d + "/" + (m+1) + "/" + y; [Hoang]
+
+
+                                        var sdate = '';
+                                        if(d<10)  sdate += '0';
+                                        sdate += d + "/";
+                                        if((m + 1)<10) sdate += '0';
+                                        sdate += (m + 1)  + "/" + y;
+
+                                        // for Valentine day
+                                        var begin_disable_valentine = new Date("02/13/2014");
+                                        var end_disable_valentine = new Date("02/14/2014");
+                                        var begin_valentine_day = new Date("02/10/2014");
+                                        var end_valentine_day = new Date("02/15/2014");
+
+                                        <?php if($is_valentine_product){ ?>
+                                        if (date.getTime() == begin_valentine_day.getTime()){
+                                            alert("false at here");
+                                            return false;
+                                        }
+                                        <?php }?>
+
+                                        for (var i in weekend_days)
+                                            if (weekend_days[i] == date.getDay() && additional_date.search(sdate) == -1){
+                                                <?php
+                                                    if($is_valentine_product){
+                                                ?>
+                                                if (date.getTime() == end_valentine_day.getTime())
+                                                    return false;
+                                                <?php }?>
+                                                return true;
+                                            }
+
+
+                                        <?php
+                                            if(!$is_valentine_product){
+                                        ?>
+                                        if(date.getTime() >= begin_disable_valentine.getTime() && date.getTime() <= end_disable_valentine) return true;
+                                        <?php
+                                            }else{
+                                        ?>
+                                        if(date.getTime() < begin_valentine_day.getTime() || date.getTime() > end_valentine_day) return true;
+                                        <?php }?>
+
+                                        if (disabled_date.search(sdate) != -1){
+                                            <?php if($is_valentine_product){ ?>
+                                            if (sdate.getTime() == begin_valentine_day.getTime())
+                                                return false;
+                                            <?php } ?>
+                                            return true;
+                                        }
+                                        return false;
+                                    };
+
+                                    function dateChanged(calendar) {
+                                        //parse to get year, month, day selected
+                                        var y = calendar.date.getFullYear();
+                                        var m = calendar.date.getMonth();     // integer, 0..11
+                                        var d = calendar.date.getDate();      // integer, 1..31
+                                        var earliest_delivery_date = new Date(<?php echo $earliest_delivery_date->format('Y') . "," . ($earliest_delivery_date->format('m') - 1) . "," . $earliest_delivery_date->format('d'); ?>);
+                                        var now = new Date();
+
+                                        //get delivery time range
+
+                                        // Hau Vo: use for valentine
+                                        var _m = m;
+                                        var _d = d;
+                                        if(_d<10) _d = '0'+ _d;
+                                        _m = _m+1;
+                                        if(_m<10) _m = '0' + _m;
+                                        var selected_date = new Date(_m+"/"+_d+"/"+y);
+                                        var begin_valentine_day = new Date("02/13/2014");
+                                        var end_valentine_day = new Date("02/14/2014");
+                                        var cheat_valentine_day = new Date("02/14/2014");
+                                        var earliest_delivery_time = new Array();
+
+                                        <?php if (!$is_valentine_product){?>
+                                        if (d == earliest_delivery_date.getDate() &&
+                                            m == earliest_delivery_date.getMonth() &&
+                                            y == earliest_delivery_date.getFullYear()){
+                                            // order in earliest day
+
+                                            <?php
+                                            for ($i = 0; $i < count($earliest_delivery_time); $i++) {
+                                                echo "earliest_delivery_time[$i] = '" . $earliest_delivery_time[$i] . "';"; //outputting javascript!
+                                            }
+                                            ?>
+                                        }else{
+                                            // not in earliest day
+                                            <?php
+                                           for ($i = 0; $i < count($full_range); $i++) {
+                                               echo "earliest_delivery_time[$i] = '" . $full_range[$i] . "';"; //outputting javascript!
+                                           }
+                                           ?>
+                                        }
+                                        <?php }else{?>
+                                        if(selected_date.getTime() >= begin_valentine_day.getTime() && selected_date.getTime() <= end_valentine_day.getTime()){
+                                            if(selected_date.getTime() == end_valentine_day.getTime())
+                                                earliest_delivery_time[0] = '7:00pm - 10:00pm';
+                                            else{
+                                                earliest_delivery_time[0] = '9:00am - 6:00pm';
+                                                earliest_delivery_time[1] = '7:00pm - 10:00pm';
+                                            }
+                                        }else{
+                                            if (d == earliest_delivery_date.getDate() &&
+                                                m == earliest_delivery_date.getMonth() &&
+                                                y == earliest_delivery_date.getFullYear()){
+                                                // order in earliest day
+
+                                                <?php
+                                                for ($i = 0; $i < count($earliest_delivery_time); $i++) {
+                                                    echo "earliest_delivery_time[$i] = '" . $earliest_delivery_time[$i] . "';"; //outputting javascript!
+                                                }
+                                                ?>
+                                            }else{
+                                                // not in earliest day
+                                                <?php
+                                               for ($i = 0; $i < count($full_range); $i++) {
+                                                   echo "earliest_delivery_time[$i] = '" . $full_range[$i] . "';"; //outputting javascript!
+                                               }
+                                               ?>
+                                            }
+                                        }
+                                        <?php }?>
+
+                                        if(calendar.date.getDay()==0){
+                                            earliest_delivery_time.splice(earliest_delivery_time.length - 1,1);
+                                        }
+                                        //update time range radio data
+                                        var timerange = document.getElementById('delivery_time_range_div');
+                                        var html = "";
+                                        for (var i=0;i<earliest_delivery_time.length;i++) {
+                                            html += '<div class="time_range">';
+                                            html += '<input type="radio" class="onestepcheckout_time" name="onestepcheckout_time" value="'+ earliest_delivery_time[i] +'" ';
+                                            if (i == 0) {
+                                                html += 'checked="checked"';
+                                            }
+                                            html += '/>';
+                                            html += '<label> ' + earliest_delivery_time[i] +' </label>';
+                                            html += '</div>';                                        }
+                                        //html += '<input type="radio" class="onestepcheckout_time" name="onestepcheckout_time" value="Any Time"/>';
+                                        //html += '<label class="'+now.getHours()+'">Any Time</label>';
+                                        timerange.innerHTML = html;
+
+                                        //update the selected date
+                                        var selectedDate = document.getElementById('_deliverydate');
+
+                                        if(d < 10)  d = '0' + d;
+                                        m = m +1;
+                                        if((m +1) < 10) m = '0' + m;
+                                        selectedDate.value = d + '/' + m + '/' + y;
+
+                                        //close calendar when clicking on date
+                                        if (calendar.dateClicked) {
+                                            calendar.callCloseHandler();
+                                        }
+
+                                        /* Hoang add*/
+                                        var freedays = <?php echo "'" . $freedays . "'"; ?> ;
+                                        var pos = freedays.indexOf( selectedDate.value);
+
+                                        var shipping_cost = document.getElementsByClassName('shipping_cost');
+                                        if(pos >= 0 && shipping_cost.length>0){
+                                            for(var i=0; i< shipping_cost.length; i ++){
+                                                shipping_cost[i].innerHTML = <?php echo "'" . Mage::app()->getLocale()->currency(Mage::app()->getStore()->
+                                                getCurrentCurrencyCode())->getSymbol() . "0'" ?>;
+                                            }
+                      }else{
+                          var default_shipping_cost = document.getElementById('default_shipping_cost').value;
+                          for(var i=0; i< shipping_cost.length; i ++){
+                              shipping_cost[i].innerHTML = <?php echo "'" . Mage::app()->getLocale()->currency(Mage::app()->getStore()->
+                        getCurrentCurrencyCode())->getSymbol() . "'"
+        ?>+Math.round(default_shipping_cost,2);
+                          }
+                      }
+
+                      updateTotalPrice();
+                      /*end add*/
+                  };
+
+                  //setup calendar for date picker
+                  Calendar.setup({
+                      inputField : '_deliverydate',
+                      ifFormat : '%d/%m/%Y',
+                      button : '_deliverydate_trig',
+                      align : 'Bl',
+                      singleClick : true,
+                      dateStatusFunc : disabledDate,
+                      onSelect : dateChanged
+                  });
+
+                                </script>
+                                <br><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="timex">
+                                    <div id="changedate">
+                                        <div >
+                                            <span class="left"><?php echo $this->__('Time:'); ?> </span>
+                                            <div id="delivery_time_range_div">
+                                                <?php
+                                                if (!$is_valentine_product){
+                                                    foreach ($earliest_delivery_time as $time_range){ ?>
+                                                        <?php if ($time_range){ ?>
+                                                            <!-- Hau comment -->
+                                                            <input class="onestepcheckout_time" type="radio" name="onestepcheckout_time" value="<?php echo $time_range ?>" /> <span><?php echo $time_range ?></span>
+                                                            <!---->
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                <?php } else {
+                                                    $begin_valentine_date = new DateTime('02/13/2014');
+                                                    $end_valentine_date = new DateTime('02/14/2014');
+                                                    $delivery_date = $earliest_delivery_date;
+                                                    if($delivery_date >= $begin_valentine_date && $delivery_date <= $end_valentine_date){
+                                                        if($earliest_delivery_date < $cheat_begin_valentine_date){
+//                                                        ?>
+                                                        <input class="onestepcheckout_time" type="radio" name="onestepcheckout_time" value="9:00am - 6:00pm" /> <span>9:00am - 6:00pm</span>
+                                                            <?php } ?>
+                                                        <input class="onestepcheckout_time" type="radio" name="onestepcheckout_time" value="7:00pm - 10:00pm" /> <span>7:00pm - 10:00pm</span>
+                                                    <?php }else{ ?>
+                                                        <?php
+                                                        foreach ($earliest_delivery_time as $time_range){ ?>
+                                                            <?php if ($time_range){ ?>
+                                                                <!-- Hau comment -->
+                                                                <input class="onestepcheckout_time" type="radio" name="onestepcheckout_time" value="<?php echo $time_range ?>" /> <span><?php echo $time_range ?></span>
+                                                                <!---->
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                    <?php }}?>
+
+                                                <!--input type="radio" class="onestepcheckout_time validate-one-required-by-name " name="onestepcheckout_time" value="Any Time" />
+                                                <label>Any Time</label-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+<!--                            <td style="color:#ff6600"><br/> For specific delivery timings, please note that it will be chargeable at $15 per location. Call us at 65-62561818 to arrange these special deliveries. </td>-->
+                            <td style="color:#ff6600"><br/> Kindly note that no specific delivery timings, delivery to Sentosa/Airport & Army camps will be allowed on 13th and 14th Feb due to our influx in Valentine’s order.
+                            <br/><br/>For other day’s specific delivery timings, please note that it will be chargeable at $15 per location. Our Customer Service Officers will be contacting you shortly to process the additional charges.
+                            </td>
+                        </tr>
+                    </table>
+    <br/>
+    <div style="display:none;">
+        <span>Shipping Method:</span>
+        <div id="shipping_method_detail">
+            <input type="radio" name="shipping_method" value="roses_delivery" id="roses_delivery"/>
+            <lable>RosesOnly Delivery (SGD$6)</lable>
+            <input type="radio" name="shipping_method" value="flatrate2_flatrate2" id="self_Collection"/>
+            <lable>Self Collection (SGD$0)</lable>
+        </div>
+    </div>
+    <script>
+        jQuery.noConflict();
+        jQuery("input[name='shipping_method']").change(function(){
+            // Do something interesting here
+            var value = $(this).value;
+            if(value == "roses_delivery"){
+                jQuery('.shipping_cost').html('SGD$6');
+            }
+            else if (value == "flatrate2_flatrate2"){
+                jQuery('.shipping_cost').html('SGD$0');
+            }
+            writeCookie("delivery_method",value);
+            updateTotalPrice();
+        });
+    </script>
+
+    <?php endif ?>
+                <div style="clear:both;"></div>
+            </div>
+
+        </dd>
+        <div class="clearBoth"></div>
+        <div class="option_bottom"></div>
+    </dl>
+    <div class="clearBoth"></div>
+<?php endif; ?>

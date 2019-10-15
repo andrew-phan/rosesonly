@@ -1,0 +1,271 @@
+<!-- Hau Vo: retarget pixel-->
+<!---------------------------Basket Pixel Start---------------------------------- -->
+<script type='text/javascript'>
+    rtgsettings ={
+        'pdt_id': '$pdt_id$',
+        'pdt_url': '$pdt_url$',
+        'ty_orderid':'$ty_orderid$',
+        'ty_orderamt':'$ty_orderamt$',
+        'ty_orderdate':'$ty_orderdate$',
+        'ty_orderstatus':'$ty_orderstatus$',
+        'ty_cusname':'$ty_cusname$',
+        'ty_cusid':'$ty_cusid$',
+        'ty_custype':'$ty_custype$',
+        'key': 'AG',
+        'token': 'RoseOnly_SG',
+        'pagetype': 'basket',
+        'layer': 'iframe'
+    };
+    (function(d) {
+        var s = d.createElement('script'); s.async = true;s.id='madv2014rtg';s.type='text/javascript';
+        s.src = (d.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.mainadv.com/Visibility/Rtgag2-min.js';
+        var a = d.getElementsByTagName('script')[0]; a.parentNode.insertBefore(s, a);
+    }(document));
+</script>
+
+<!---------------------------Basket Pixel END---------------------------------- -->
+
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Shopping cart template
+ *
+ * @see Mage_Checkout_Block_Cart
+ */
+    if($_COOKIE['delivery_cost']!='')
+        $shippingcost = $_COOKIE['delivery_cost'];
+    else if(Mage::getStoreConfig("onestepcheckout/config/default_shippingcost"))
+        $shippingcost = Mage::getStoreConfig("onestepcheckout/config/default_shippingcost");
+?>
+<div class="cart">
+<div class="cart-progress-block">	
+<img src="<?php echo $this->getSkinUrl('images/rosesonly/review-cart.png');?>" alt="<?php echo $this->__('review-cart')?>" width="545" height="93" />
+</div>
+    <div class="page-title title-buttons">
+        <h1><?php echo $this->__('Shopping Cart') ?></h1>
+    <?php if (!$this->hasError()): ?>
+            <ul class="checkout-types">
+        <?php foreach ($this->getMethods('top_methods') as $method): ?>
+            <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
+                        <li><?php echo $methodHtml; ?></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+            </ul>
+    <?php endif; ?>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php //echo $this->getChildHtml('form_before') ?>
+    <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
+        <fieldset>
+            <table id="shopping-cart-table" class="data-table cart-table">
+                <col width="1" />
+                <col />
+                <!--<col width="1" />-->
+                <!--?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
+                    <col width="1" />
+                <--?php endif ?-->
+                <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                <col width="1" />
+                <?php if ($this->helper('tax')->displayCartPriceExclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                <?php if ($this->helper('tax')->displayCartPriceInclTax() || $this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                <?php endif; ?>
+                <col width="70"/>
+
+                <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                <thead>
+                    <tr>
+                        <th class="head-first" rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
+                        <th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Product Name') ?></th>
+                        <!--th rowspan="<?php echo $mergedCells; ?>"></th-->
+                        <!--?php if ($this->helper('wishlist')->isAllowInCart()) : ?>
+                        <th rowspan="<-?php echo $mergedCells; ?>" class="a-center"><span class="nobr"><?php echo $this->__('Move to Wishlist') ?></span></th>
+                        <-?php endif ?-->
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Unit Price') ?></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
+                        <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?><span><?php echo $this->__('(w/gst)') ?></span></th>
+                        <th rowspan="<?php echo $mergedCells; ?>" class="a-center last">&nbsp;</th>
+                    </tr>
+                    <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                        <tr>
+                            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                        </tr>
+                    <?php endif; ?>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="50" class="a-right">
+                            <?php if ($this->getContinueShoppingUrl()): ?>
+                                <button type="button" title="<?php echo $this->__('Continue Shopping') ?>" class="button btn-continue" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+                            <?php endif; ?>
+                            <button type="submit" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Shopping Cart'); ?>" class="button btn-update"><span><span><?php echo $this->__('Update Shopping Cart'); ?></span></span></button>
+                            <button type="submit" name="update_cart_action" value="empty_cart" title="<?php echo $this->__('Clear Shopping Cart'); ?>" class="button btn-empty" id="empty_cart_button"><span><span><?php echo $this->__('Clear Shopping Cart'); ?></span></span></button>
+                            <!--[if lt IE 8]>
+                            <input type="hidden" id="update_cart_action_container" />
+                            <script type="text/javascript">
+                            //<![CDATA[
+                                Event.observe(window, 'load', function()
+                                {
+                                    // Internet Explorer (lt 8) does not support value attribute in button elements
+                                    $emptyCartButton = $('empty_cart_button');
+                                    $cartActionContainer = $('update_cart_action_container');
+                                    if ($emptyCartButton && $cartActionContainer) {
+                                        Event.observe($emptyCartButton, 'click', function()
+                                        {
+                                            $emptyCartButton.setAttribute('name', 'update_cart_action_temp');
+                                            $cartActionContainer.setAttribute('name', 'update_cart_action');
+                                            $cartActionContainer.setValue('empty_cart');
+                                        });
+                                    }
+
+                                });
+                            //]]>
+                            </script>
+                            <![endif]-->
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <?php foreach ($this->getItems() as $_item): ?>
+                        <?php echo $this->getItemHtml($_item) ?>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+            <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+        </fieldset>
+    </form>
+    <div class="cart-collaterals">
+        <div class="coupon">
+            <div class="col-1">
+                <?php echo $this->getChildHtml('crosssell') ?>
+            </div>
+            <div class="col-2">
+                <?php /* Extensions placeholder */ ?>
+                <?php echo $this->getChildHtml('checkout.cart.extra') ?>
+                <?php echo $this->getChildHtml('coupon') ?>
+                <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping');
+                endif; ?>
+            </div>
+        </div>
+        <?php /*?><div class="checkout-enquiries">
+            <label>For enquires, contact us!</label>
+            <p class="footer-email">info.sg@rosesonlyasia.com</p>
+            <p class="footer-phone">(65) 6256 1818</p>
+            <p class="footer-fax">(65) 6256 1612</p>
+        </div><?php */?>
+        <div class="totals">
+            <?php echo $this->getChildHtml('totals'); ?>
+            <?php if (!$this->hasError()): ?>
+            <ul class="checkout-types">
+                <?php foreach ($this->getMethods('methods') as $method): ?>
+                    <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
+                        <li><?php echo $methodHtml; ?></li>
+                    <?php endif; ?>
+            <?php endforeach; ?>
+            </ul>
+<?php endif; ?>
+        </div>
+    </div>
+</div>
+<script>    
+    function m_updatePrice(){
+        
+        //alert('update');
+        
+        var subtotal = document.getElementById("subtotal");
+        var discount = document.getElementById("discount");
+        if (readCookie('shipping_cost').length>0)
+            var delivery = Number(readCookie('shipping_cost').replace(/[^0-9\.]+/g,""));
+        else var delivery = <?php echo $shippingcost; ?>;
+        var numdiscount = 0;
+        
+        if(discount!=null)
+            numdiscount = Number(discount.value);
+        
+        var total = Math.round((Number(subtotal.value)+ delivery + numdiscount)*100)/100; 
+
+        var price = document.querySelectorAll(".checkout-total td.lasttotal .price");
+        if(price!=null && price.length >0){
+            //alert(total);
+            for(var i=0; i< price.length; i++){
+                price[i].innerHTML = "<?php echo Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() . ''; ?>" 
+                    + total;
+            }
+        }   
+    }
+    window.onload = function () {
+        var datetimes = document.querySelectorAll(".cart-delivery");
+
+        <?php
+            $session = Mage::getSingleton('core/session');
+            $delivery_date = $session->getData('_deliverydate');
+            $delivery_time = $session->getData('onestepcheckout_time');
+            if($delivery_date==null){
+        ?>
+        var date= readCookie('delivery_date');
+        var time= readCookie('delivery_time');
+        <?php }else {?>
+        var date= '<?php echo $delivery_date;?>';
+        var time= '<?php echo $delivery_time;?>';
+        <?php }?>
+
+        for (var i=0; i<datetimes.length; i++){
+            datetimes[i].innerHTML = date + ", " + time;
+        }
+        //alert('load');
+        m_updatePrice();        
+        
+                      
+        //var table = document.getElementById('shopping-cart-totals-table');
+        var shipping_cost = readCookie('shipping_cost');
+        //alert(shipping_cost);
+        //var shipping_cost_div = document.getElementById('shipping_cost');
+        
+        var shipping_cost_div = document.querySelectorAll("#shipping_price .price");   
+        if(shipping_cost_div && shipping_cost_div.length>0)
+            shipping_cost_div[0].innerHTML = shipping_cost ; 
+       
+        updateGrandTotal();
+         
+        if(jQuery('#review-delivery').val()==null){           
+            jQuery("#delivery_cost_pre").show();
+        }
+    }
+    
+   
+</script>

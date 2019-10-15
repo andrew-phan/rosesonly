@@ -1,0 +1,64 @@
+<?php 
+	
+	$securesecret=trim(Mage::getStoreConfig('payment/amex/encry_key'));
+	$retunurl=Mage::getUrl('amex/index/vpcreturn');
+	
+	$session = Mage::getSingleton('checkout/session');
+	$orderIncrementId = $session->getLastRealOrderId();
+	$order = Mage::getModel('sales/order')->loadByIncrementId($orderIncrementId);
+	$currencyDesc = Mage::app()->getStore()->getCurrentCurrencyCode();
+	$total = $order->getGrandTotal() * 100; 
+        $cc=explode("&",$order->getPayment()->getCcNumber());
+	$ccnumber=$cc[1];
+        $cvv=$cc[0];
+	
+	$data = array(
+	'vpc_Version' => 1,
+	'vpc_Command' => 'pay',
+	'vpc_Merchant' => trim(Mage::getStoreConfig('payment/amex/mer_id')),
+   	'vpc_AccessCode' => trim(Mage::getStoreConfig('payment/amex/mer_access')),
+	'vpc_MerchTxnRef' => $order->getIncrementId(),
+	'vpc_OrderInfo' => $order->getIncrementId(),
+	'vpc_Amount' => $total,
+	'vpc_Currency' => $currencyDesc,
+	'vpc_ReturnURL'=>$retunurl,
+	'vpc_Gateway' => trim(Mage::getStoreConfig('payment/amex/payment_action')),
+	'vpc_card' => 'Amex',
+	'vpc_CardNum'=>$ccnumber,
+	'vpc_CardExp'=>$this->cardexpformat($order), /* amex card expire format from block */
+	'vpc_CardSecurityCode' =>$cvv,
+	'Title' =>'TNS 2.5 Party Transaction'
+	);
+	ksort ($data);
+    Mage::log($data, null,'amex.log');
+    	
+ ?>
+<form action="https://vpos.amxvpos.com/vpcpay" method="post" id="redirectpay" name="order">
+<p>Please wait while your payment is being processed...</p>
+<?php
+   $hashinput = "";
+   foreach($data as $key => $value) { // create the hash input and URL leaving out any fields that have no value
+        if (strlen($value) > 0) {
+?>
+       <input type="hidden" name="<?php echo($key); ?>" value="<?php echo($value); ?>"/>
+		<?php 			
+		if ((strlen($value) > 0) && ((substr($key, 0,4)=="vpc_") || (substr($key,0,5) =="user_"))) {
+		 $hashinput .= $key . "=" . $value . "&";
+		 }
+        }
+   }
+$hashinput = rtrim($hashinput, "&");
+?>		
+	<!-- attach SecureHash -->
+  <input type="hidden" name="vpc_SecureHash" value="<?php echo(strtoupper(hash_hmac('SHA256', $hashinput, pack('H*',$securesecret)))); ?>"/>
+  <input type="hidden" name="vpc_SecureHashType" value="SHA256">
+  </form>
+
+	<script type="text/javascript">
+	function myfunc () {
+	var frm = document.getElementById("redirectpay");
+	frm.submit();
+	}
+	window.onload = myfunc;
+	</script>
+	

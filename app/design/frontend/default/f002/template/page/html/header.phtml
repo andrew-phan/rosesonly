@@ -1,0 +1,98 @@
+<script>(function(a){var d=document,c=d.createElement("script");c.async=!0,c.defer=!0,c.src=a,d.getElementsByTagName("head")[0].appendChild(c)})((iatDev=(window.location.href.indexOf("iatDev=1")>-1||document.cookie.indexOf("iatDev=1")>-1),"//"+(window.location.protocol=="http:"&&!iatDev?"h":"")+"j.flxpxl.com/292380.js?r="+Math.random()*1e16+"&m=992&a=292380"+(iatDev?"&d=1":"")))</script>
+<script type='text/javascript'>
+    rtgsettings ={
+        'pdt_url': '$pdt_url$',
+        'key': 'AG',
+        'token': 'RoseOnly_SG',
+        'pagetype': 'generic',
+        'layer': 'iframe'
+    };
+
+    (function(d) {
+        var s = d.createElement('script'); s.async = true;s.id='madv2014rtg';s.type='text/javascript';
+        s.src = (d.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.mainadv.com/Visibility/Rtgag2-min.js';
+        var a = d.getElementsByTagName('script')[0]; a.parentNode.insertBefore(s, a);
+    }(document));
+
+</script>
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<?php $flag = 0; ?> 
+<div class="header">
+    <div class="header-container">
+	
+        <a href="<?php echo $this->getUrl('') ?>"><div class="logo"></div></a>
+        <?php $current_store_code = Mage::app()->getStore()->getCode(); 
+             if(strcmp($current_store_code, 'hhonors') == 0 && !$this->getIsHomePage())  {
+                 echo '<div class="hhonors_logo"></div>';
+             }
+        ?>
+        <div class="header-top">            
+            <div class="header-topbar">		
+                <!--<?php echo $this->getChildHtml('store_language') ?>-->
+                <div class="header-search" style="cursor: pointer;" onclick="showSearch1()">Search</div>
+                
+                <div id="fsearch" style="display:none;">
+                    <?php echo $this->getChildHtml('topSearch') ?>
+                </div>
+                <div class="quick-access" >
+                    <p class="welcome-msg"><?php echo $this->getWelcome() ?> <?php echo $this->getAdditionalHtml() ?></p>
+                    <div class="shop-access"><?php echo $this->getChildHtml('topLinks') ?></div>
+                </div>                
+
+                <div class="clearBoth"></div>
+                <?php echo $this->getChildHtml('header_info') ?>
+                <?php echo $this->getChildHtml('cart_header_help') ?>
+                <div style="clear: right;"></div>               
+                <?php echo $this->getChildHtml('cartview_link') ?>
+                <?php echo $this->getChildHtml('topMenu') ?>
+            </div>
+            <!--
+            <div class="header-top">                
+                <p class="no-display"><a href="#main"><strong><?php echo $this->__('Skip to Main Content') ?> &raquo;</strong></a></p>
+            <?php echo $this->getChildHtml('top_banner') ?>
+            <?php echo $this->getChildHtml('left.permanent.callout-1') ?>
+            <?php echo $this->getChildHtml('store_switcher') ?>            
+            </div>
+            -->
+			
+			
+        </div>
+    </div>
+</div>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KP5GM7"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KP5GM7');</script>
+<!-- End Google Tag Manager -->

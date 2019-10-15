@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sandipan_Unsubscribe>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Sandipan_Unsubscribe>
+    </modules>
+</config> 

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Adminhtml>
+            <version>0.1.1</version>
+        </Ant_Adminhtml>
+    </modules>
+    <global>
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <sales_totals>Ant_Adminhtml_Block_Sales_Totals</sales_totals>
+                    <catalog_product_edit_tab_options_option>Ant_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option</catalog_product_edit_tab_options_option>
+                    <customer_grid>Ant_Adminhtml_Block_Customer_Grid</customer_grid>
+                    <promo_catalog_grid>Ant_Adminhtml_Block_Promo_Catalog_Grid</promo_catalog_grid>
+                    <promo_catalog_edit_tab_main>Ant_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main</promo_catalog_edit_tab_main>
+                    <promo_catalog_edit_form>Ant_Adminhtml_Block_Promo_Catalog_Edit_Form</promo_catalog_edit_form>
+                    
+                    <promo_quote_grid>Ant_Adminhtml_Block_Promo_Quote_Grid</promo_quote_grid>
+                    <promo_quote_edit_tab_coupons_form>Ant_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form</promo_quote_edit_tab_coupons_form>
+                    <promo_quote_edit_tab_coupons_grid>Ant_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid</promo_quote_edit_tab_coupons_grid>
+                    <promo_quote_edit_tab_main>Ant_Adminhtml_Block_Promo_Quote_Edit_Tab_Main</promo_quote_edit_tab_main>
+                    
+                    <!-- Phuoc's code-->
+                    <sales_order_invoice_create_items>Ant_Adminhtml_Block_Sales_Order_Invoice_Create_Items</sales_order_invoice_create_items>
+                    <sales_order_create_search_grid>Ant_Adminhtml_Block_Sales_Order_Create_Search_Grid</sales_order_create_search_grid>
+                    <!--<sales_order_create_form_address>Ant_Adminhtml_Block_Sales_Order_Create_Address</sales_order_create_form_address>-->
+                    <sales_order_create_form_address>Ant_Adminhtml_Block_Sales_Order_Create_Form_Address</sales_order_create_form_address>
+                    <sales_order_create_customer>Ant_Adminhtml_Block_Sales_Order_Create_Customer</sales_order_create_customer>
+                    <customer_edit_tab_account>Ant_Adminhtml_Block_Customer_Edit_Tab_Account</customer_edit_tab_account>
+                    
+                    <customer_edit_tab_addresses>Ant_Adminhtml_Block_Customer_Edit_Tab_Addresses</customer_edit_tab_addresses>
+                    
+                    <customer_edit>Ant_Adminhtml_Block_Customer_Edit</customer_edit>
+                    <!--<orderspro_sales_order_view>Ant_Adminhtml_Block_Orderspro_Sales_Order_View</orderspro_sales_order_view>-->
+                </rewrite>
+            </adminhtml>
+            <customer>
+                <rewrite>
+                    <address_edit>Ant_Adminhtml_Block_Orderspro_Sales_Order_View</address_edit>
+                </rewrite>
+            </customer>
+            <!-- end Phuoc's code -->
+        </blocks>
+        <config>
+            <frontend>
+                <routers>
+                    <checkout>
+                        <args>
+                            <modules>
+                                <Adminhtml before="Mage_Adminhtml">Ant_Adminhtml_Sales_Order</Adminhtml>
+                            </modules>
+                        </args>
+                    </checkout>
+                </routers>
+            </frontend>
+        </config>
+        
+        <resources>
+            <adminhtml_setup>
+                <setup>
+                    <module>Ant_Adminhtml</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </adminhtml_setup>
+            <adminhtml_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </adminhtml_write>
+            <adminhtml_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </adminhtml_read>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Ant_Adminhtml before="Mage_Adminhtml">Ant_Adminhtml</Ant_Adminhtml>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config> 

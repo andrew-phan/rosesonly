@@ -1,0 +1,40 @@
+<div id="fb-root"></div>
+<script type="text/javascript">
+    window.fbAsyncInit = function() {
+        FB.init({appId: '418547958180731', status: true, cookie: false, xfbml: true});
+    };
+    
+    (function() {
+        var e = document.createElement('script');
+        e.type = 'text/javascript';
+        e.src = document.location.protocol +
+            '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+    }());
+ 
+    function importContactsViaFacebook() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                // connected
+                getFriends();
+            } else {
+                // cancelled
+            }
+        });
+    }
+    
+    function getFriends() {
+        FB.api('/me/friends', function(response) {
+            jQuery.post(
+            "<?php echo Mage::getUrl('fbintegration/index/savefacebookfriends'); ?>", 
+            {friends: response}, 
+            function(data)
+            {
+            });
+        });
+    }
+
+</script>
+
+<input type="button" value="Import contacts via facebook" onClick="importContactsViaFacebook()"/>

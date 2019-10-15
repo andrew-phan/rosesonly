@@ -1,0 +1,113 @@
+<div class="block1">
+    <div class="col1">
+        <div class="bar"></div>
+        <div class="product">
+            <ul>
+                <?php                    
+                    $products[] =  Mage::getModel('catalog/product')->load('313');
+                    $products[] =  Mage::getModel('catalog/product')->load('315');
+                    $products[] =  Mage::getModel('catalog/product')->load('316');
+                    $products[] =  Mage::getModel('catalog/product')->load('317');
+                ?>
+                <?php foreach ($products as $_product) :?>
+                <li>
+                    <div class="product-image">
+                        <a href="<?php echo $_product->getProductUrl()?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350);  ?>" width="152px" height="152px" /></a>
+                    </div>
+                    <?php echo $this->getPriceHtml($_product, true); ?>
+                    <div class="old-price">(Usual: 
+                    <?php 
+                $price = $this->getPriceHtml($_product, true);
+                preg_match_all('!\d.+!', $price, $usual_price);
+                echo 'SGD$'.sprintf("%.2f",round($usual_price[0][0]+20,2));
+                ?>)</div>
+                    <a href="<?php echo $_product->getProductUrl()?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName())?></div></a>
+                    <div class="command">
+                        <a href="<?php echo $_product->getProductUrl()?>"></a>
+                    </div>
+                </li>
+                <?php endforeach;?>                
+            </ul>
+        </div>
+    </div>
+    <div class="col2">
+        <div class="discount"></div>
+    </div>
+</div>
+
+<div class="block2">
+    <div class="product">
+        <ul>
+            <?php                
+                $products2[] = Mage::getModel('catalog/product')->load('324');
+                $products2[] = Mage::getModel('catalog/product')->load('325');
+                $products2[] = Mage::getModel('catalog/product')->load('326');
+                $products2[] = Mage::getModel('catalog/product')->load('327');
+            ?>
+            <?php foreach ($products2 as $_product) :?>
+            <li>
+                <div class="product-image">
+                    <a href="<?php echo $_product->getProductUrl()?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350);  ?>" width="152px" height="152px"/></a>
+                </div>
+                <?php echo $this->getPriceHtml($_product, true) ?>
+                <div class="old-price">(Usual: 
+                    <?php 
+                $price = $this->getPriceHtml($_product, true);
+                preg_match_all('!\d.+!', $price, $usual_price);
+                echo 'SGD$'.sprintf("%.2f",round($usual_price[0][0]+20,2));
+                ?>)</div>
+                <a href="<?php echo $_product->getProductUrl()?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName())?></div></a>
+                <div class="command">
+                    <a href="<?php echo $_product->getProductUrl()?>"></a>
+                </div>
+            </li>
+            <?php endforeach;?>                
+        </ul>
+    </div>
+</div>
+
+<div class="block3">
+    <div class="bar"></div>
+    <div class="product">
+        <ul>
+            <?php                
+                $products3[] = Mage::getModel('catalog/product')->load('319');
+                $products3[] = Mage::getModel('catalog/product')->load('320');
+                $products3[] = Mage::getModel('catalog/product')->load('321');
+                $products3[] = Mage::getModel('catalog/product')->load('322');
+                $products3[] = Mage::getModel('catalog/product')->load('323');
+            ?>
+            <?php foreach ($products3 as $_product) :?>          
+            <li>
+                <div class="product-image">
+                    <a href="<?php echo $_product->getProductUrl()?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(350);  ?>" width="161px" height="161px"/></a>
+                </div>
+                <?php echo $this->getPriceHtml($_product, true) ?>
+                <div class="old-price">(Usual: 
+                    <?php 
+                $price = $this->getPriceHtml($_product, true);
+                preg_match_all('!\d.+!', $price, $usual_price);
+                echo 'SGD$'.sprintf("%.2f",round($usual_price[0][0]+20,2));
+                ?>)
+                </div>
+                <a href="<?php echo $_product->getProductUrl()?>"><div class="product-name"><?php echo str_replace("–", "<br/>", $_product->getName())?></div></a>
+                <div class="command">
+                    <a href="<?php echo $_product->getProductUrl()?>"></a>
+                </div>
+            </li>
+            <?php endforeach;?>                
+        </ul>
+    </div>
+</div>
+
+<div class="message">
+    <p>Prices stated are not inclusive of delivery charges and 7% GST tax.</p>
+    <br/>
+    <p>Deliver love with only the finest roses at <b>www.RosesOnly.com.sg.</b></p>
+    <p>Bringing together 45 years of floristry experience, Australia's favorite online florist - Roses Only has arrived in Singapore to deliver the world's finest long stemmed roses accompanied by fine French champagne, premium wines, teddy bears and chocolates.</p>
+</div>
+
+<div class="note">
+    <p>This Valentine's Day, surprise your girlfriend, wife and loved one with the best roses in Singapore.</p>
+    <p>Let Roses Only Singapore deliver your Valentine gifts that oozes exclamations of "I love you", loud and clear.</p>
+</div>

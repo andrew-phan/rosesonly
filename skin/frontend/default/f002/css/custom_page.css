@@ -1,0 +1,216 @@
+body{background-image:url('../images/custom_bg.png');padding:0;margin:0;font:11.5px Calibri;color:#736b6d;}
+.wrapper{width:696px;margin:auto;}
+.page{background-color:white;}
+.header-break{height:5px;background-color:#76A192;margin-top:3px;}
+.signup-logo{padding-top:50px;width:178px;height:87px;margin:auto;background-image:url('../images/signup-logo.png');background-position:bottom;background-repeat:no-repeat;}
+.signup-message{width:480px;height:90px;margin:auto;background-image:url('../images/signup-message.png');}
+h3{font-size:18px;font-weight:normal;padding-bottom:4px;}
+label{color:#736b6d;font-size:15px;display:block;padding-bottom:5px;}
+#mc_embed_signup{padding:35px 40px 60px 40px;display:table;width:100%;}
+.twocolumn{margin-bottom:35px;display:table;width:100%;}
+.column1{width:48%;float:left;display:block;}
+.column2{width:48%;float:right;display:block;}
+input{width:278px;height:24px;}
+button{background:#B1B2B1;padding:5px 10px;border:none;color:#333;font-size:14px;font-weight:bolder;}
+.column2 button{float:right;margin-right: 20px;}
+#err-message{
+    font-size: 14px;
+    border: #908A8A solid 1px;
+    background-color: #FCD4D6;
+    width: 266px;
+    height: 24px;
+    display: none;
+    padding: 2px 5px 0px;
+}
+
+/* Thank you page*/
+
+.signup-thankyou{
+    width:534px;height:135px;margin:auto;background-image:url('../images/signup-thankyou.png');
+    background-repeat: no-repeat;
+    margin-top: 10px;
+}
+.thankyou-message{
+    padding: 0px 80px;
+    font-size: 17px;
+    color: #362F2D;
+
+}
+
+.label{
+    padding-bottom: 5px;
+}
+
+.sign{
+    font-weight: bold;
+    padding-top:15px;
+    padding-bottom: 40px;
+}
+.thankyou-footer{
+    width:100%;height:162px;margin:auto;background-image:url('../images/signup-thankyou-footer.png');
+    background-position: bottom left;
+    padding:0;
+    margin: 0;
+    background-repeat: no-repeat;
+}
+
+/* Thank you page 2*/
+.head{
+      
+}
+.head-logo{
+    width:155px;
+    float:left;
+}
+.head-bar{
+    float:right;
+}
+.edm-logo {
+    background-image:url('../images/edm_thankyou_logo.png');
+    width: 155px;
+    height: 77px;
+    margin-top:20px ;
+    margin-left:10px;
+}
+.edm-thankyou{
+    width:424px;
+    height:100px;
+    margin:auto;
+    background-image:url('../images/edm_thankyou_thank.png');
+    background-repeat: no-repeat;
+    margin-top: 30px;
+}
+.head .ribbon{
+    background-image: url('../images/edm_thankyou_rubbon.png');
+    background-repeat: no-repeat;
+    width: 210px;
+    height: 33px;
+    display: block;
+    clear: both;
+    left: -30px;
+    position: relative;       
+}
+.message{
+    padding-left:80px;
+}
+.message .label{
+    font-size:16px;
+    padding-top:15px;
+    color:#231f20;
+}
+
+.content-left{
+    width:350px;
+    float:left;
+}
+.content-right{
+    float:right;
+    padding-right: 30px;
+    padding-top: 30px;
+}
+.discount-image{
+    width: 290px;
+    height: 206px;
+    background-image: url('../images/edm_thankyou.png');
+    background-repeat: no-repeat;
+}
+
+.discount{
+    font-size:18px;
+    color:#608a7b;
+    font-weight: bold;
+}
+.coupon{
+    color:#608a7b;
+    font-weight: bold;
+}
+.edm-name{
+    background-image: url('../images/edm_thankyou_name.png');
+    background-repeat: no-repeat;
+    width: 241px;
+    height: 42px;
+}
+.edm-foot{
+    width:655px;
+    height:137px;
+    margin:auto;
+    background-image: url('../images/edm_thankyou_foot.png');
+    background-repeat: no-repeat;
+}
+
+.ads-left{
+    margin-left: 20px;
+    margin-top: 7px;
+    width:326px;
+    height:338px;
+    float:left;
+    background-image: url('../images/edm_thankyou_left.png');
+    background-repeat: no-repeat;    
+}
+
+.ads-right{
+    margin-right: 20px;
+    margin-top: 7px;
+    width:326px;
+    height:338px;
+    float:right;
+    background-image: url('../images/edm_thankyou_right.png');
+    background-repeat: no-repeat;    
+}
+.edm-contact{
+    width:655px;
+    height:75px;
+    margin:auto;
+    background-image: url('../images/edm_thankyou_contact.png');
+    background-repeat: no-repeat;        
+}
+.edm-footer{
+    margin-bottom: 30px;
+    padding: 60px 50px 30px;
+    text-align: center;
+    font-size:15px;
+    color: #231f20;
+}
+a{
+    color: #231f20;
+}
+.footer-bar {
+     border-bottom: 1px solid  #231f20;
+     padding-bottom: 10px;
+}
+.footer-bar a{
+    text-decoration: none;       
+}
+
+.footer-bar2 {
+    padding:5px 0;
+}
+.menu {float:right;padding: 15px 20px 0;}
+.menu a{
+    text-decoration: none;
+    font-size:13px;
+    color:#847D7F;
+    padding: 0 5px;
+}
+.menu a:hover{background-color:#dee0df;}
+.social {padding: 40px 20px 0;float:right;}
+.addthis_toolbox { float:left;}
+.addthis_toolbox a{width:20px; height:23px;margin: 0px 2px;}
+.addthis_toolbox span{background: none;}
+.ishareactive-sm{   background: none;}
+.addthis_button_facebook{
+    background: url('../images/edm_thankyou_share.png') 0 0 no-repeat!important;
+}
+.addthis_button_twitter{
+    background: url('../images/edm_thankyou_share.png') -25px 0 no-repeat!important;
+}
+.addthis_button_pinterest_share{
+    background: url('../images/edm_thankyou_share.png') -52px 0 no-repeat!important;
+}
+.addthis_button_email{
+    background: url('../images/edm_thankyou_share.png') -80px 0 no-repeat!important;
+}
+.addthis_button_print{
+    background: url('../images/edm_thankyou_share.png') -105px 0 no-repeat!important;
+}
+

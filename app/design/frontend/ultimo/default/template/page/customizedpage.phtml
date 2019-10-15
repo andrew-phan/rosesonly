@@ -1,0 +1,19 @@
+<div class="customized_page overflowclear">
+    <h1 class="customized_title">Request A Quote</h1>
+
+    <div class="customized_banner overflowclear">
+        <!--<img src="<?php /*echo $this->getSkinUrl('images/customized_banner.jpg') */?>" alt="customized"/>-->
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('block_banner_customise')->toHtml();?>
+    </div>
+    <div class="contact-us-form">
+        <?php
+        echo $this->getLayout()->createBlock('webforms/webforms', 'my_webform_block', array
+        (
+            'webform_id' => 2,
+            'template' => 'webforms/default.phtml',
+        ))->toHtml();
+        ?>
+    </div>
+</div>
+
+

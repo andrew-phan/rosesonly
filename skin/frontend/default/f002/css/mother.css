@@ -1,0 +1,67 @@
+/* 
+    Document   : mother
+    Created on : Apr 22, 2013, 6:06:14 PM
+    Author     : Hoang
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+.footer-info{height: 70px; background-color: #77a192;text-align: center;color:#fff;padding-top:12px;}
+.footer-info a{color: #e2eae7;padding: 4px 0;text-decoration: none;font-size:12px;}
+.label-payment {font-size:12px;padding: 6px 0 10px; }
+.footer-payment{background: url('../images/i-payment.png');background-repeat: no-repeat;height: 22px;width: 124px;margin: auto;}
+.footer{text-align: center;height: 60px;color:#fff;}
+.legality {padding:0px 170px;font-size: 10px;}
+.footer-block{background-color: #77a192;background-color: #77a192;width: 881px;margin: -16px auto 10px;}
+
+body{background:url('../images/mday/bg.png') repeat 0 0; font-family: Calibri;text-align: center;padding:0; margin: 0;}
+ul{list-style: none; }
+.ibanners.animated ul {padding: 0;margin: 0;}
+.clear {clear: both;}
+.wrapper{width:888px; margin:5px auto 0;}
+.main {background-color: #fff;display:table;margin: auto;padding-bottom: 15px;width: 881px;}
+.content{width: 824px; margin: auto;}
+.top {background: url('../images/mday/top.png'); width: 888px; height: 110px;}
+.view_other{color: #7f2d2d;font-size: 18px;}
+.view_other a{color: #7f2d2d; text-decoration: none;}
+.view_other a:hover{text-decoration:underline;}
+.view_other_left {float: left;padding: 10px;}
+.view_other_right {float: right;padding: 10px;}
+.main_top {clear: both; background-color: #77a192; height: 6px;width: 881px; margin: auto;}
+.banner{ width: 881px; margin: auto; overflow: hidden;}
+.delivery_love {background:url('../images/mday/delivering_love.png') no-repeat; height: 81px; width: 824px; margin: 18px auto 20px;}
+.left_col {/*width: 565px;*/ float: left;}
+.right_col{width: 232px; float: right;background-color: #fccee2;}
+.get_off {background:url('../images/mday/get_off_now.png') no-repeat; height: 157px; width: 231px; margin: 0 auto 13px;display:none;}
+.pink_roses_lilies{background:url('../images/mday/pink_roses_lilies.png') no-repeat; height: 64px; width: 231px; margin: auto;}
+.pink_roses_priceless_love {background:url('../images/mday/pink_roses_priceless_love.png') no-repeat; height: 64px; width: 231px; margin: auto;}
+.pink_roses{clear: both;float:left; background:url('../images/mday/pink_roses.png') no-repeat; height: 37px; width: 565px; margin: auto;}
+.pink_roses_chandon{clear: both;float:left; background:url('../images/mday/pink_roses_chandon.png') no-repeat; height: 37px; width: 565px; margin: auto;}
+.pink_roses_fayer_geisha_heart_chocolate{clear: both;float:left; background:url('../images/mday/pink_roses_fayer_geisha_heart_chocolate.png') no-repeat; height: 37px; width: 565px; margin: auto;}
+.pink_roses_moet_chandon_champagne {clear: both;float:left; background:url('../images/mday/pink_roses_moet_chandon_champagne.png') no-repeat; height: 37px; width: 565px; margin: auto;}
+.products ul{padding: 0;}
+.products li{width: 181px;}
+.left_col ul{margin: 0; padding-top: 10px;clear:both;}
+.left_col li {display: table;margin: 0 2px;float:left;}
+.right_col ul{margin: 0px;}
+.right_col li{margin: auto;}
+img {border:none;}
+.left_col img {border:solid 1px #969696;}
+.products a{text-decoration: none;}
+.price-label, .price {color:#be1111; font-weight: bold;}
+.product-name {color: #231f20;font-weight: bold;padding: 0 5px;}
+.buy_now {width: 97px; height: 36px;background:url('../images/mday/buy_now.png') no-repeat; margin: auto;}
+.price-box{padding-top: 10px;}
+.right_col .buy_now{padding: 6px 0;}
+.free_del{color: #be1111;font-size: 14px;font-weight: bold;}
+.command {width: 100%; text-align: center;margin-top: 12px;}
+.message p, .note p{padding: 0 40px;margin: 0;}
+.message {color:#736b6d;font-size: 12px;margin-top: 20px;}
+.message .title{font-size: 15px;padding: 15px 0;}
+.note .title{font-size: 15px;padding: 15px 0;}
+.note {color:#e9538c;font-size: 12px;}
+.price-to, .price-including-tax {display: none;}
+.price-from {padding:0; margin: 0 auto;}

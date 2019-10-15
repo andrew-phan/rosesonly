@@ -1,0 +1,118 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<!--<div class="col2-set">
+    <div class="box">-->
+        <!--<div class="box-title">
+            <h4><?php /*echo $this->__('ADDRESS BOOK') */?></h4>
+        </div>-->
+        <!--<div class="box-content">-->
+            <div class="box-content">
+                <table cellspacing="0" class="data-table" id="address-book-table">
+                    <?php $customer = Mage::getModel('customer/customer')->load($customerId);
+                    if($customer->getDefaultBillingAddress() !=''){?>
+                        <thead>
+                            <tr style="background-color: #e5e5e5;">
+                                <th class="a-center">Name</th>
+                                <th class="a-center">Address</th>
+                                <th class="a-center">Contact No.</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            $customerId = Mage::getSingleton('customer/session')->getCustomer()->getId();
+
+
+
+                            $defaultBilling = $customer->getDefaultBillingAddress();
+                            $defaultShipping = $customer->getDefaultShippingAddress();
+
+                            $additional_address = $customer->getAdditionalAddresses();
+
+
+                            $streetsBilling = $defaultBilling->getStreet();
+                            $streetsShipping = $defaultShipping->getStreet();
+
+
+                        ?>
+                            <tr>
+                                <td><?php echo $defaultBilling->getName(); ?></td>
+                                <td>
+                                    <?php
+                                        foreach($streetsBilling as $street){
+                                            echo $street . '<br/>';
+                                        }
+                                        echo $defaultBilling->getCountry_id() . ', ' . $defaultBilling->getpostcode();
+                                    ?>
+                                </td>
+                                <td><?php echo $defaultBilling->getTelephone(); ?></td>
+                                <td><a href="<?php echo $this->getPrimaryBillingAddressEditUrl() ?>" style="text-decoration: underline"><?php echo $this->__('Edit') ?></a></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo $defaultShipping->getName(); ?></td>
+                                <td>
+                                    <?php
+                                    foreach($streetsShipping as $street){
+                                        echo $street . '<br/>';
+                                    }
+                                    echo $defaultShipping->getCountry_id() . ', ' . $defaultShipping->getpostcode();
+                                    ?>
+                                </td>
+                                <td><?php echo $defaultShipping->getTelephone(); ?></td>
+                                <td><a href="<?php echo $this->getPrimaryShippingAddressEditUrl() ?>" style="text-decoration: underline"><?php echo $this->__('Edit') ?></a></td>
+                            </tr>
+                        <?php }else{?>
+                            <tr>
+                                <td>
+                                    There have no address billing
+                                </td>
+                            </tr>
+                        <?php }?>
+                    </tbody>
+                </table>
+
+
+                <!--<h4><?php /*echo $this->__('Default Billing Address') */?></h4>
+                <address>
+                    <?php /*echo $this->getPrimaryBillingAddressHtml() */?><br />
+                    <a href="<?php /*echo $this->getPrimaryBillingAddressEditUrl() */?>"><?php /*echo $this->__('Edit') */?></a>
+                </address>
+
+                <h4><?php /*echo $this->__('Default Shipping Address') */?></h4>
+                <address>
+                    <?php /*echo $this->getPrimaryShippingAddressHtml() */?><br />
+                    <a href="<?php /*echo $this->getPrimaryShippingAddressEditUrl() */?>"><?php /*echo $this->__('Edit') */?></a>
+                </address>-->
+
+        </div>
+        <script type="text/javascript">decorateTable('address-book-table')</script>
+        <br /><br />
+        <div>
+            <a href="<?php echo $this->getAddressBookUrl() ?>" class="manage-address"><span><span><?php echo $this->__('View All') ?></span></span></a>
+        </div>
+    <!--</div>
+</div>-->

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (C) 2011 MageMods.co <sales@magemods.co>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+-->
+<config>
+    <modules>
+        <MageMods_MageMods>
+            <version>1.0.0</version>
+        </MageMods_MageMods>
+    </modules>
+    <global>
+        <models>
+            <magemods>
+                <class>MageMods_MageMods_Model</class>
+            </magemods>
+        </models>
+        <blocks>
+            <magemods>
+                <class>MageMods_MageMods_Block</class>
+            </magemods>
+        </blocks>
+        <helpers>
+            <magemods>
+                <class>MageMods_MageMods_Helper</class>
+            </magemods>
+        </helpers>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <MageMods_MageMods>
+                    <files>
+                        <default>MageMods_MageMods.csv</default>
+                    </files>
+                </MageMods_MageMods>
+            </modules>
+        </translate>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <magemods>
+                        <type>singleton</type>
+                        <class>magemods/observer</class>
+                        <method>preDispatch</method>
+                    </magemods>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <magemods translate="title" module="magemods">
+                                            <title>MageMods</title>
+                                            <sort_order>0</sort_order>
+                                        </magemods>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+</config>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">   
+    <default>
+        <reference name="custom_head">            
+            <action method="addCss"><stylesheet>css/custom_page.css</stylesheet></action>
+        </reference>
+    </default>
+    <signup_index_index>   
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/custom.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">   
+            <block type="signup/index" name="signup_index" template="signup/index.phtml"/>   
+        </reference>   
+    </signup_index_index>  
+     
+    <signup_thankyou_index>   
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/custom.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">   
+            <block type="signup/thankyou" name="signup_thankyou" template="signup/edm_thankyou.phtml"/>   
+        </reference>   
+    </signup_thankyou_index> 
+</layout>   
+	

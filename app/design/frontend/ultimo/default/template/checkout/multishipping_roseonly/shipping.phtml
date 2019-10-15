@@ -1,0 +1,376 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Multishipping checkout shipping template
+ *
+ * @see Mage_Checkout_Block_Multishipping_Shipping
+ * @var $this Mage_Checkout_Block_Multishipping_Shipping
+ */
+?>
+<div class="multiple-checkout">
+    <div class="page-title">
+        <h1><?php echo $this->__('Select Shipping Method') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="shipping_method_form">
+        <?php foreach ($this->getAddresses() as $_index => $_address): ?>
+            <div class="col2-set">
+                <h2 class="legend"><?php echo $this->__('Address %s of %s', ($_index + 1), $this->getAddressCount()) ?></h2>
+                <div class="col-1 col-narrow">
+                    <div class="box">
+                        <div class="box-title">
+                            <h3><?php echo $this->__('Shipping To') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl($_address) ?>"><?php echo $this->__('Change') ?></a></h3>
+                        </div>
+                        <div class="box-content">
+                            <address><?php echo $_address->format('html') ?></address>
+                        </div>
+                    </div>
+                    <div class="box box-sp-methods">
+                        <div class="pointer"></div>
+                        <div class="box-title">
+                            <h3><?php echo $this->__('Shipping Method') ?></h3>
+                        </div>
+                        <div class="box-content">
+                            <?php if (!($_shippingRateGroups = $this->getShippingRates($_address))): ?>
+                                <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+                            <?php else: ?>
+                                <dl class="sp-methods">
+                                    <?php
+                                    $_sole = count($_shippingRateGroups) == 1;
+                                    foreach ($_shippingRateGroups as $code => $_rates):
+                                        ?>
+                                        <dt><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
+                                        <dd>
+                                            <ul>
+                                                <?php
+                                                $_sole = $_sole && count($_rates) == 1;
+                                                foreach ($_rates as $_rate):
+                                                    ?>
+                                                    <li<?php if ($_rate->getErrorMessage()) echo ' class="error-msg"' ?>>
+                                                        <?php if ($_rate->getErrorMessage()): ?>
+                                                            <?php echo $this->escapeHtml($_rate->getCarrierTitle()) ?>: <?php echo $this->escapeHtml($_rate->getErrorMessage()) ?>
+                                                        <?php else: ?>
+                                                            <?php if ($_sole) : ?>
+                                                                <span class="no-display"><input type="radio" name="shipping_method[<?php echo $_address->getId() ?>]" value="<?php echo $this->htmlEscape($_rate->getCode()) ?>" id="s_method_<?php echo $_address->getId() ?>_<?php echo $_rate->getCode() ?>" checked="checked"/></span>
+                                                            <?php else: ?>
+                                                                <input type="radio" name="shipping_method[<?php echo $_address->getId() ?>]" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_address->getId() ?>_<?php echo $_rate->getCode() ?>"<?php if ($_rate->getCode() === $this->getAddressShippingMethod($_address)) echo ' checked="checked"' ?> class="radio" />
+                                                                <?php endif; ?>
+                                                            <label for="s_method_<?php echo $_address->getId() ?>_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                                                                <?php $_excl = $this->getShippingPrice($_address, $_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                                                <?php $_incl = $this->getShippingPrice($_address, $_rate->getPrice(), true); ?>
+                                                                <?php echo $_excl; ?>
+                                                                <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                                                    (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                                                            <?php endif; ?>
+                                                            </label>
+                                                    <?php endif ?>
+                                                    </li>
+                                        <?php endforeach; ?>
+                                            </ul>
+                                        </dd>
+        <?php endforeach; ?>				
+
+                                    <div class="field">
+                                        <!--Phuoc's code-->
+                                        <?php
+                                        $start_ava = new DateTime(); //Ngay ava cua sp
+                                        $end_ava = new DateTime(); //Ngay ava cua sp
+                                        $today = new DateTime(); // Ngay hom nay
+                                        $startdate = new DateTime(); //Ngay giao hang
+
+                                        $dayofweek = Mage::getStoreConfig("onestepcheckout/deliverydate/weekend");
+                                        $national = Mage::getStoreConfig("onestepcheckout/deliverydate/disableday");
+                                        $additional = Mage::getStoreConfig("onestepcheckout/deliverydate/enableday");
+
+                                        $day = 0;
+                                        foreach ($this->getAddressItems($_address) as $item) {
+                                            $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $item->getSku());
+                                            if ($product) {
+                                                $temp = $product->getLeadTime();
+
+                                                $sdate = new DateTime($product->getStartDate());
+                                                $edate = new DateTime($product->getEnd_date());
+                                                if ($sdate != null)
+                                                    if ($sdate > $start_ava)
+                                                        $start_ava = $sdate;
+                                                if ($edate != null)
+                                                    if ($end_ava == $today)
+                                                        $end_ava = $edate;
+                                                    else if ($edate < $end_ava)
+                                                        $end_ava = $edate;
+                                                if ($temp) {
+                                                    if ($temp > $day)
+                                                        $day = $temp;
+                                                }
+                                            }
+                                        }
+                                        // start date
+                                        if ($start_ava != $today) {
+                                            if ($startdate < $start_ava) {
+                                                $startdate = $start_ava;
+                                            }
+                                        }
+
+                                        // Timing
+                                        $flag = FALSE; // Giao hang trong ngay
+                                        if ($startdate == $today) {
+                                            $time = Mage::getStoreConfig('onestepcheckout/deliverydate/addtimerange'); //kq:  string(85) "a:1:{s:18:"_1289468104191_191";a:2:{s:6:"regexp";s:4:"6:20";s:5:"value";s:4:"8:20";}}" 
+                                            if ($time) {
+                                                $arraytime = unserialize($time);
+                                                $i = 0;
+                                                foreach ($arraytime as $time => $timerange) {
+                                                    if ($i == 0)
+                                                        $earliesttime[0] = $timerange['starttime'] . ' - ' . $timerange['endtime'];
+                                                    $end_time = $timerange['before'];
+                                                    $i++;
+                                                }
+                                                // Get current time to compare with $end_time
+                                                $temp = explode(':', $end_time);
+                                                $h1 = $temp[0];
+                                                $m1 = $temp[1];
+                                                $h2 = $today->format('G');
+                                                $m2 = $today->format('i');
+                                                if (($h1 > $h2) || ($h1 == $h2 && $m1 > $m2))
+                                                    $flag = TRUE;
+                                            }
+                                        }
+                                        if ($flag)
+                                            $t = $day;
+                                        else
+                                            $t = ++$day;
+
+                                        // lead time
+                                        for ($i = 0; $i < $t; $i++) {
+                                            $today->add(new DateInterval('P1D'));
+                                            if ((strpos($dayofweek, $today->format('w')) !== FALSE) && (strpos($additional, $today->format('m/d/Y')) === FALSE))
+                                                $day++;
+                                            else if (strpos($national, $today->format('m/d/Y')) !== FALSE)
+                                                $day++;
+                                        }
+                                        $startdate->add(new DateInterval('P' . $day . 'D'));
+                                        $today = new DateTime();
+                                        $h2 = $today->format('G');
+                                        $m2 = $today->format('i');
+                                        while (true) {
+                                            if ((strpos($dayofweek, $startdate->format('w')) !== FALSE) && (strpos($additional, $startdate->format('m/d/Y')) === FALSE))
+                                                $startdate->add(new DateInterval('P1D'));
+                                            else if (strpos($national, $startdate->format('m/d/Y')) !== FALSE)
+                                                $startdate->add(new DateInterval('P1D'));
+                                            else
+                                                break;
+                                        }
+
+                                        //Earliest time
+                                        if ($startdate == $today) {
+                                            $h2 = $today->format('G');
+                                            $m2 = $today->format('i');
+                                            $earliesttime = array();
+                                            foreach ($arraytime as $time => $timerange) {
+                                                $tr = $timerange['before'];
+                                                $temp = explode(':', $tr);
+                                                $h1 = $temp[0];
+                                                $m1 = $temp[1];
+                                                if (($h1 > $h2) || ($h1 == $h2 && $m1 > $m2))
+                                                    $earliesttime[] = $timerange['starttime'] . ' - ' . $timerange['endtime'];
+                                            }
+                                        }
+                                        // end date
+                                        $week = Mage::getStoreConfig("onestepcheckout/deliverydate/rangeday");
+                                        $enddate = new DateTime();
+                                        $enddate->setTimestamp($startdate->getTimestamp());
+                                        date_add($enddate, new DateInterval('P' . $week * 7 . 'D'));
+                                        //$today = new DateTime();
+                                        if ($end_ava != $today) {
+                                            //Neu ngay giao hang lon hon ngay end ava thi gan bang
+                                            if ($enddate > $end_ava) {
+                                                $enddate = $end_ava;
+                                            }
+                                        }
+
+                                        // Neu ngay giao hang be hon ngay avaible sp thi gan bang ngay ava
+                                        $canDelivery = true;
+                                        if ($end_ava != $today && $end_ava < $startdate) {
+                                            $canDelivery = false;
+                                        }
+                                        $earliestdate = $startdate;
+                                        ?>
+                                                <?php echo '<b>Earliest Delivery Date: ' . $earliestdate->format('m/d/Y') . ' ' . $earliesttime[0] . '</b>'; ?>
+                                        <!--end code-->
+                                        <h3>Delivery Time</h3>
+                                        <div class="input-box">
+                                            <div>
+                                                Date: <input type="text" id="dates[<?php echo $_address->getId() ?>]" name="dates[<?php echo $_address->getId() ?>]" onchange="changedate_<?php echo $_address->getId(); ?>()" value="<?php if ($canDelivery) echo $startdate->format('m/d/Y'); ?>" readonly="true" required="true"/>
+                                                <img title="Select date" id="_dob_trig[<?php echo $_address->getId() ?>]" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>" class="v-middle">
+        <?php
+        if (!$canDelivery)
+            echo '<b>Delivery unavailable</b>';
+        ?>
+                                            </div>
+                                            <div id="timex[<?php echo $_address->getId() ?>]" style="display:none">
+                                                <div>
+                                                    <label for="mw_deliverydate_time"><?php echo $this->__('Time:') ?></label>
+                                                </div>
+                                                <?php if (Mage::getStoreConfig("onestepcheckout/deliverydate/timerange")): ?>
+                                                    <?php
+                                                    $time = Mage::getStoreConfig('onestepcheckout/deliverydate/addtimerange'); //kq:  string(85) "a:1:{s:18:"_1289468104191_191";a:2:{s:6:"regexp";s:4:"6:20";s:5:"value";s:4:"8:20";}}" 
+                                                    if ($time) {
+                                                        $arraytime = unserialize($time);
+                                                        $slotime = array();
+                                                        foreach ($arraytime as $time => $timerange) {
+                                                            $slotime[] = $timerange['starttime'] . ' - ' . $timerange['endtime'];
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <div style="width:95px;margin-left:5px;float:left;" >
+                                                        <select id="mw_deliverydate_time" size="1" name="times[<?php echo $_address->getId() ?>]" onchange="timechange(this)">
+                                                            <option value=""><?php echo $this->__('Time Range'); ?></option>
+            <?php foreach ($slotime as $slot): ?>
+                <?php if ($slot): ?>
+                                                                    <option  value="<?php echo $slot ?>"><?php echo $slot ?></option>
+                <?php endif ?>
+            <?php endforeach ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div id="timex_today[<?php echo $_address->getId() ?>]" style="display:none">
+                                                    <div>
+                                                        <label for="mw_deliverydate_time"><?php echo $this->__('Time:') ?></label>
+                                                    </div>
+                                                    <div style="width:95px;margin-left:5px;float:left;">
+                                                        <select id="mw_deliverydate_time_today" size="1" name="times_today[<?php echo $_address->getId() ?>]" onchange="timechange(this)">
+                                                            <option value=""><?php echo $this->__('Time Range'); ?></option>
+            <?php foreach ($earliesttime as $slot): ?>
+                                                                <option  value="<?php echo $slot ?>"><?php echo $slot ?></option>
+            <?php endforeach ?>
+                                                        </select>
+                                                    </div>
+        <?php endif ?>
+                                            </div>            
+                                            <input type="hidden" name="time_require" id="time_require" value="" class="required-entry" />
+                                        </div>
+                                    </div>
+                                    <script type="text/javascript">
+        <?php
+        $startdate->sub(new DateInterval('P1M'));
+        $enddate->sub(new DateInterval('P1M'));
+        ?>
+            var today_date =  new Date();
+            var tomorrow_date =  new Date();
+            tomorrow_date.setDate(today_date.getDate()+1);
+            tomorrow_date.setHours(0,0,0);
+            var disabled_date = "<?php echo $national; ?>";
+            var additional_date = "<?php echo $additional; ?>";
+            var weekend_days = [<?php echo $dayofweek; ?>];
+            var canDelivery = <?= $canDelivery ?>
+                                                                                    
+            var starting_date= new Date(<?php echo $startdate->format('Y,m,d'); ?>);
+            var ending_date= new Date(<?php echo $enddate->format('Y,m,d'); ?>);
+                                                                                    
+            function disabledDate(date, y, m, d) {
+                if(!canDelivery) return true;
+                if (date < starting_date || date >= ending_date)
+                    return true;
+                var sdate = (m+1) + "/" + d + "/" +y;
+                for (var i in weekend_days) 
+                    if (weekend_days[i] == date.getDay() && additional_date.search(sdate) == -1)
+                        return true;
+                if (disabled_date.search(sdate) != -1)
+                    return true;
+                return false; 
+            };		
+            Calendar.setup({
+                inputField : 'dates[<?php echo $_address->getId() ?>]',
+                ifFormat : '%m/%d/%Y',
+                dateStatusFunc : disabledDate,
+                button : '_dob_trig[<?php echo $_address->getId() ?>]',
+                align : 'Bl',
+                singleClick : true
+            });
+            function changedate_<?php echo $_address->getId() ?>(){
+                $('timex[<?php echo $_address->getId() ?>]').hide();
+                $('timex_today[<?php echo $_address->getId() ?>]').hide();
+                var today = "<?php echo $today->format('m/d/Y'); ?>";
+                var currentdate = new Date(document.getElementById('dates[<?php echo $_address->getId() ?>]').value);
+                var month = currentdate.getMonth() + 1;
+                var day = currentdate.getDate();
+                var year = currentdate.getFullYear();
+                var textdate = month + "/" + day + "/" + year;
+                if(today == textdate)
+                    $('timex_today[<?php echo $_address->getId() ?>]').show();
+                else 
+                    $('timex[<?php echo $_address->getId() ?>]').show();
+                document.getElementById('time_require').value = "";
+            }
+            function timechange(e){
+                document.getElementById('time_require').value = e.selectedIndex;
+            }
+                                    </script>
+                                    <div class="field" style="padding-top:5px;">
+                                        <h3>Delivery Comment</h3>
+                                        <textarea style="width:250px; max-width:250px" name="notes[<?php echo $_address->getId() ?>]" ></textarea>
+                                    </div>
+                                </dl>
+    <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 col-wide">
+    <?php echo $this->helper('giftmessage/message')->getInline('multishipping_adress_checkbox', $_address); ?>
+                    <h3><?php echo $this->__('Items') ?> <span class="separator">|</span> <a href="<?php echo $this->getItemsEditUrl($_address) ?>"><?php echo $this->__('Edit Items') ?></a></h3>
+                    <table class="data-table" id="shipping-table-<?php echo $_address->getId() ?>">
+                        <col />
+                        <col width="1" />
+                        <thead>
+                            <tr>
+                                <th><?php echo $this->__('Product Name') ?></th>
+                                <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($this->getAddressItems($_address) as $_item): ?>
+                                <tr>
+                                    <td>
+        <?php echo $this->getItemHtml($_item->getQuoteItem()) ?>
+                                    </td>
+                                    <td class="a-center"><?php echo $_item->getQty() ?></td>
+                                </tr>
+            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <script type="text/javascript">decorateTable('shipping-table-<?php echo $_address->getId() ?>')</script>
+    <?php echo $this->helper('giftmessage/message')->getInline('multishipping_adress', $_address); ?>
+                </div>
+            </div>
+<?php endforeach; ?>
+<?php echo $this->getChildHtml('checkout_billing_items') ?>
+        <div class="buttons-set">
+            <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Select Addresses') ?></a></p>
+            <button type="submit" title="<?php echo $this->__('Continue to Billing Information') ?>" class="button"><span><span><?php echo $this->__('Continue to Billing Information') ?></span></span></button>
+        </div>
+    </form>
+</div>

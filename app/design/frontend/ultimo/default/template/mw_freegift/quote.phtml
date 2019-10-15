@@ -1,0 +1,27 @@
+<?php
+//Zend_debug::dump(Mage::getSingleton('checkout/session')->getQuote()->getFreegiftIds());
+if(sizeof($this->getAllActiveRules())):?>
+<script type="text/javascript">
+/*<![CDATA[*/
+$xmage_freegift(document).ready(function() {
+	$xmage_freegift('#freegift_rules').jcarousel({
+	   	auto: 4,
+	   	scroll: 1,
+	    visible:1,
+	    buttonNextHTML: '',
+	    buttonPrevHTML: '',
+	    wrap: 'last'
+     });
+});
+/*]]>*/
+</script>
+<div class="freegift_rules_container">
+	<ul id="freegift_rules" >
+		<?php //echo $this->__($this->getRandomRule()->getData('description'));?>
+		<?php foreach($this->getAllActiveRules() as $rule):?>
+			<li><?php echo $rule->getData('description');?></li>
+		<?php endforeach;?>
+	</ul>
+</div>
+
+<?php endif;?>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Stockcount>
+            <version>0.1.0</version>
+        </Ant_Stockcount>
+    </modules>
+    <global>
+        <blocks>
+            <stockcount>
+                <class>Ant_Stockcount_Block</class>
+            </stockcount>
+        </blocks>
+        <!--models>
+            <stockcount>
+                <class>Ant_Stockcount_Model</class>
+            </stockcount>
+        </models-->
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <stockcount>
+                    <file>stockcount.xml</file>
+                </stockcount>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>

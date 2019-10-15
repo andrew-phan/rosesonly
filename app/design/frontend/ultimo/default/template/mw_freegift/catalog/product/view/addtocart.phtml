@@ -1,0 +1,155 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php $_product = $this->getProduct(); ?>
+
+<?php
+$mw_free_gift = 0;
+$mw_free_gift = (int) Mage::app()->getRequest()->getParam('mw_freegift');
+$productId = $_product->getId();
+$p = new MW_FreeGift_Block_Product();
+$mw_productIds = $p->getFreeProducts();
+$rule = $p->getRuleByFreeProductId($productId);
+if ($rule)
+    $url = $this->getAddToCartUrl($_product, array('freegift' => 1, 'apllied_rule' => $rule->getId()));
+else
+    $url = $this->getAddToCartUrl($_product, array('freegift' => 1));
+?>
+
+<?php $buttonTitle = $this->__('Checkout'); ?>
+    <?php if ($_product->isSaleable()): ?>
+    <div class="add-to-cart">
+    <?php if (!$_product->isGrouped()): ?>
+            <label for="qty"><?php echo $this->__('Qty:') ?></label>
+            <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+        <?php endif; ?>
+        <?php if ($mw_free_gift == 1 && in_array($productId, $mw_productIds)) { ?>
+            <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="setLocation('<?php echo $url; ?>')"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php } else { ?>
+            <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="check();productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php } ?>
+    <?php echo $this->getChildHtml('', true, true) ?>
+    <?php 
+        if (Mage::registry('current_product')) {
+            $sku = Mage::registry('current_product')->getSku();
+            if($sku=='PPROA03'){ ?>
+            <input type="hidden" id="only_paypal" value="true" />
+        <!-- PayPal Logo -->
+        <table border="0" cellpadding="10" cellspacing="0" align="center" style="display:block;">
+        <tr><td align="center"></td></tr>
+        <tr><td align="center">
+            <a href="https://www.paypal.com/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_mc_vs_dc_ae.jpg" border="0" alt="PayPal Acceptance Mark" width="210px;">
+            </a>
+        </td></tr>
+        </table><!-- PayPal Logo -->
+
+    <?php }
+        else{
+            //echo $this->getLayout()->createBlock('cms/block')->setBlockId('rosesonly_product_payment_option')->toHtml();
+        }
+        }
+    ?>
+    </div>
+    <script>
+        function check () {
+            var options = document.querySelectorAll('input[type="radio"]');
+            var array_options = new Array();
+            for (var index=0; index < options.length; index++){
+                var add = true;
+                for(var i =0; i< array_options.length; i++){
+                    if(array_options[i] == options[index].name)
+                        add = false;
+                }
+                ///alert(add);
+                if(add==true)
+                    array_options[array_options.length] = options[index].name;
+            }
+            
+            var options_select = new Array();
+            for(var op = 0; op < array_options.length; op++){               
+                var opt = document.getElementsByName(array_options[op]);
+                var select = false;
+                for(var attr = 0 ; attr< opt.length; attr++){
+                    if (opt[attr].checked == true)
+                        select = true;
+                }
+                if(select==false)
+                    options_select[options_select.length] = op;
+            }
+            //alert(options_select.length);
+            var err = new Array();
+           
+            for(var miss=0; miss< options_select.length; miss++){
+                var name = array_options[options_select[miss]];
+                err[miss] = name;              
+            }
+            if(err.length>0){
+                var dd = document.querySelectorAll('dd');
+                var dt = document.querySelectorAll('dt');
+                for (var idd=0; idd< dd.length; idd++){
+                    dd[idd].className="unactive";
+                    dt[idd].className="unactive";
+                }
+                for (var ind = 0; ind < err.length; ind ++){
+                    var miss_lbl = document.getElementById('lbl' + err[ind].replace("[","_").replace("]",""));
+                    var miss_clbl = document.getElementById('c-lbl' + err[ind].replace("[","_").replace("]",""));
+                    //alert('#c-lbl' + err[ind].replace("[","_").replace("]","") + " #deliveryshow");
+                    var error_tb = document.querySelectorAll('#c-lbl' + err[ind].replace("[","_").replace("]","") + " #deliveryshow");
+                    if(error_tb && error_tb.length>0)
+                        error_tb[0].className = "validation-failed";
+                    if(miss_lbl){
+                        //alert(err[ind]);
+                        miss_lbl.className="active";
+                        miss_clbl.className="active";
+                    break;
+                    }
+                    //alert(miss_option[0].innerHTML);
+                }
+            }
+            
+            var date = document.getElementById('_deliverydate').value;
+            var times = document.querySelectorAll('.onestepcheckout_time'); 
+
+            var time="Any Time"
+            for(var i=0; i<times.length; i++){
+                if(times[i].checked==true)
+                    time= times[i].value;
+            }
+                      
+            var delivery_cost = jQuery('.shipping_cost').html().replace(/[^0-9\.]+/g,"");
+            var only_paypal = document.getElementById('only_paypal');
+            if(only_paypal !=null)
+                writeCookie("only_paypal",only_paypal.value);
+            else
+                writeCookie("only_paypal",'false');
+            writeCookie("delivery_date",date);
+            writeCookie("delivery_time",time);          
+            writeCookie("delivery_cost",delivery_cost);
+            writeCookie("shipping_cost",delivery_cost);
+        }  
+    </script>
+<?php endif; ?>

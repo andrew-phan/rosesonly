@@ -1,0 +1,92 @@
+<?php
+$testmode = 'TEST';
+$livemode = 'LIVE';
+$mode = $livemode;
+?>
+<!-- The "Pay Now!" button submits the form, transferring control to the page detailed below -->
+<div class="page-message">
+    <h1>Please wait while we redirect you to finish your payment at MasterCard® Internet Gateway Service (MiGS).</h1>
+    <p style="color: orange;font-size: 16px;"> This is to ensure that your card information is secure and not collected at our server. <br/>Thank you for your patience.</p>
+</div>
+<form style="display:none;" action="<?php echo Mage::getBaseUrl() . 'citibank/do' ?>" method="post" name="myForm">
+    <input type="hidden" name="Title" value="PHP VPC 3-Party">
+    <!-- get user input -->
+
+    <!--Virtual Payment Client URL-->
+    <input type="hidden" name="virtualPaymentClientURL" size="63" value="https://migs.mastercard.com.au/vpcpay" maxlength="250">
+
+    <!-- Basic 3-Party Transaction Fields -->
+    <!-- VPC Version: -->
+    <input type="hidden" name="vpc_Version" value="1" size="20" maxlength="8">
+
+    <!--Command Type: -->
+    <input type="hidden" name="vpc_Command" value="pay" size="20" maxlength="16">
+
+    <!--Merchant AccessCode: -->
+
+    <?php
+    if ($mode == $testmode) {
+        echo '<input type="hidden" name="vpc_AccessCode" value="0D61FD6D" size="20" maxlength="8">';
+    } else if ($mode == $livemode) {
+        echo '<input type="hidden" name="vpc_AccessCode" value="AC373B79" size="20" maxlength="8">';
+    }
+    ?>
+
+
+    <!--Merchant Transaction Reference: -->
+    <input type="hidden" name="vpc_MerchTxnRef" value="<?php echo (strlen($_GET['vpc_MerchTxnRef'])>0) ?  $_GET['vpc_MerchTxnRef'] : date('ymdHis'); ?>" size="20" maxlength="40">
+
+    <!--MerchantID: -->
+
+    <?php
+    if ($mode == $testmode) {
+        echo '<input type="hidden" name="vpc_Merchant" value="TEST888720020253" size="20" maxlength="16">';
+    } else if ($mode == $livemode) {
+        echo '<input type="hidden" name="vpc_Merchant" value="888720020253" size="20" maxlength="16">';
+    }
+    ?>
+
+    <!--Transaction OrderInfo: -->
+    <input type="hidden" name="vpc_OrderInfo" value="<?php echo (strlen($_GET['vpc_MerchTxnRef'])>0) ?  $_GET['vpc_MerchTxnRef'] : date('ymdHis'); ?>" size="20" maxlength="34">
+
+    <!--Purchase Amount: -->
+    <input type="hidden" name="vpc_Amount" value="<?php echo $_GET['vpc_Amount'] ?>" size="20" maxlength="10">
+
+    <!--Payment Server Display Language Locale: -->
+    <input type="hidden" name="vpc_Locale" value="en" size="20" maxlength="5">
+
+    <!--Receipt ReturnURL: -->
+    <input type="hidden" name="vpc_ReturnURL" size="63" value="<?php echo Mage::getBaseUrl() . 'citibank/result' ?>" maxlength="250">
+
+    <input type="submit" name="SubButL" value="Pay Now!">
+
+    <!--Optional Ticket Number Field-->
+    <!--TicketNo: --> 
+    <input type="hidden" name="vpc_TicketNo" maxlength="15">
+
+
+    <!--Optional Transaction Source Subtype Field-->
+    <!--Transaction Source Subtype: -->
+    <select name="vpc_TxSourceSubType">
+        <option value="">Please Select</option>
+        <option value="SINGLE">Indicates a single payment to complete order</option>
+        <option value="INSTALLMENT">Indicates an installment transaction</option>
+        <option value="RECURRING">Indicates a recurring transaction</option>
+    </select>
+</form>
+<script>    
+    var count=5;   
+    setInterval(function() {        
+        //document.getElementById('count').innerHTML = count;
+        count = count -1;
+        if(count==0)
+            document.myForm.submit();
+    }, 1000);
+     
+    
+    /*
+    setTimeout(function() {
+        document.myForm.submit();        
+    }, 3000);
+     */
+</script>

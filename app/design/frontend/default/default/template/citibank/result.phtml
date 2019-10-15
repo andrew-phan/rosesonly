@@ -1,0 +1,54 @@
+<?php
+$result = $_GET['vpc_TxnResponseCode'];
+$order_code = $_GET['vpc_MerchTxnRef'];
+//echo $result . $order_code;
+
+$order = null;
+if ($order_code) {
+    $order_increase_id = substr($order_code, 0, 10);
+    try {        
+        $order = Mage::getModel('sales/order')->loadByIncrementId($order_increase_id);       
+    } catch (Exception $exc) {
+        echo $exc->getTraceAsString();       
+    }
+}
+#$order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true)->save();
+?>
+<?php //if($order->getItems()==NULL)
+    //print_r($order)
+?>
+<?php if ($result == '0' && $order != NULL): ?>   
+    <!--
+    Start of DoubleClick Floodlight Tag: Please do not remove
+    Activity name of this tag: Roses Only Singapore Thank you Page
+    URL of the webpage where the tag is expected to be placed: http://www.rosesonly.com.sg
+    This tag must be placed between the <body> and </body> tags, as close as possible to the opening tag.
+    Creation Date: 04/11/2013
+    -->
+    <iframe src="https://4114347.fls.doubleclick.net/activityi;src=4114347;type=roses211;cat=roses953;qty=1;cost=[Revenue];ord=[OrderID]?" width="1" height="1" frameborder="0" style="display:none"></iframe>
+
+    <!-- End of DoubleClick Floodlight Tag: Please do not remove -->
+    
+    <?php if ($order!= NULL) $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true)->save(); ?>
+    <div class="page-message">
+        <h1><?php echo $this->__('Thank you for your purchase!') ?></h1>
+    </div>
+    <p><?php
+    echo $this->__('We have received your order %s. The payment has been completed.', $order_increase_id);
+    ?></p>
+    <br/><p><?php echo $this->__('We will be calling you shortly if we have any questions about your order or payment. Alternatively, you can also call us at (65) 6256 1818 or email us at <a href="mailto:info.sg@rosesonlyasia.com"><i>info.sg@rosesonlyasia.com</i></a>.') ?></p>
+
+    <div class="buttons-set">
+        <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+    </div>
+<?php else: ?>
+    <div class="page-message">
+        <h1><?php echo $this->__('Opps. Looks like you met some issues during checkout!') ?></h1>
+    </div>
+    <div class="cart-empty">    
+        <p><?php echo $this->__('Goods new is we have received your order details though its incomple.') ?></p>
+        <p><?php echo $this->__('Our customer service officer will be calling you shortly within the next hour.') ?></p>
+        <br/>
+        <p><?php echo $this->__('Alternatively, let us help you by calling us at (65) 6256 1818 or emailing us at <a href="mailto:custsvc.sg@rosesonlyasia.com">custsvc.sg@rosesonlyasia.com</a>.') ?></p>
+    </div>
+<?php endif; ?>

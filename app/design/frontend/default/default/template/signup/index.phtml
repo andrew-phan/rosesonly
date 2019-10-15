@@ -1,0 +1,85 @@
+
+<script>
+    function verifyEmail(){   
+        var emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if (document.getElementById('mce-EMAIL').value.search(emailRegEx) == -1) {
+            alert("Please enter a valid email address.");
+            var err = document.getElementById('err-message');
+            err.innerHTML = 'Invalid! Please try again.';
+            err.style.display = "block";
+            return false;
+        }      
+        document.getElementById('mc-embedded-subscribe-form').submit();
+    }
+</script>
+
+<a href="http://rosesonly.com.sg/"><div class="signup-logo"></div></a>
+<div class="signup-message"></div>
+
+<!-- Begin MailChimp Signup Form -->
+<div id="mc_embed_signup" class="signup">
+    <h3>Please fill up the form below so that we can get to know you better</h3>
+    <form action="http://rosesonlyasia.us5.list-manage.com/subscribe/post?u=8e410a2791c27e02ba4163844&amp;id=1387ff91b8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate signup" novalidate>
+        <div class="twocolumn">
+            <div class="column1">
+                <label>Email Address*:</label>
+                <input type="email" value="" name="EMAIL" id="mce-EMAIL" placeholder="Enter email address" required>
+                <div id="err-message"></div>
+            </div>
+            <div class="column2">
+                <label>Nationality</label>
+                <input name="nationality"/>
+            </div>
+        </div>
+        <div class="twocolumn">
+            <div class="column1">
+                <label>First name</label>
+                <input name="first_name"/>
+            </div>
+            <div class="column2">
+                <label>Last name</label>
+                <input name="last_name"/>
+            </div>
+        </div>
+        <div class="twocolumn">
+            <div class="column1">
+                <label>Celebrate your Birthday month with some exclusive offers from us!</label>
+                <select name="birth-day">
+                    <?php
+                    for ($i = 1; $i <= 31; $i++) {
+                        echo '<option value="' . $i . '">' . $i . '</option>';
+                    }
+                    ?>
+                </select>
+                <select name="birth-month">
+                    <option value="1">Jan</option>
+                    <option value="2">Feb</option>
+                    <option value="3">Mar</option>
+                    <option value="4">Apr</option>
+                    <option value="5">May</option>
+                    <option value="6">Jun</option>
+                    <option value="7">Jul</option>
+                    <option value="8">Aug</option>
+                    <option value="9">Sep</option>
+                    <option value="10">Oct</option>
+                    <option value="11">Nov</option>
+                    <option value="12">Dec</option>
+                </select>
+                <select name="birth-year">
+                    <?php
+                    $curYear = date('Y');
+                    for ($i = 0; $i < 60; $i++) {
+                        echo '<option value="' . date('Y', strtotime($curYear . ' -' . $i . 'years')) . '"';
+                        if ($i == 25)
+                            echo ' selected="selected"';
+                        echo '>' . date('Y', strtotime($curYear . ' -' . $i . 'years')) . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="column2">
+                <button onclick="return verifyEmail();" type="button" value="Sign up" name="subscribe" id="mc-embedded-subscribe">Subscribe Me!</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,8 @@
+<config>
+	<modules>
+		<Ant_Advancemessage>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Ant_Advancemessage>
+	</modules>
+</config>

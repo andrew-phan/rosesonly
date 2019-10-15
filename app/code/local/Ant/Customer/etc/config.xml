@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Ant_Customer>
+            <version>0.1.0</version>
+        </Ant_Customer>
+    </modules>
+    <global>
+        <blocks>
+            <customer>              
+                   <rewrite>
+                        <account_navigation>Ant_Customer_Block_Account_Navigation</account_navigation>
+                        <address_edit>Ant_Customer_Block_Address_Edit</address_edit>
+                    </rewrite>
+            </customer>
+        </blocks>
+    </global>
+    <frontend>
+        <routers>
+            <customer>
+                <use>standard</use>
+                <args>
+                    <modules>
+                        <Ant_Customer before="Mage_Customer">Ant_Customer</Ant_Customer>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+    </frontend>
+</config>

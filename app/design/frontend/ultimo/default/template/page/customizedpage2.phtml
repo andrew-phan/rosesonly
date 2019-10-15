@@ -1,0 +1,90 @@
+<div class="wrap_color_addon">
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('category_color')->toHtml(); ?>
+    <div class="please_order_soon overflowclear">
+        **Please order at least 10 days before date of delivery or call to enquire
+    </div>
+    <div class="choose_product_addon">
+        <h5 class="choosing_title">Choose Add-On (Up to 2 Add-ons)</h5>
+
+        <div class="teddy_bear">
+            <div class="addon_checkbox"><input type="checkbox" class="check_teddy_bear" id="check_teddy_bear"/> <label
+                    for="check_teddy_bear"> Teddy Bear </label></div>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('category_addons')->toHtml(); ?>
+        </div>
+        <div class="chocolate">
+            <div class="addon_checkbox"><input type="checkbox" class="check_chocolate" id="check_chocolate"/><label
+                    for="check_chocolate"> Chocolate</label></div>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('category_addons2')->toHtml(); ?>
+        </div>
+        <div class="wine">
+            <div class="addon_checkbox"><input type="checkbox" class="check_wine" id="check_wine"/><label
+                    for="check_wine"> Wine</label></div>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('category_addons3')->toHtml(); ?>
+        </div>
+        <div class="champagne">
+            <div class="addon_checkbox"><input type="checkbox" class="check_champagne" id="check_champagne"/><label
+                    for="check_champagne"> Champagne</label></div>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('category_addons4')->toHtml(); ?>
+        </div>
+        <div class="others">
+            <div class="addon_checkbox"><input type="checkbox" class="check_others" id="check_others"/><label
+                    for="check_others"> Others</label></div>
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('category_addons5')->toHtml(); ?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+        jQuery(".teddy_bear .addon_checkbox input.check_teddy_bear").click(function () {
+            jQuery(".teddy_bear .addon_products").toggle();
+        });
+        jQuery(".chocolate .addon_checkbox input.check_chocolate").click(function () {
+            jQuery(".chocolate .addon_products").toggle();
+        });
+        jQuery(".wine .addon_checkbox input.check_wine").click(function () {
+            jQuery(".wine .addon_products").toggle();
+        });
+        jQuery(".champagne .addon_checkbox input.check_champagne").click(function () {
+            jQuery(".champagne .addon_products").toggle();
+        });
+        jQuery(".others .addon_checkbox input.check_others").click(function () {
+            jQuery(".others .addon_products").toggle();
+        });
+
+    });
+
+    function updateTextArea() {
+        var allVals = [];
+        var max=3;
+        jQuery('#products_color :checked').each(function () {
+            allVals.push(jQuery(this).val());
+        });
+        var i = allVals.length;
+        if(i>max){
+            this.checked = false;
+            alert("You can only choose up to 3  " );
+
+        }
+        jQuery('#fieldset_3 #field_25 input').val(allVals);
+    }
+    function updateTextArea2() {
+        var allVals2 = [];
+        jQuery('#products_addon input[type="radio"]:checked').each(function () {
+            allVals2.push(jQuery(this).val());
+        });
+        jQuery('#fieldset_3 #field_26 input').val(allVals2);
+    }
+
+
+    jQuery(document).ready(function () {
+
+        jQuery('#products_color input').click(updateTextArea);
+        updateTextArea();
+
+        jQuery('#products_addon input[type="radio"]').click(updateTextArea2);
+        updateTextArea2();
+    });
+
+</script>

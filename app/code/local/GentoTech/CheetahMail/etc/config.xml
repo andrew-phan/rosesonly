@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <GentoTech_CheetahMail>
+            <version>0.1.0</version>
+        </GentoTech_CheetahMail>
+    </modules>
+    <global>
+        <helpers>
+            <gentotech_cheetahmail>
+                <class>GentoTech_CheetahMail_Helper</class>
+            </gentotech_cheetahmail>
+        </helpers>
+        <blocks>
+            <gentotech_cheetahmail>
+                <class>GentoTech_CheetahMail_Block</class>
+            </gentotech_cheetahmail>
+
+            <adminhtml>
+                <rewrite>
+                    <newsletter_subscriber_grid>GentoTech_CheetahMail_Block_Adminhtml_Newsletter_Subscriber_Grid</newsletter_subscriber_grid>
+                </rewrite>
+            </adminhtml>
+
+        </blocks>
+        <models>
+            <gentotech_cheetahmail>
+                <class>GentoTech_CheetahMail_Model</class>
+            </gentotech_cheetahmail>
+        </models>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <gentotech_cheetahmail after="Mage_Adminhtml">GentoTech_CheetahMail_Adminhtml</gentotech_cheetahmail>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <crontab>
+        <jobs>
+            <gentotech_cheetahmail_scheduled_actions>
+                <!-- every day at 01:00am -->
+                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
+                <run><model>baobaz_ems/observer::scheduledActions</model></run>
+            </gentotech_cheetahmail_scheduled_actions>
+
+            <gentotech_cheetahmail_update_subscriptions>
+                <schedule>
+                    <cron_expr>*/2 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>gentotech_cheetahmail/observer::update_subscriptions</model>
+                </run>
+            </gentotech_cheetahmail_update_subscriptions>
+
+            <gentotech_cheetahmail_update_unsubscriptions>
+                <schedule>
+                    <cron_expr>*/2 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>gentotech_cheetahmail/observer::update_unsubscriptions</model>
+                </run>
+            </gentotech_cheetahmail_update_unsubscriptions>
+
+            <gentotech_cheetahmail_update_coa>
+                <schedule>
+                    <cron_expr>*/2 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>gentotech_cheetahmail/observer::update_coa</model>
+                </run>
+            </gentotech_cheetahmail_update_coa>
+        </jobs>
+    </crontab>
+
+</config>

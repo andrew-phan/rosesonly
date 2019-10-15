@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Advancereports>
+            <version>0.1.0</version>
+        </Ant_Advancereports>
+    </modules>
+    <admin>
+        <routers>
+            <advancereports>
+                <use>admin</use>
+                <args>
+                    <module>Ant_Advancereports</module>
+                    <frontName>advancereports</frontName>
+                </args>
+            </advancereports>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <report>
+                <children>
+                    <advancereports translate="title">
+                        <title>Advance Reports</title>
+                        <children>
+                            <customer translate="title" module="advancereports">
+                                <title>Customer</title>
+                                <action>advancereports/adminhtml_customer</action>
+                            </customer>
+                            <order translate="title" module="advancereports">
+                                <title>Sales Order</title>
+                                <action>advancereports/adminhtml_order</action>
+                            </order>
+                            <hhonors translate="title" module="advancereports">
+                                <title>HHonors order</title>
+                                <action>advancereports/adminhtml_hhonors</action>
+                            </hhonors>
+                        </children>
+                    </advancereports>
+                </children>
+            </report>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <report>
+                            <children>
+                                <advancereports>
+                                    <title>Advance Report</title>
+                                    <children>
+                                        <customer translate="title" module="advancereports">
+                                            <title>Customer</title>
+                                            <action>advancereports/adminhtml_customer</action>
+                                        </customer>
+                                        <order translate="title" module="advancereports">
+                                            <title>Sales Order</title>
+                                            <action>advancereports/adminhtml_order</action>
+                                        </order>
+                                        <hhonors translate="title" module="advancereports">
+                                            <title>HHonors order</title>
+                                            <action>advancereports/adminhtml_hhonors</action>
+                                        </hhonors>
+                                    </children>
+                                </advancereports>
+                            </children>
+                        </report>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <advancereports>
+                    <file>advancereports.xml</file>
+                </advancereports>
+            </updates>
+        </layout>
+    </adminhtml>
+    <global>
+        <models>
+            <advancereports>
+                <class>Ant_Advancereports_Model</class>
+                <resourceModel>advancereports</resourceModel>
+            </advancereports>
+        </models>
+        <resources>
+            <advancereports_setup>
+                <setup>
+                    <module>Ant_Advancereports</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </advancereports_setup>
+            <advancereports_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </advancereports_write>
+            <advancereports_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </advancereports_read>
+        </resources>
+        <blocks>
+            <advancereports>
+                <class>Ant_Advancereports_Block</class>
+            </advancereports>
+        </blocks>
+        <helpers>
+            <advancereports>
+                <class>Ant_Advancereports_Helper</class>
+            </advancereports>
+        </helpers>
+    </global>
+</config>

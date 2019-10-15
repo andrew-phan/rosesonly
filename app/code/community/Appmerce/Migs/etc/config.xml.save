@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Appmerce - Applications for Ecommerce
+* http://www.appmerce.com
+*
+* @extension   MasterCard Internet Gateway Service (MIGS) - Virtual Payment Client
+* @type        Payment method
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Open Software License (OSL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/osl-3.0.php
+*
+* @category    Magento Commerce
+* @package     Appmerce_Migs
+* @copyright   Copyright (c) 2011-2013 Appmerce (http://www.appmerce.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config>
+    <modules>
+        <Appmerce_Migs>
+            <version>0.1.0</version>
+        </Appmerce_Migs>
+    </modules>
+    <global>
+        <models>
+            <migs>
+                <class>Appmerce_Migs_Model</class>
+                <resourceModel>migs_mysql4</resourceModel>
+            </migs>
+            <migs_mysql4>
+                <class>Appmerce_Migs_Model_Mysql4</class>
+                <entities>
+                    <api_debug>
+                        <table>migs_api_debug</table>
+                    </api_debug>
+                </entities>
+            </migs_mysql4>
+        </models>
+        <helpers>
+            <migs>
+                <class>Appmerce_Migs_Helper</class>
+            </migs>
+        </helpers>
+        <resources>
+            <migs_setup>
+                <setup>
+                    <module>Appmerce_Migs</module>
+                    <class>Appmerce_Migs_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </migs_setup>
+            <migs_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </migs_write>
+            <migs_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </migs_read>
+        </resources>
+        <blocks>
+            <migs>
+                <class>Appmerce_Migs_Block</class>
+            </migs>
+        </blocks>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <migs>
+                    <file>appmerce/migs/layout.xml</file>
+                </migs>
+            </updates>
+        </layout>
+        <secure_url>
+            <migs_hosted>/migs/hosted</migs_hosted>
+            <migs_merchant>/migs/merchant</migs_merchant>
+        </secure_url>
+        <routers>
+            <migs>
+                <use>standard</use>
+                <args>
+                    <module>Appmerce_Migs</module>
+                    <frontName>migs</frontName>
+                </args>
+            </migs>
+        </routers>
+        <translate>
+            <modules>
+                <Appmerce_Migs>
+                    <files>
+                        <default>Appmerce_Migs.csv</default>
+                    </files>
+                </Appmerce_Migs>
+            </modules>
+        </translate>
+        <events>
+            <sales_convert_quote_payment_to_order_payment>
+                <observers>
+                    <migs_observer>
+                        <type>singleton</type>
+                        <class>migs/observer</class>
+                        <method>convertPayment</method>
+                    </migs_observer>
+                </observers>
+            </sales_convert_quote_payment_to_order_payment>
+            <sales_model_service_quote_submit_after>
+                <observers>
+                    <migs_observer>
+                        <type>singleton</type>
+                        <class>migs/observer_submit</class>
+                        <method>sales_model_service_quote_submit_after</method>
+                    </migs_observer>
+                </observers>
+            </sales_model_service_quote_submit_after>
+        </events>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Appmerce_Migs>
+                    <files>
+                        <default>Appmerce_Migs.csv</default>
+                    </files>
+                </Appmerce_Migs>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <payment_services translate="title" module="payment">
+                                            <title>Payment Services</title>
+                                        </payment_services>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <events>
+            <sales_order_invoice_save_before>
+                <observers>
+                    <migs_observer>
+                        <type>singleton</type>
+                        <class>migs/observer_invoice</class>
+                        <method>sales_order_invoice_save_before</method>
+                    </migs_observer>
+                </observers>
+            </sales_order_invoice_save_before>
+            <sales_order_creditmemo_save_before>
+                <observers>
+                    <migs_observer>
+                        <type>singleton</type>
+                        <class>migs/observer_invoice</class>
+                        <method>sales_order_creditmemo_save_before</method>
+                    </migs_observer>
+                </observers>
+            </sales_order_creditmemo_save_before>
+        </events>
+    </adminhtml>
+    <default>
+        <payment>
+            <migs_hosted>
+                <model>migs/api_hosted</model>
+                <title>Credit Card (via MIGS Hosted Server)</title>
+                <vpc_url>https://migs.mastercard.com.au/vpcpay</vpc_url>
+                <capture_mode>1</capture_mode>
+                <allowspecific>0</allowspecific>
+                <order_email>1</order_email>
+                <order_status>pending</order_status>
+                <pending_status>pending_payment</pending_status>
+                <processing_status>processing</processing_status>
+                <secure_secret backend_model="adminhtml/system_config_backend_encrypted"/>
+            </migs_hosted>
+            <migs_merchant>
+                <model>migs/api_merchant</model>
+                <title>Credit Card (via MIGS Merchant Server)</title>
+                <vpc_url>https://migs.mastercard.com.au/vpcdps</vpc_url>
+                <capture_mode>1</capture_mode>
+                <allowspecific>0</allowspecific>
+                <order_email>1</order_email>
+                <order_status>pending</order_status>
+                <pending_status>pending_payment</pending_status>
+                <processing_status>processing</processing_status>
+            </migs_merchant>
+        </payment>
+    </default>
+</config>

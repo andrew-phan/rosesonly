@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+		<Robbie_Bundleoption>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Robbie_Bundleoption>
+	</modules>
+</config>

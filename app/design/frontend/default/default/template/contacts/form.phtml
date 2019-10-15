@@ -1,0 +1,245 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<!--div class="page-title">
+    <h1><?php echo Mage::helper('contacts')->__('Contact Us') ?></h1>
+</div-->
+<form action="<?php echo $this->getFormAction(); ?>" id="contactForm" method="post">
+    <!--div class="page-title">< ?php echo Mage::helper('contacts')->__('Contact Information') ?></div-->
+    <div class="fieldset">
+        <div class="contact-des">
+            "We love to get feedback on our service so please let us know what you think about the services provided by this site or our organization. 
+            We welcome all of your comments and suggestions."
+        </div>
+        <br/>
+        <table cellspacing="3" cellpadding="2" width="100%" border="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <span class="aNormalOrangeB">Roses Only Asia Pte Ltd</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="aNormal">RCB No. 201224969W</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <table class="aNormal" cellspacing="3" cellpadding="2" width="100%" border="0">
+            <tbody>
+                <tr>
+                    <td valign="top" width="13%">Address</td>
+                    <td class="normalBlack" width="43%">565 Thomson Road Singapore 298184</td>
+                    <td valign="top" width="19%">General Enquiry</td>
+                    <td valign="top" width="25%"><a class="anormalBlack" href="mailto:info.sg@rosesonlyasia.com">info.sg@rosesonlyasia.com</a></td>
+                </tr>
+                <tr>
+                    <td>Phone</td>
+                    <td class="normalBlack">(65) 6256 1818</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Fax</td>
+                    <td class="aNormal">(65) 6256 1612</td>
+                    <td>Customer Service</td>
+                    <td><a class="anormalBlack" href="mailto:custsvc.sg@rosesonlyasia.com">custsvc.sg@rosesonlyasia.com</a></td>
+                </tr>
+            </tbody>
+        </table>
+	<br/>
+	<div class="contact-des">
+            Please kindly note that we do not have any physical retail outlet and all our orders are made with confirmed orders. Do call us at (65)6256 1818 for enquiries.
+        </div>
+	
+        <hr width="100%" size="1"/>
+        <table class="aNormal" cellspacing="3" cellpadding="2" width="100%" border="0">
+            <tbody>
+                <tr>
+                    <td class="aNormalOrangeB">Order Form</td>
+                </tr>
+                <tr>
+                    <td>If you prefer to fax your order to us, please kindly download the Order Form 
+                        &nbsp;
+                        <a href="http://rosesonly.com.sg/files/FAX_Order_Form_RosesOnlyAsia_Word.pdf" target="_blank" class="anormalBlack">here</a>.
+                        <br> <br>
+                        Fill in the order details and fax the form to (65) 6256 1612.
+                        Upon receipt of the order form, we will respond within 1 working day to confirm your 
+                        order. <br/>Alternatively, you may also email the completed form to 
+                        <a href="mailto:custsvc.sg@rosesonlyasia.com" class="anormalBlack">
+                            custsvc.sg@rosesonlyasia.com
+                        </a>.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr width="100%" size="1"/>
+        <table class="aNormal" cellspacing="3" cellpadding="2" width="100%" border="0" style="/*display:none;*/">
+            <tbody>
+                <tr>
+                    <td class="aNote" align="right" colspan="4"><em>* denotes compulsory fields</em></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="aNormalOrangeB">Customer Service Enquiry</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Please fill in the form below to send us a Customer Service 
+                        Enquiry. We'll respond within 24 hours.</td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <table cellspacing="0" cellpadding="18" width="100%" border="0" style="/*display:none;*/">
+            <tbody>
+                <tr>
+                    <td bgcolor="#e9e6d3">
+                        <table class="aNormal" cellspacing="0" cellpadding="4" width="100%" border="0" style="padding:10px; border-spacing:0 5px;">
+                            <tbody>
+                                <tr>
+                                    <td width="23%"><label id="lblSalutation">Salutation</label></td>
+                                    <td colspan="3">
+                                        <select name="salutation" id="cbosalutation" tabindex="1" class="textfield">
+                                            <option value="">Please select</option>
+                                            <option value="Mrs">Mrs</option>
+                                            <option value="M">M</option>
+                                            <option value="Ms">Ms</option>
+                                            <option value="Dr">Dr</option>
+                                            <option value="Mdm">Mdm</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>                                            
+                                    <td><label class="required"><em>*</em>Name</label>
+                                    <td colspan="3"><input style="width:200px;" maxlength="50" name="name" value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserName()) ?>" class="required-entry" type="text" /></td>                        
+                                </tr>
+                                <tr>
+                                    <td><label class="required"><em>*</em>Country</label></td>
+                                    <td colspan="3">                                        
+                                        <select name="country" id="cbocountry" tabindex="3" class="textfield" >
+                                            <option selected="selected" value="Singapore">Singapore</option>
+                                        </select>                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="required"><em>*</em>State</label></td>
+                                    <td colspan="3">
+                                        <select name="state" id="cbostate" tabindex="4" class="textfield" onchange="Anthem_FireCallBackEvent(this,event,'cbostate','',false,'','','',true,null,null,null,true,true);return false;">
+                                            <option selected="selected" value="Singapore">Singapore</option>
+                                        </select>                                       
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label class="required"><em>*</em>Address</label></td>
+                                    <td><input name="add1" type="text" maxlength="50" class="textfield required-entry"></td>
+                                    <td><label>City</label></td>
+                                    <td><input name="city" type="text" maxlength="50" id="txtcity" tabindex="8" class="textfield"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><input name="add2" type="text" maxlength="50" class="textfield"></td>
+                                    <td><label class="required"><em>*</em>Zip Postal Code</label></td>
+                                    <td><input name="postal" type="text" maxlength="10"  class="textfield required-entry"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="3"><input name="add3" type="text" maxlength="50" id="txtadd3" class="textfield"></td>
+                                </tr>
+                                <br/>
+                                <!--tr><td colspan="4"><label>Please fill in at least one of the two contact options,either Home or Office:</label></td></tr>
+                                <tr>
+                                    <td><label>Contact No. (Home)</label></td>
+                                    <td><input name="homeno" type="text" maxlength="20" id="txthomeno" tabindex="10" class="textfield"></td>
+                                    <td><label>Contact No. (Office)</label></td>
+                                    <td><input name="officeno" type="text" maxlength="21" id="txtofficeno" tabindex="11" class="textfield"></td>
+                                </tr-->
+                                <tr>
+                                    <td><label for="telephone" class="required"><em>*</em>Telephone</label></td>
+                                    <td><input name="telephone" maxlength="22"  id="telephone" class="textfield required-entry" type="text" /></td>
+                                    <td><label id="lblfax" tabindex="37" >Fax</label></td>
+                                    <td><input name="fax" type="text" maxlength="23" id="txtfaxno" tabindex="13" class="textfield"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="email" class="required"><em>*</em>Email</label>
+                                    <td colspan="3"><input name="email" maxlength="50" value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserEmail()) ?>" class="textfield required-entry validate-email" type="text" />                                    
+                                </tr>
+                                <tr>
+                                    <td valign="top">
+                                        <label id="lblRequest" class="required"><em>*</em>Your Request</label></td>
+                                    <td colspan="3">
+                                        <table class="aNormal" cellspacing="2" cellpadding="0" width="100%" border="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="40%"><input type="checkbox" name="general_question" tabindex="15"><span>General question</span></td>
+                                                    <td width="60%"><input type="checkbox" name="modify_order" tabindex="16"><span>Modify order</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%"><input type="checkbox" name="contact_us" tabindex="17"><span>Contact us</span></td>
+                                                    <td width="60%"><input type="checkbox" name="customer_service" tabindex="18"><span>Customer Service</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%"><input type="checkbox" name="site_issues" tabindex="19"><span>Site issues</span></td>
+                                                    <td width="60%"><input type="checkbox" name="others" tabindex="20"><span>Others</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td valign="top">
+                                        <label for="comment" class="required"><em>*</em>Comment</label>
+                                    </td>
+                                    <td colspan="3">
+                                        <textarea style="max-width: 400px;width:400px;" name="comment" class="required-entry input-text" cols="5" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>
+                                        <button  onclick="clearfield();return false;" class="button">Reset</button>
+                                        <button type="submit" class="button">Submit</button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="buttons-set" style="/*display:none;*/">
+        <p class="required"><?php echo Mage::helper('contacts')->__('*required fields') ?></p>
+        <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    var contactForm = new VarienForm('contactForm', true);
+    //]]>
+</script>

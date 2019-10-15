@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Ant_Sales>
+            <version>0.1.0</version>
+        </Ant_Sales>
+    </modules>
+    <global>		
+        <blocks>
+            <sales>						 
+                <rewrite>
+                    <order_totals>Ant_Sales_Block_Order_Totals</order_totals>                    
+                </rewrite>
+            </sales>
+        </blocks>    
+        <models>
+            <sales>
+                <rewrite>
+                    <order_pdf_invoice>Ant_Sales_Model_Order_Pdf_Invoice</order_pdf_invoice>
+                </rewrite>
+            </sales>
+        </models>	
+    </global>
+</config>

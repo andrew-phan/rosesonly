@@ -1,0 +1,391 @@
+/********Layout********/
+
+.checkout-cart-index .wrapper,.checkout-onepage-index .wrapper{margin: auto;width: 1008px;}
+.checkout-cart-index .main-container,.checkout-onepage-index .main-container{margin: auto;width: 1008px;}
+
+.checkout-cart-index .header,.checkout-onepage-index .header{ width:98%;}
+
+.checkout-cart-index .footer-info,.checkout-onepage-index .footer-info{ width:1008px; margin-bottom:20px;}
+
+.checkout-cart-index .footer-container,.checkout-onepage-index .footer-container{ width:1000px; display:none;}
+
+.checkout-onepage-index .main{ width:98%;}
+
+body.checkout-onepage-index{ font-size:12px;}
+
+/****************/
+
+.view-right{width:390px;}
+
+.view-left{ width:250px;}
+
+.col1-layout .product-view .product-shop{width:auto; float:left;}
+
+.product-view .product-img-box{ width:247px; margin-bottom:15px;}/*line 675*/
+
+.product-view .product-essential{ padding:10px;}
+
+.product-view .product-img-box .more-views li a{ width:75px; height:75px;}
+
+.product-view .short-description{ margin-top:10px;}
+
+.product-view .product-shop .product-name h1{font:bold 20px/1.35 Arial, Helvetica, sans-serif; margin-bottom:15px;}/*line 700*/
+
+.catalog-product-view .breadcrumbs{ display:block; margin:0 20px; font-size:12px;}
+
+.breadcrumbs ul li span{background:url(../images/rosesonly/arrow.png) no-repeat 100% 50%; height:6px; width:6px; display:inline-block;}
+
+.product-view .product-shop .price-box-bundle{ padding:0;}
+
+.product-view .product-shop .price-box-bundle .price-from .price-label,.product-view .product-shop .price-box-bundle .price{ color:#00A08B; font:bold 18px/25px Arial,Helvetica,sans-serif}
+
+.product-view .product-options{ width:390px; font-size:13px;}
+
+.product-view .product-options dt{ float:none; width:auto; margin:0; text-align:left; font:17px/28px Arial, Helvetica, sans-serif; color:#fff; padding:0 5px; height:28px; border:0 none;}
+
+.product-view .product-options dt{background:url("../images/rosesonly/dt_left.png") no-repeat scroll left transparent; padding:0 0 0 10px;}
+
+.product-view .product-options dt span{background:url("../images/rosesonly/dt_right.png") no-repeat right top; padding-right:10px; height:28px; display:block;}
+
+.product-view .product-options dt span span{background:url("../images/rosesonly/dt_center.png") repeat-x scroll left; width:370px; padding:0;}
+
+.product-view .product-options dt label{ color:#fff;}
+
+.product-view .product-options dl dd{ background:#f3f3f3; border:0 none; padding:12px 15px 5px; width:auto;}
+
+.product-view .product-options dl.last dd.last{padding:12px 15px 5px;}
+
+.product-view .product-options dl .option_bottom,.product-view .option_bottom{background:url(../images/rosesonly/option_bottom.png) no-repeat 0 100%; width:390px; height:10px;margin-bottom:10px;}
+
+.product-view .product-options dl .option_top,.product-view .option_top{background:url(../images/rosesonly/option_top.png) no-repeat 0 0; width:390px; height:10px;}
+
+.product-view .product-options-bottom{ width:360px; border:0 none; background-color:#f3f3f3; padding:0 15px;}
+
+.product-view .product-options-bottom .price-box{ border-top:0 none; float:none; padding-top:15px; margin-left:0;}
+
+.product-view .product-options-bottom .price-as-configured{ clear:both; border-bottom:1px dotted #666; padding-bottom:5px; overflow:hidden; margin-bottom:10px; margin-right:0;}
+
+.product-view .product-options-bottom .total-price{ border-bottom:0 none;}
+
+.product-view .product-options-bottom .price-as-configured span{ font:14px Arial,Helvetica,sans-serif; color:#666 !important;}
+
+.product-view .product-options-bottom .price-as-configured.total-price span{ font-size:20px; color:#76A192 !important}
+
+
+.product-view .product-options-bottom .add-to-cart{ background-color:transparent; margin-right:0;}
+
+.product-view .product-options-bottom .add-to-cart button.button{overflow:visible; width:208px; border:0; padding:0; margin:0;background: url("../images/rosesonly/cart_left.png") no-repeat scroll left transparent; cursor:pointer; height:48px; padding-left:70px;}
+
+.product-view .product-options-bottom .add-to-cart button.button span{background:url("../images/rosesonly/cart_righta.png") no-repeat scroll right top transparent;color:#fff !important; display: block;font: bold 22px/48px Arial, Helvetica, sans-serif;height: 48px;margin-right: 0;padding-right: 10px;white-space:nowrap;	text-align:center;padding-right:5px;}
+
+.product-view .product-options-bottom .add-to-cart button.button span span{background: url("../images/rosesonly/cart_centera.png") repeat-x scroll left top transparent !important;display: block; height:48px;padding:0 20px 0 0 !important; color:#fff !important;}
+
+.product-view .product-options dd.unactive{display:block;}
+
+.product-view .price-as-configured{ text-align:right;}
+
+.product-view .product-options-bottom .price-tax{float:none;}
+
+.product-view .product-options-bottom .price-label{text-align:left;}
+
+.product-view .product-options ul.options-list label{ color:#666;}
+
+.product-view #deliveryshow{ color:#666;}
+
+.product-view #deliveryshow .delivery_date span{ color:#CC0000;}
+
+.product-view .payment_option{ clear:both; text-align:center; padding:15px 0 0;}
+
+.product-view .payment_option li{ display:inline; padding-right:5px;}
+
+.product-view .payment_option li.last{ padding:0;}
+
+#deliveryshow input#_deliverydate{ border-radius:3px; padding:5px 3px; border:1px solid #bfbfbf; margin:0;}
+
+#deliveryshow input{ margin-top:0;}
+
+.product-view .product-options ul.options-list li{ display:inline-block; margin-right:10px; vertical-align:top;}
+
+.product-view .product-options ul.options-list.size-options li{ width:100%; margin-right:0;}
+
+.product-view .product-options ul.options-list .label{ margin-left:5px; margin-right: 10px;}
+
+.product-view .options-list li.color div{ word-break:normal;}
+
+.product-view .product-shop .product-name{ margin:0 !important;}
+
+/*.product-view .product-options ul#options-375-list.options-list.size-options li{ width:100%; margin-right:0;}
+.product-view .product-options ul#options-375-list.options-list .label {margin-right: 10px;}*/
+
+/****Cart***/
+
+.checkout-cart-index .cart-progress-block,.checkout-onepage-index .checkout-progress-block,.checkout-onepage-success .checkout-progress-block{text-align:center; margin:15px auto;}
+
+.checkout-cart-index .header,.checkout-onepage-index .header{/*background:url(../images/rosesonly/hr.png) no-repeat 0 100%;*/ padding-bottom:15px; /*border-bottom:1px solid #D0D0D0;*/}
+
+.checkout-cart-index .header-search,.checkout-onepage-index .header-search{display:none;}
+
+.checkout-cart-index .main{ padding-bottom:70px;}
+
+.cart-help{ color:#222; margin:25px 10px 0 0; font-family:Arial;}
+
+.cart-help h2{ font-size:22px; margin-bottom:5px; font-weight:bold;}
+
+.cart-help span{ color:#76A192;}
+
+.cart-help p{ font-size:14px;}
+
+.cart .page-title h1{ font:bold 22px Arial; color:#222;}
+
+.checkout-cart-index .cart .product-name{ font:bold 16px Arial, Helvetica, sans-serif; margin-bottom:15px !important;}
+
+.checkout-cart-index button.button.btn-proceed-checkout{ background-color:#76A192;}
+
+.checkout-cart-index button.button.btn-proceed-checkout span span{ background-color:#76A192;}
+
+.checkout-cart-index button.button{ height:35px; background-color:#999; border-radius:5px 5px 5px 5px;}
+
+.checkout-cart-index button.button span{ font-size:15px;}
+
+.checkout-cart-index button.button span span{ background-color:#999; color:#fff;}
+
+#shopping-cart-table{ border:1px solid #ccc; border-radius:5px;}
+
+#shopping-cart-table thead th{ background:#f3f3f3; color:#222; vertical-align:middle; padding:5px 8px;}
+
+.checkout-cart-index .page-title{ margin-bottom:4px;}
+
+#shopping-cart-table tfoot tr.first td{background:#F3F3F3; padding:10px; /*border-top:1px solid #ccc;*/}
+
+#shopping-cart-table thead th,#shopping-cart-table tbody th,#shopping-cart-table tbody td{ /*border-right:1px solid #D9DDE3;*/}
+
+#shopping-cart-table td.last,#shopping-cart-table th.last{ border-right:0 none;}
+
+#shopping-cart-table .btn-remove2{/*display:inline-block;*/background:url(../images/rosesonly/cart_delete.png) no-repeat; height:14px; width:14px;}
+
+#shopping-cart-table .edit-cart{float:left;background:url(../images/rosesonly/cart_edit.png) no-repeat; text-indent:-999em; height:15px; width:15px; margin:0 10px 0 5px;}
+
+#shopping-cart-table thead th.head-first{border-radius:5px 0 0 0;}
+
+#shopping-cart-table thead th.last{border-radius:0 5px 0 0;}
+
+#shopping-cart-table tfoot tr.last td.last{border-radius:0 0 5px 5px;}
+
+.checkout-cart-index .cart .cart-collaterals{ padding:25px 0 0;}
+
+.checkout-cart-index .cart-collaterals .totals{ border:1px solid #ccc; border-radius:5px; padding:5px; width:290px;}
+
+.checkout-cart-index .cart .totals .checkout-types{ margin-bottom:0;}
+
+.checkout-cart-index .coupon{ width:65%; background-color:#f3f3f3; border-radius:5px;}
+
+.checkout-cart-index .cart .discount{ /*display:inline-block;*/ padding:10px 15px; margin:0 0 5px;}
+
+.checkout-cart-index .discount-form{ display:inline;}
+
+.checkout-cart-index .cart .discount h2{ color:#222; font-size:20px; padding-right:20px; display:inline;}
+
+.checkout-cart-index .discount-form label{ font:14px Arial; color:#666;}
+
+.checkout-cart-index .cart .discount .input-box{ float:none; display:inline-block; width:160px;}
+
+.checkout-cart-index .cart .discount input.input-text{ width:100%;}
+
+.checkout-cart-index .cart .discount button span,.checkout-cart-index .cart .shipping button span{ text-transform:uppercase;}
+
+.checkout-cart-index .cart .discount .buttons-set,.checkout-cart-index .cart .shipping .buttons-set{ margin:0; float:right;}
+
+.checkout-cart-index .cart .totals td{ border-bottom:1px dotted #ccc; font-size:14px; padding-top:3px;padding-bottom:3px;}
+
+.checkout-cart-index .cart .totals td.a-left{ margin-left:10px;}
+
+.checkout-cart-index .cart .totals td.a-right{ margin-right:10px;}
+
+.checkout-cart-index .cart .totals .checkout-types{ text-align:center; padding-bottom:0;}
+
+#shopping-cart-totals-table tfoot .checkout-total td,#shopping-cart-totals-table tfoot .checkout-total td .price{ color:#222 !important; font-size:16px; border-bottom:0 none;}
+
+#shopping-cart-table tbody td.a-right .price{ color:#222;}
+
+#shopping-cart-table .item-options dt{ color:#666; font-weight:normal;}
+
+#shopping-cart-table .option{ float:none;}
+
+#shopping-cart-table .item-options dd{ color:#76A192;background:url(../images/rosesonly/option_arrow.png) no-repeat 0 50%; margin:0 0 15px 30px; padding-left:5px; font-style:normal;}
+
+#shopping-cart-table .item-options.cart-date{ font-size:inherit !important;}
+
+/*#shopping-cart-table .item-options.cart-date dd{ background:none; margin-left:10px;}*/
+
+.checkout-cart-index .checkout-image,.checkout-cart-index .checkout-image:hover{ border:0 none; margin:0;}
+
+#shopping-cart-table .even{ background:#fcfcfc;}
+
+#shopping-cart-totals-table tfoot tr.checkout-total div.checkout-tax, #shopping-cart-totals-table tfoot tr.checkout-total div.checkout-tax span.price{color:#666 !important;}
+
+.checkout-cart-index #shopping-cart-totals-table td,.checkout-cart-index #shopping-cart-totals-table td label{ color:#666;}
+
+.product-options-bottom .price-including-tax span{ display:table-cell; padding:0;}
+
+/*************/
+
+.checkout-onepage-index #checkout-review-table tr.checkout-total .checkout-tax,.checkout-onepage-index #checkout-review-table .data-table td .price{color:#666 !important; font-size:10px;}
+
+.checkout-onepage-index div.col-main{ padding:0; border:0 none;}
+
+.checkout-onepage-index h1.onestepcheckout-title{ font:30pt Arial, Helvetica, sans-serif; text-transform:capitalize; color:#222; margin-left:15px;}
+
+.checkout-onepage-index p.onestepcheckout-numbers{ clear:both;}
+
+.checkout-onepage-index p.onestepcheckout-description{ color:#333; margin:10px 0 15px 15px;}
+
+.checkout-onepage-index p.onestepcheckout-numbers-1{background-image:url("../images/rosesonly/onestepcheckout-number-1.png");}
+
+.checkout-onepage-index p.onestepcheckout-numbers-2{background-image:url("../images/rosesonly/onestepcheckout-number-2.png");}
+
+.checkout-onepage-index p.onestepcheckout-numbers-3{background-image:url("../images/rosesonly/onestepcheckout-number-3.png");}
+
+.checkout-onepage-index p.onestepcheckout-numbers-4{background-image:url("../images/rosesonly/onestepcheckout-number-4.png");}
+
+.checkout-onepage-index p.onestepcheckout-numbers-5{background-image:url("../images/rosesonly/onestepcheckout-number-5.png");}
+
+.checkout-onepage-index p.onestepcheckout-number{background-image:url("../images/rosesonly/onestepcheckout-right.png");}
+
+.checkout-onepage-index div.onestepcheckout-threecolumns{ border:0 none;}
+
+.checkout-onepage-index p.onestepcheckout-numbers span{ font-style:italic; font-weight:normal; color:#666; font-size:12px;}
+
+.checkout-onepage-index #allow-gift-message-containerr label.note span{ font-style:normal;}
+
+.checkout-onepage-index .gift-messages-form .form-list div.field{ float:none; width:270px !important;}
+
+.checkout-onepage-index .gift-messages-form .form-list .input-text,.checkout-onepage-index .gift-messages-form .form-list .input-box textarea{ width:270px !important;}
+
+.checkout-onepage-index .gift-messages-form .form-list label{ display:inline-block; padding:3px 0;}
+
+.checkout-onepage-index .step-content{/*overflow:hidden;*/ margin-bottom:20px; margin-left:15px;}
+
+.checkout-onepage-index div#checkout-review-submit .buttons-set .btn-checkout{background:url("../images/rosesonly/checkout-button.png") no-repeat; border:0 none; height:39px; min-width:190px; padding:0; float:none;}
+
+.checkout-onepage-index div#checkout-review-submit .button.btn-checkout span span{ background:inherit; float:none; color:#fff; font:bold 16px Arial,Helvetica,sans-serif;}
+
+.checkout-onepage-index #loginbox{color:#00A08B; padding:0; margin-left:15px;}
+
+.checkout-onepage-index input.input-text,.checkout-onepage-index select,.checkout-onepage-index textarea{ border-radius:3px; padding:5px 3px;border:1px solid #bfbfbf;}
+
+.checkout-onepage-index .onestepcheckout-threecolumns #onestep_form .onestepcheckout-column-left .input-text,.checkout-onepage-index .onestepcheckout-threecolumns #onestep_form .onestepcheckout-column-middle .input-text{ width:130px;}
+
+.checkout-onepage-index p.onestepcheckout-numbers,.checkout-onepage-index .checkoutcontainer li.shipping-address-title{ font-size:16px; color:#222; font-weight:bold; height:30px;}
+
+.checkout-onepage-index .delivery_date{color:#CC0000; margin:0 0 15px 50px; display:inline-block;}
+
+.checkout-onepage-index .delivery_date label{color:#CC0000;}
+
+.checkout-onepage-index .styled-select select{ border:1px solid #bfbfbf; padding:1px 10px 1px 4px; width:148px !important;}
+
+.checkout-onepage-index .onestepcheckout-threecolumns #onestep_form .onestepcheckout-column-left label{ font-weight:normal;}
+
+.checkout-onepage-index .field label,.checkout-onepage-index .form-list label,.checkout-onepage-index .sp-methods label{ font-size:16px;}
+
+.checkout-onepage-index table#checkout-review-table .product-name{ font-size:14px; font-weight:bold; color:#222;}
+
+.checkout-onepage-index table#checkout-review-table td.title,.checkout-onepage-index table#checkout-review-table td{font-size:14px; color:#333; border-bottom:1px dotted #ccc; text-align:left; font-weight:normal; vertical-align:top;}
+
+.checkout-onepage-index #checkout-review-table th{ background-color:transparent;border-bottom:1px solid #ccc;border-top:1px solid #ccc; vertical-align:middle;}
+
+.checkout-onepage-index table#checkout-review-table tr.checkout-total td{ font-size:16px !important; color:#222 !important; border-bottom:0 none;}
+
+.checkout-onepage-index table#checkout-review-table{ border:0 none;}
+
+.checkout-onepage-index .shipping-option{ margin-bottom:0; width:100%;}
+
+.checkout-onepage-index div#fancybox-wrap .col2-set .col-2{ width:48%;}
+
+.checkout-onepage-index #fancybox-inner{ text-align:left;}
+
+.checkout-onepage-index #changedate{ float:none;}
+
+.checkout-onepage-index #loading-mask{ width:1000px !important;}
+
+.checkout-onepage-index #deliveryshow{ padding:0;font-size:16px;}
+
+.checkout-onepage-index div.onestepcheckout-column-left{ margin-right:10px;}
+
+.checkout-onepage-index .onestepcheckout-column-2 div.onestepcheckout-column-middle{width:48%; margin-right:10px;}
+
+.checkout-onepage-index .onestepcheckout-column-2 div.onestepcheckout-column-right{width:50%; float:right;}
+
+.checkout-onepage-index #review-buttons-container{ text-align:center}
+
+.checkout-onepage-index #co-payment-form{ min-height:auto;}
+
+.checkout-onepage-index #co-payment-form label span{ font-style:italic; color:#999;}
+
+.checkout-onepage-index #co-payment-form .sp-methods .form-list li{ margin:0;}
+
+.checkout-onepage-index #co-payment-form #payment_form_ccsave input,.checkout-onepage-index #co-payment-form #payment_form_citibank input{ width:275px;}
+
+.checkout-onepage-index .payment-form a{ color:#00A08B;}
+
+.checkout-onepage-index #co-payment-form #payment_form_ccsave #ccsave_cc_type{width:282px;}
+
+.checkout-onepage-index #co-payment-form #payment_form_ccsave #ccsave_expiration{ width:175px;}
+
+.checkout-onepage-index #co-payment-form div.input-box{ width:100%}
+
+.onestepcheckout-threecolumns #onestep_form em{color:#EB340A;}
+
+#co-payment-form .payment_option{display:inline;}
+
+#co-payment-form dt label div{ padding-left:20px;}
+
+#co-payment-form .payment_option li {display: inline; padding-right: 5px;}
+
+/*Start tooltip*/
+
+div.service{ clear:both;}
+
+ul.service-links{ display:inline-block; clear:both; margin-bottom:15px; margin-left:15px;}
+
+ul.service-links li.tooltip {outline:none; display:inline; background:url(../images/bkg_pipe1.gif) 100% 60% no-repeat; padding:0 7px 0 6px; cursor:pointer; color:#00A08B;}
+
+ul.service-links li.tooltip.first{ padding-left:0;}
+
+ul.service-links li.tooltip.last{ background:none;}
+
+ul.service-links li.tooltip strong {line-height:30px;}
+
+ul.service-links li.tooltip:hover {text-decoration:none;} 
+
+ul.service-links li.tooltip span,ul.service-links li.tooltip .sc-hint-content{z-index:10;display:none;margin-top:-50px; margin-left:0px;width:400px;}
+
+ul.service-links li.tooltip:hover span,ul.service-links li.tooltip:hover .sc-hint-content{display:inline; position:absolute; color:#111; border:6px solid #74828D; background:#fff; margin-left:20px;}
+
+ul.service-links .sc-hint-content-header {text-transform: uppercase;font-weight:bold;background-color:#f9f9f9;margin:0;padding:2px 7px;border-bottom:3px solid #74828D; font-size:14px;}
+
+ul.service-links .sc-hint-content-desc {padding:10px;color:#333333;}
+
+/*End tooltip*/
+
+.footer-info .copyright{padding:0px 40px; color:#D1E6DF; text-align:center;}
+
+.footer-info.checkout{padding:10px 0; height:auto;}
+
+.header-info {
+    color: #736B6D;
+    float: right;
+    padding-bottom: 2px;
+    padding-right: 10px;
+    padding-top: 2px;
+    width: 152px !important;
+}
+.main-container {
+    margin: auto;
+    /*overflow: hidden !important;*/
+    width: 696px;
+}
+
+.price-including-tax {float:left; width:100%; text-align:left;}
+.shop-access{ /*width:120px;*/}
+
+.header-info{ float:right;}

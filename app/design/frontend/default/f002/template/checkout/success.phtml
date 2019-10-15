@@ -1,0 +1,191 @@
+<!-- Conversion Pixel - Rose Only SG - DO NOT MODIFY -->
+<script src="http://ib.adnxs.com/px?id=173736&t=1" type="text/javascript"></script>
+<!-- End of Conversion Pixel -->
+
+<script type='text/javascript'>
+    rtgsettings ={
+        'pdt_id': '$pdt_id$',
+        'pdt_url': '$pdt_url$',
+        'ty_orderid':'$ty_orderid$',
+        'ty_orderamt':'$ty_orderamt$',
+        'ty_orderdate':'$ty_orderdate$',
+        'ty_orderstatus':'$ty_orderstatus$',
+        'ty_cusid':'$ty_cusid$',
+        'ty_custype':'$ty_custype$',
+        'key': 'AG',
+        'token': 'RoseOnly_SG',
+        'pagetype': 'checkout',
+        'layer': 'iframe'
+    };
+
+    (function(d) {
+        var s = d.createElement('script'); s.async = true;s.id='madv2014rtg';s.type='text/javascript';
+        s.src = (d.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.mainadv.com/Visibility/Rtgag2-min.js';
+        var a = d.getElementsByTagName('script')[0]; a.parentNode.insertBefore(s, a);
+    }(document));
+</script>
+
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<!--div class="page-title">
+    <h1><?php echo $this->__('Your order has been received.') ?></h1>
+</div-->
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="page-message">
+    <h1><?php echo $this->__('Thank you for your purchase!') ?></h1>
+</div>
+<!--
+Start of DoubleClick Floodlight Tag: Please do not remove
+Activity name of this tag: Roses Only Singapore Thank you Page
+URL of the webpage where the tag is expected to be placed: http://www.rosesonly.com.sg
+This tag must be placed between the <body> and </body> tags, as close as possible to the opening tag.
+Creation Date: 04/11/2013
+-->
+<iframe src="https://4114347.fls.doubleclick.net/activityi;src=4114347;type=roses211;cat=roses953;qty=1;cost=[Revenue];ord=[OrderID]?" width="1" height="1" frameborder="0" style="display:none"></iframe>
+
+<!-- End of DoubleClick Floodlight Tag: Please do not remove -->
+<?php if ($this->getOrderId()): ?>
+    <?php if ($this->getCanViewOrder()) : ?>
+        <p style="color:orange;">
+        <?php
+            if (isset($_GET['success']))
+                echo $this->__('We have received your order %s. The payment has been completed.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId())));
+            else
+                echo $this->__('We have received your order %s. The payment has not been completed.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId())));
+        ?>
+        </p>
+    <?php else : ?>
+        <p style="color:orange;"><?php echo $this->__('We have received your order %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+    <?php endif; ?>
+    <br/>
+    <p><?php echo $this->__('You will receive an order confirmation email with details of your order. We will be calling you shortly if we have any questions about your order or payment. Alternatively, you can also call us at (65) 6256 1818 or email us at <a href="mailto:info.sg@rosesonlyasia.com"><i>info.sg@rosesonlyasia.com</i></a>.') ?></p>
+    <br/>
+    <p><?php echo $this->__('Note: If you do not receive the confirmation message within a few minutes of signing up, please kindly check your Spam/junk folder just in case the confirmation email got delivered there instead of your inbox.') ?></p>
+
+    <?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) : ?>
+        <br/>
+        <p>
+            <!--?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'"><b>here to print</b></a> a copy of your order confirmation.', $this->getPrintUrl()) ?-->
+            <?php echo $this->getChildHtml() ?>
+        </p>
+    <?php endif; ?>
+    
+    <!-- Ađ T2P of Cheetahmail -->
+        <?php
+            $current_order = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
+            $orderId = $this->getOrderId(); //var_dump($orderId);
+
+            $total = number_format($current_order->getGrandTotal(), 2);//var_dump($total);
+            $all_items = $current_order->getAllItems();//var_dump($all_items);
+            //$index = 1;
+            $items = "";
+            foreach ($all_items as $item)
+            {
+                if($item->getProductType() == "bundle")
+                {
+                    // Item detail
+                    /*$items .= 'item' . $index . '@' . number_format($item->getQtyOrdered(), 0) . '@' . number_format($item->getPrice(), 2)  . '|';*/
+                    $items .= $item->getSku() . '@' . number_format($item->getQtyOrdered(), 0) . '@' . number_format($item->getPrice(), 2)  . '|';
+                    $index ++;
+                }
+            }
+            $items = rtrim($items, '|');//var_dump($items);
+
+            $currency = 'SGD';
+            $country = 'SG';
+        ?>
+        <img src="https://e.rosesonly.com.sg/a/r2095840058/rosesonlyasia.gif?a=<?php echo $orderId ?>&b=<?php echo $total ?>&items=<?php echo $items ?>&d=SGD&e=SG" />
+
+    <!-- End T2P of Cheetahmail -->
+
+<?php endif; ?>
+
+<?php if ($this->getAgreementRefId()): ?>
+    <p><?php echo $this->__('Your billing agreement # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getAgreementUrl()), $this->escapeHtml($this->getAgreementRefId()))) ?></p>
+<?php endif; ?>
+
+<?php if ($profiles = $this->getRecurringProfiles()): ?>
+    <p><?php echo $this->__('Your recurring payment profiles:'); ?></p>
+    <ul class="disc">
+        <?php foreach ($profiles as $profile): ?>
+            <?php $profileIdHtml = ($this->getCanViewProfiles() ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id'))) : $this->escapeHtml($this->getObjectData($profile, 'reference_id'))); ?>
+            <li><?php echo $this->__('Payment profile # %s: "%s".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description'))) ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<div class="buttons-set checkout-cart-index">
+    <button type="button" class="button btn-proceed-checkout" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
+
+<!-- Google Code for Sale Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 996308914;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "AQjYCP7AhQQQsu-J2wM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/996308914/?value=0&amp;label=AQjYCP7AhQQQsu-J2wM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+
+<!-- Hau Vo: retarget pixel -->
+<?php
+$order_id = Mage::getSingleton('checkout/session')->getLastOrderId();
+$order = Mage::getModel('sales/order')->load($order_id);
+$incrementId = $this->getOrderId();
+$customer_id = $order->getCustomerId();
+if($customer_id == null)
+    $customer_id = 'guest';
+$amount = $order->getGrandTotal();
+
+$_order_items = $order->getAllItems();
+$number_of_items = 0;
+
+foreach($_order_items as $item){
+    $qty = $item->getQtyOrdered();
+    $number_of_items = $number_of_items + $qty;
+}
+$currency = 'SGD';
+
+$orderPayment = Mage::getResourceModel('sales/order_payment_collection')
+    ->addFieldToSelect('*')
+    ->addFieldToFilter('parent_id',$order_id);
+
+$sub_id = $orderPayment->getFirstItem()->getMethod();
+$link = "https://www.tagserve.sg/saleServlet?MID=138&PID=157&CRID=$customer_id&ORDERID=$incrementId&ORDERAMNT=$amount
+                &NUMOFITEMS=$number_of_item&CUR=$currency&SUBID=$sub_id";
+?>
+<img src='<?php echo $link;?>' border='0' width='1' height='1'>

@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <?php echo $this->getChildHtml('mother_head') ?>
+    </head>
+    <body>
+        <div class="wrapper">            
+            <div class="header"></div>          
+            <div class="page">
+                 <?php echo $this->getChildHtml('content') ?>
+            </div>
+            <?php echo $this->getChildHtml('footer') ?>
+        </div>
+        <script type="text/javascript">
+            //<![CDATA[
+            var _gaq = _gaq || [];
+    
+            _gaq.push(['_setAccount', 'UA-36770795-1']);
+            _gaq.push(['_trackPageview']);
+    
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+            //]]>
+        </script>
+        <!-- Google Code for Remarketing tag -->
+        <!-- Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. For instructions on adding this tag and more information on the above requirements, read the setup guide: google.com/ads/remarketingsetup -->
+        <script type="text/javascript">
+            /* <![CDATA[ */
+            var google_conversion_id = 996308914;
+            var google_conversion_label = "mASPCJbkkwQQsu-J2wM";
+            var google_custom_params = window.google_tag_params;
+            var google_remarketing_only = true;
+            /* ]]> */
+        </script>
+        <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+        </script>
+        <noscript>
+        <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/996308914/?value=0&amp;label=mASPCJbkkwQQsu-J2wM&amp;guid=ON&amp;script=0"/>
+        </div>
+        </noscript>
+
+        <!--
+Start of DoubleClick Floodlight Tag: Please do not remove
+Activity name of this tag: Roses Only Singapore Landing Page
+URL of the webpage where the tag is expected to be placed: http://www.rosesonly.com.sg
+This tag must be placed between the <body> and </body> tags, as close as possible to the opening tag.
+Creation Date: 04/11/2013
+        -->
+        <script type="text/javascript">
+            var axel = Math.random() + "";
+            var a = axel * 10000000000000;
+            document.write('<iframe src="http://4114347.fls.doubleclick.net/activityi;src=4114347;type=roses495;cat=roses715;ord=' + a + '?" width="1" height="1" frameborder="0" style="display:none"></iframe>');
+        </script>
+        <noscript>
+        <iframe src="http://4114347.fls.doubleclick.net/activityi;src=4114347;type=roses495;cat=roses715;ord=1?" width="1" height="1" frameborder="0" style="display:none"></iframe>
+        </noscript>
+
+        <!-- End of DoubleClick Floodlight Tag: Please do not remove -->
+    </body>
+</html>

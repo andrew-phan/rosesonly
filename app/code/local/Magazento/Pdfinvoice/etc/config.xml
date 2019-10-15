@@ -1,0 +1,1267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Magazento_Pdfinvoice>
+            <version>1.2.1</version>
+        </Magazento_Pdfinvoice>
+    </modules>
+    
+    <global>
+        <rewrite>
+            <mage_adminhtml_system_variable>
+                <from><![CDATA[#^/pdfinvoice/system_variable#]]>
+                </from>
+                <to>/admin/system_variable</to>
+            </mage_adminhtml_system_variable>
+        </rewrite>
+        <models>
+            <pdfinvoice>
+                <class>Magazento_Pdfinvoice_Model</class>
+            </pdfinvoice>
+            <sales>
+                <rewrite>
+                    <order_pdf_invoice>Magazento_Pdfinvoice_Model_Invoice</order_pdf_invoice>
+                    <order_pdf_creditmemo>Magazento_Pdfinvoice_Model_Creditmemo</order_pdf_creditmemo>
+                    <order_pdf_shipment>Magazento_Pdfinvoice_Model_Shipment</order_pdf_shipment>
+                </rewrite>
+            </sales>            
+        </models>
+        <blocks>
+            <pdfinvoice>
+                <class>Magazento_Pdfinvoice_Block</class>
+            </pdfinvoice>
+        </blocks>
+        <helpers>
+            <pdfinvoice>
+                <class>Magazento_Pdfinvoice_Helper</class>
+            </pdfinvoice>
+        </helpers>
+    </global>
+    
+    <admin>
+        <routers>
+            <magazento_pdfinvoice>
+                <use>admin</use>
+                <args>
+                    <module>Magazento_Pdfinvoice</module>
+                    <frontName>pdfinvoice</frontName>
+                </args>
+            </magazento_pdfinvoice>
+        </routers>
+    </admin>
+    
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <pdfinvoice translate="title">
+                            <title>Pdfinvoice</title>
+                            <children>
+                                <invoice translate="title">
+                                    <title>Manage invoices </title>
+                                </invoice>
+                            </children>
+                            <sort_order>65</sort_order>
+                        </pdfinvoice>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <pdfinvoice>
+                                            <title>Pdfinvoice</title>
+                                            <sort_order>101</sort_order>
+                                        </pdfinvoice>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <menu>
+            <system translate="title" module="pdfinvoice">
+                <children>
+                    <invoice translate="title" module="pdfinvoice">
+                        <title>PDF Invoice</title>
+                        <sort_order>0</sort_order>
+                        <action>pdfinvoice/admin_invoice/edit</action>
+                        <resource>pdfinvoice/admin/invoice/edit</resource>
+                    </invoice>
+                    <shipment translate="title" module="pdfinvoice">
+                        <title>PDF Shipment</title>
+                        <sort_order>0</sort_order>
+                        <action>pdfinvoice/admin_shipment/edit</action>
+                        <resource>pdfinvoice/admin/shipment/edit</resource>
+                    </shipment>
+                    <creditmemo translate="title" module="pdfinvoice">
+                        <title>PDF Credit memo</title>
+                        <sort_order>0</sort_order>
+                        <action>pdfinvoice/admin_creditmemo/edit</action>
+                        <resource>pdfinvoice/admin/creditmemo/edit</resource>
+                    </creditmemo>
+                </children>
+            </system>
+        </menu>
+    </adminhtml>
+    <default>
+        <pdfinvoice>
+            <invoice>
+                <cover_page_active>1</cover_page_active>
+                <final_page_active>1</final_page_active>
+                
+                <main_content>
+<![CDATA[
+<table border="0" width="100%">
+<tbody>
+<tr>
+<td>
+<h2>INVOICE&nbsp;#{{pdf.invoice.increment_id}}&nbsp;</h2>
+<p><strong>Grand total:&nbsp;</strong>{{pdf.invoice.base_grand_total}} USD<br /><strong>Tax:&nbsp;</strong>{{pdf.invoice.base_tax_amount}} USD&nbsp;<br /><strong>Total qty:</strong>{{pdf.invoice.total_qty}}&nbsp;</p>
+<p><strong>Firstname</strong>:{{pdf.order.customer_firstname}}<br /><strong>Lastname</strong>:{{pdf.order.customer_lastname}}&nbsp;</p>
+<br /></td>
+<td>
+<p><img src="{{media url="magazento_pdfinvoice/logo.png"}}" alt="" /></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Customer information:</h2>
+<table style="width: 100%;" border="0" align="left">
+<tbody>
+<tr>
+<td>
+<p>Billing address:</p>
+<p>{{pdf.general.billing_adress}}</p>
+</td>
+<td>
+<p>Shipping adress:</p>
+<p>{{pdf.general.shipping_adress}}</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<h2>Order information:</h2>
+<table style="width: 100%;" border="0" align="left">
+<tbody>
+<tr>
+<td>
+<p>Payment method:</p>
+<p>{{pdf.general.payment_info}}</p>
+</td>
+<td>
+<p><span>Shipping method:</span></p>
+<p><span>{{pdf.order.shipping_description}}</span><br /><br /></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Inenim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p>
+<p>&nbsp;</p>
+<h2>Ordered items:</h2>
+<p>{{pdf.general.order_items}}</p>
+<p>&nbsp;</p>
+<h2>General variables:</h2>
+<ul>
+<li>billing_adress&nbsp;</li>
+<li>shipping_adress</li>
+<li>order_items</li>
+<li>payment_info</li>
+</ul>
+<h2>Order variables list:</h2>
+<ul>
+<li>entity_id = {{pdf.order.entity_id}}</li>
+<li>state = {{pdf.order.state}}</li>
+<li>status = {{pdf.order.status}}</li>
+<li>coupon_code = {{pdf.order.coupon_code}}</li>
+<li>protect_code = {{pdf.order.protect_code}}</li>
+<li>shipping_description = {{pdf.order.shipping_description}}</li>
+<li>is_virtual = {{pdf.order.is_virtual}}</li>
+<li>store_id = {{pdf.order.store_id}}</li>
+<li>customer_id = {{pdf.order.customer_id}}</li>
+<li>base_discount_amount = {{pdf.order.base_discount_amount}}</li>
+<li>base_discount_canceled = {{pdf.order.base_discount_canceled}}</li>
+<li>base_discount_invoiced = {{pdf.order.base_discount_invoiced}}</li>
+<li>base_discount_refunded = {{pdf.order.base_discount_refunded}}</li>
+<li>base_grand_total= {{pdf.order.base_grand_total}}</li>
+<li>base_shipping_amount = {{pdf.order.base_shipping_amount}}</li>
+<li>base_shipping_canceled = {{pdf.order.base_shipping_canceled}}</li>
+<li>base_shipping_invoiced = {{pdf.order.base_shipping_invoiced}}</li>
+<li>base_shipping_refunded = {{pdf.order.base_shipping_refunded}}</li>
+<li>base_shipping_tax_amount = {{pdf.order.base_shipping_tax_amount}}</li>
+<li>base_shipping_tax_refunded = {{pdf.order.base_shipping_tax_refunded}}</li>
+<li>base_subtotal = {{pdf.order.base_subtotal}}</li>
+<li>base_subtotal_canceled = {{pdf.order.base_subtotal_canceled}}</li>
+<li>base_subtotal_invoiced = {{pdf.order.base_subtotal_invoiced}}</li>
+<li>base_subtotal_refunded = {{pdf.order.base_subtotal_refunded}}</li>
+<li>base_tax_amount = {{pdf.order.base_tax_amount}}</li>
+<li>base_tax_canceled = {{pdf.order.base_tax_canceled}}</li>
+<li>base_tax_invoiced = {{pdf.order.base_tax_invoiced}}</li>
+<li>base_tax_refunded = {{pdf.order.base_tax_refunded}}</li>
+<li>base_to_global_rate = {{pdf.order.base_to_global_rate}}</li>
+<li>base_to_order_rate = {{pdf.order.base_to_order_rate}}</li>
+<li>base_total_canceled = {{pdf.order.base_total_canceled}}</li>
+<li>base_total_invoiced = {{pdf.order.base_total_invoiced}}</li>
+<li>base_total_invoiced_cost = {{pdf.order.base_total_invoiced_cost}}</li>
+<li>base_total_offline_refunded = {{pdf.order.base_total_offline_refunded}}</li>
+<li>base_total_online_refunded = {{pdf.order.base_total_online_refunded}}</li>
+<li>base_total_paid = {{pdf.order.base_total_paid}}</li>
+<li>base_total_qty_ordered = {{pdf.order.base_total_qty_ordered}}</li>
+<li>base_total_refunded = {{pdf.order.base_total_refunded}}</li>
+<li>discount_amount = {{pdf.order.discount_amount}}</li>
+<li>discount_canceled = {{pdf.order.discount_canceled}}</li>
+<li>discount_invoiced = {{pdf.order.discount_invoiced}}</li>
+<li>discount_refunded = {{pdf.order.discount_refunded}}</li>
+<li>grand_total = {{pdf.order.grand_total}}</li>
+<li>shipping_amount = {{pdf.order.shipping_amount}}</li>
+<li>shipping_canceled = {{pdf.order.shipping_canceled}}</li>
+<li>shipping_invoiced = {{pdf.order.shipping_invoiced}}</li>
+<li>shipping_refunded = {{pdf.order.shipping_refunded}}</li>
+<li>shipping_tax_amount = {{pdf.order.shipping_tax_amount}}</li>
+<li>shipping_tax_refunded = {{pdf.order.shipping_tax_refunded}}</li>
+<li>store_to_base_rate = {{pdf.order.store_to_base_rate}}</li>
+<li>store_to_order_rate = {{pdf.order.store_to_order_rate}}</li>
+<li>subtotal = {{pdf.order.subtotal}}</li>
+<li>subtotal_canceled = {{pdf.order.subtotal_canceled}}</li>
+<li>subtotal_invoiced = {{pdf.order.subtotal_invoiced}}</li>
+<li>subtotal_refunded = {{pdf.order.subtotal_refunded}}</li>
+<li>tax_amount = {{pdf.order.tax_amount}}</li>
+<li>tax_canceled = {{pdf.order.tax_canceled}}</li>
+<li>tax_invoiced = {{pdf.order.tax_invoiced}}</li>
+<li>tax_refunded = {{pdf.order.tax_refunded}}</li>
+<li>total_canceled = {{pdf.order.total_canceled}}</li>
+<li>total_invoiced = {{pdf.order.total_invoiced}}</li>
+<li>total_offline_refunded = {{pdf.order.total_offline_refunded}}</li>
+<li>total_online_refunded = {{pdf.order.total_online_refunded}}</li>
+<li>total_paid = {{pdf.order.total_paid}}</li>
+<li>total_qty_ordered = {{pdf.order.total_qty_ordered}}</li>
+<li>total_refunded = {{pdf.order.total_refunded}}</li>
+<li>can_ship_partially = {{pdf.order.can_ship_partially}}</li>
+<li>can_ship_partially_item = {{pdf.order.can_ship_partially_item}}</li>
+<li>customer_is_guest = {{pdf.order.customer_is_guest}}</li>
+<li>customer_note_notify = {{pdf.order.customer_note_notify}}</li>
+<li>billing_address_id = {{pdf.order.billing_address_id}}</li>
+<li>customer_group_id = {{pdf.order.customer_group_id}}</li>
+<li>edit_increment = {{pdf.order.edit_increment}}</li>
+<li>email_sent = {{pdf.order.email_sent}}</li>
+<li>forced_do_shipment_with_invoice = {{pdf.order.forced_do_shipment_with_invoice}}</li>
+<li>gift_message_id = {{pdf.order.gift_message_id}}</li>
+<li>payment_authorization_expiration = {{pdf.order.payment_authorization_expiration}}</li>
+<li>paypal_ipn_customer_notified = {{pdf.order.paypal_ipn_customer_notified}}</li>
+<li>quote_address_id = {{pdf.order.quote_address_id}}</li>
+<li>quote_id = {{pdf.order.quote_id}}</li>
+<li>shipping_address_id = {{pdf.order.shipping_address_id}}</li>
+<li>adjustment_negative = {{pdf.order.adjustment_negative}}</li>
+<li>adjustment_positive = {{pdf.order.adjustment_positive}}</li>
+<li>base_adjustment_negative = {{pdf.order.base_adjustment_negative}}</li>
+<li>base_adjustment_positive = {{pdf.order.base_adjustment_positive}}</li>
+<li>base_shipping_discount_amount = {{pdf.order.base_shipping_discount_amount}}</li>
+<li>base_subtotal_incl_tax = {{pdf.order.base_subtotal_incl_tax}}</li>
+<li>base_total_due = {{pdf.order.base_total_due}}</li>
+<li>payment_authorization_amount = {{pdf.order.payment_authorization_amount}}</li>
+<li>shipping_discount_amount = {{pdf.order.shipping_discount_amount}}</li>
+<li>subtotal_incl_tax = {{pdf.order.subtotal_incl_tax}}</li>
+<li>total_due = {{pdf.order.total_due}}</li>
+<li>weight = {{pdf.order.weight}}</li>
+<li>customer_dob = {{pdf.order.customer_dob}}</li>
+<li>increment_id = {{pdf.order.increment_id}}</li>
+<li>applied_rule_ids = {{pdf.order.applied_rule_ids}}</li>
+<li>base_currency_code = {{pdf.order.base_currency_code}}</li>
+<li>customer_email = {{pdf.order.customer_email}}</li>
+<li>customer_firstname = {{pdf.order.customer_firstname}}</li>
+<li>customer_lastname = {{pdf.order.customer_lastname}}</li>
+<li>customer_middlename = {{pdf.order.customer_middlename}}</li>
+<li>customer_prefix = {{pdf.order.customer_prefix}}</li>
+<li>customer_suffix = {{pdf.order.customer_suffix}}</li>
+<li>customer_taxvat = {{pdf.order.customer_taxvat}}</li>
+<li>discount_description = {{pdf.order.discount_description}}</li>
+<li>ext_customer_id = {{pdf.order.ext_customer_id}}</li>
+<li>ext_order_id =  {{pdf.order.ext_order_id}}</li>
+<li>global_currency_code = {{pdf.order.global_currency_code}}</li>
+<li>hold_before_state = {{pdf.order.hold_before_state}}</li>
+<li>hold_before_status = {{pdf.order.hold_before_status}}</li>
+<li>order_currency_code = {{pdf.order.order_currency_code}}</li>
+<li>original_increment_id = {{pdf.order.original_increment_id}}</li>
+<li>relation_child_id = {{pdf.order.relation_child_id}}</li>
+<li>relation_child_real_id = {{pdf.order.relation_child_real_id}}</li>
+<li>relation_parent_id = {{pdf.order.relation_parent_id}}</li>
+<li>relation_parent_real_id = {{pdf.order.relation_parent_real_id}}</li>
+<li>remote_ip = {{pdf.order.remote_ip}}</li>
+<li>shipping_method = {{pdf.order.shipping_method}}</li>
+<li>store_currency_code = {{pdf.order.store_currency_code}}</li>
+<li>store_name = {{pdf.order.store_name}}</li>
+<li>x_forwarded_for = {{pdf.order.x_forwarded_for}}</li>
+<li>customer_note = {{pdf.order.customer_note}}</li>
+<li>created_at = {{pdf.order.created_at}}</li>
+<li>updated_at = {{pdf.order.updated_at}}</li>
+<li>total_item_count = {{pdf.order.total_item_count}}</li>
+<li>customer_gender = {{pdf.order.customer_gender}}</li>
+<li>base_custbalance_amount = {{pdf.order.base_custbalance_amount}}</li>
+<li>currency_base_id = {{pdf.order.currency_base_id}}</li>
+<li>currency_code = {{pdf.order.currency_code}}</li>
+<li>currency_rate = {{pdf.order.currency_rate}}</li>
+<li>custbalance_amount = {{pdf.order.custbalance_amount}}</li>
+<li>is_hold = {{pdf.order.is_hold}}</li>
+<li>is_multi_payment = {{pdf.order.is_multi_payment}}</li>
+<li>real_order_id = {{pdf.order.real_order_id}}</li>
+<li>tax_percent = {{pdf.order.tax_percent}}</li>
+<li>tracking_numbers = {{pdf.order.tracking_numbers}}</li>
+<li>hidden_tax_amount = {{pdf.order.hidden_tax_amount}}</li>
+<li>base_hidden_tax_amount = {{pdf.order.base_hidden_tax_amount}}</li>
+<li>shipping_hidden_tax_amount = {{pdf.order.shipping_hidden_tax_amount}}</li>
+<li>base_shipping_hidden_tax_amount = {{pdf.order.base_shipping_hidden_tax_amount}}</li>
+<li>hidden_tax_invoiced = {{pdf.order.hidden_tax_invoiced}}</li>
+<li>base_hidden_tax_invoiced = {{pdf.order.base_hidden_tax_invoiced}}</li>
+<li>hidden_tax_refunded = {{pdf.order.hidden_tax_refunded}}</li>
+<li>base_hidden_tax_refunded ={{pdf.order.base_hidden_tax_refunded}}</li>
+</ul>
+<h2>Invoice variables list:</h2>
+<ul>
+<li>entity_id = {{pdf.invoice.entity_id}}</li>
+<li>store_id = {{pdf.invoice.store_id}}</li>
+<li>base_grand_total = {{pdf.invoice.base_grand_total}}</li>
+<li>shipping_tax_amount = {{pdf.invoice.shipping_tax_amount}}</li>
+<li>tax_amount = {{pdf.invoice.tax_amount}}</li>
+<li>base_tax_amount = {{pdf.invoice.base_tax_amount}}</li>
+<li>store_to_order_rate = {{pdf.invoice.store_to_order_rate}}</li>
+<li>base_shipping_tax_amount = {{pdf.invoice.base_shipping_tax_amount}}</li>
+<li>base_discount_amount = {{pdf.invoice.base_discount_amount}}</li>
+<li>base_to_order_rate = {{pdf.invoice.base_to_order_rate}}</li>
+<li>grand_total = {{pdf.invoice.grand_total}}</li>
+<li>shipping_amount = {{pdf.invoice.shipping_amount}}</li>
+<li>subtotal_incl_tax = {{pdf.invoice.subtotal_incl_tax}}</li>
+<li>base_subtotal_incl_tax = {{pdf.invoice.base_subtotal_incl_tax}}</li>
+<li>store_to_base_rate = {{pdf.invoice.store_to_base_rate}}</li>
+<li>base_shipping_amount = {{pdf.invoice.base_shipping_amount}}</li>
+<li>total_qty = {{pdf.invoice.total_qty}}</li>
+<li>base_to_global_rate = {{pdf.invoice.base_to_global_rate}}</li>
+<li>subtotal = {{pdf.invoice.subtotal}}</li>
+<li>base_subtotal = {{pdf.invoice.base_subtotal}}</li>
+<li>discount_amount = {{pdf.invoice.discount_amount}}</li>
+<li>billing_address_id = {{pdf.invoice.billing_address_id}}</li>
+<li>is_used_for_refund = {{pdf.invoice.is_used_for_refund}}</li>
+<li>order_id = {{pdf.invoice.order_id}}</li>
+<li>email_sent = {{pdf.invoice.email_sent}}</li>
+<li>can_void_flag = {{pdf.invoice.can_void_flag}}</li>
+<li>state = {{pdf.invoice.state}}</li>
+<li>shipping_address_id = {{pdf.invoice.shipping_address_id}}</li>
+<li>cybersource_token = {{pdf.invoice.cybersource_token}}</li>
+<li>store_currency_code = {{pdf.invoice.store_currency_code}}</li>
+<li>transaction_id = {{pdf.invoice.transaction_id}}</li>
+<li>order_currency_code = {{pdf.invoice.order_currency_code}}</li>
+<li>base_currency_code = {{pdf.invoice.base_currency_code}}</li>
+<li>global_currency_code = {{pdf.invoice.global_currency_code}}</li>
+<li>increment_id = {{pdf.invoice.increment_id}}</li>
+<li>created_at = {{pdf.invoice.created_at}}</li>
+<li>updated_at = {{pdf.invoice.updated_at}}</li>
+<li>customer_id = {{pdf.invoice.customer_id}}</li>
+<li>invoice_status_id = {{pdf.invoice.invoice_status_id}}</li>
+<li>invoice_type = {{pdf.invoice.invoice_type}}</li>
+<li>is_virtual = {{pdf.invoice.is_virtual}}</li>
+<li>real_order_id = {{pdf.invoice.real_order_id}}</li>
+<li>total_due = {{pdf.invoice.total_due}}</li>
+<li>total_paid = {{pdf.invoice.total_paid}}</li>
+<li>hidden_tax_amount = {{pdf.invoice.hidden_tax_amount}}</li>
+<li>base_hidden_tax_amount = {{pdf.invoice.base_hidden_tax_amount}}</li>
+<li>shipping_hidden_tax_amount = {{pdf.invoice.shipping_hidden_tax_amount}}</li>
+<li>base_shipping_hidden_tax_amount = {{pdf.invoice.base_shipping_hidden_tax_amount}}</li>
+<li>shipping_incl_tax = {{pdf.invoice.shipping_incl_tax}}</li>
+<li>base_shipping_incl_tax = {{pdf.invoice.base_shipping_incl_tax}}</li>
+<li>base_total_refunded = {{pdf.invoice.base_total_refunded}}</li>
+</ul>
+]]>                  
+                </main_content>
+                <main_content_header>
+                    <![CDATA[                    
+<p><img src="{{media url="magazento_pdfinvoice/magazento-header.png"}}" alt="" /></p>
+]]> 
+                </main_content_header>
+                <main_content_footer>
+                    <![CDATA[                    
+<p><img src="{{media url="magazento_pdfinvoice/magazento-footer.png"}}" alt="" /></p>
+]]>   
+                </main_content_footer>
+                
+                <cover_content>
+<![CDATA[                    
+<div style="margin: 50px;">
+<table border="0">
+<tbody>
+<tr>
+<td>
+<h1>This is a sample <span style="text-decoration: underline;">COVER PAGE</span> for Invoice #<span>{{pdf.invoice.increment_id}}&nbsp;</span></h1>
+<p>&nbsp;</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>
+<p>&nbsp;</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>
+<p>&nbsp;</p>
+<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dap</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>Terms and Conditions:</h3>
+<div class="column"><ol>
+<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</li>
+<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, j</li>
+<li>usto. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</li>
+<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla</li>
+<li>consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</li>
+<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla</li>
+<li>consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venena</li>
+<li>tis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.&nbsp;</li>
+</ol>
+<p>&nbsp;</p>
+<ol> </ol></div>
+</td>
+<td><img src="{{media url="magazento_pdfinvoice/web_banner_160x600_01.png"}}" alt="" /><br /><br /></td>
+</tr>
+</tbody>
+</table>
+</div>
+]]>                       
+                </cover_content>
+                <cover_content_header>
+<![CDATA[                    
+<p><img src="{{media url="magazento_pdfinvoice/magazento-header.png"}}" alt="" /></p>
+]]>    
+                </cover_content_header>
+                <cover_content_footer>
+<![CDATA[                    
+<p><img src="{{media url="magazento_pdfinvoice/magazento-footer.png"}}" alt="" /></p>
+]]>    
+                </cover_content_footer>
+                
+                <final_content>
+<![CDATA[                    
+<p>&nbsp;</p>
+<div style="margin: 50px;">
+<h1><span style="text-decoration: underline;">FINAL PAGE</span> for Invoice #<span>{{pdf.invoice.increment_id}}&nbsp;</span></h1>
+<table border="0">
+<tbody>
+<tr>
+<td>
+<h1><img src="{{media url="magazento_pdfinvoice/magento.png"}}" alt="" /></h1>
+</td>
+<td>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 style="text-align: justify;">Terms and Conditions:</h3>
+<div class="column"><ol>
+<li style="text-align: justify;">
+<p><span>&nbsp;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. </span></p>
+</li>
+<li style="text-align: justify;">
+<p><span>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, j</span></p>
+<p><span>usto. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. </span></p>
+</li>
+<li style="text-align: justify;">
+<p><span>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla</span></p>
+<p><span>consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</span></p>
+</li>
+<li>
+<p style="text-align: justify;"><span>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla</span></p>
+<p style="text-align: justify;"><span>consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venena</span></p>
+<p style="text-align: justify;"><span>tis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.&nbsp;</span></p>
+<p style="text-align: justify;"><span><br /></span></p>
+<p style="text-align: justify;"><span><br /></span></p>
+<p style="text-align: justify;"><span><br /></span></p>
+<p style="text-align: justify;"><span><br /></span></p>
+<p style="text-align: justify;"><span><img src="{{media url="magazento_pdfinvoice/web_banner_840x110_01.png"}}" alt="" width="100%" /><br /><br /></span></p>
+</li>
+</ol></div>
+</div>
+]]>                     
+                </final_content>
+                <final_content_header>
+<![CDATA[                    
+<p><img src="{{media url="magazento_pdfinvoice/magazento-header.png"}}" alt="" /></p>
+&nbsp;
+]]>   
+                </final_content_header>
+                <final_content_footer>
+<![CDATA[                    
+<p>&nbsp;<img src="{{media url="magazento_pdfinvoice/magazento-footer.png"}}" alt="" /></p>
+]]>    
+                </final_content_footer>
+                
+                <final_page_layout>L</final_page_layout>
+                <final_page_margin_top>0</final_page_margin_top>
+                <final_page_margin_right>0</final_page_margin_right>                
+                <final_page_margin_bottom>0</final_page_margin_bottom>
+                <final_page_margin_left>0</final_page_margin_left>                
+                <final_page_margin_header>0</final_page_margin_header>
+                <final_page_margin_footer>0</final_page_margin_footer>                
+                
+                <main_page_layout>P</main_page_layout>                
+                <main_page_margin_top>10</main_page_margin_top>
+                <main_page_margin_right>10</main_page_margin_right>                
+                <main_page_margin_bottom>10</main_page_margin_bottom>
+                <main_page_margin_left>10</main_page_margin_left>                
+                <main_page_margin_header>2</main_page_margin_header>
+                <main_page_margin_footer>2</main_page_margin_footer>                
+                
+                <cover_page_layout>L</cover_page_layout>                
+                <cover_page_margin_top>10</cover_page_margin_top>
+                <cover_page_margin_right>0</cover_page_margin_right>                
+                <cover_page_margin_bottom>10</cover_page_margin_bottom>
+                <cover_page_margin_left>0</cover_page_margin_left>                
+                <cover_page_margin_header>0</cover_page_margin_header>
+                <cover_page_margin_footer>0</cover_page_margin_footer>                
+                
+                <page_css>
+<![CDATA[                    
+*     { background:none !important; text-align:left !important; }
+html  { margin:0 !important; padding:0 !important; }
+body  { background:#fff !important; font-size:9pt !important; padding:0 !important; margin:10px !important; }
+a     { color:#2976c9 !important; }
+
+
+/* Data Table */
+.data-table { width:100%; border:1px solid #bebcb7; }
+.data-table .odd  { background:#f8f7f5 }
+.data-table .even { background:#eeeded; }
+/*.data-table tr.odd:hover,
+.data-table tr.even:hover { background:#ebf1f6; }*/
+.data-table td.last,
+.data-table th.last { border-right:0; }
+.data-table tr.last th,
+.data-table tr.last td { border-bottom:0 !important; }
+.data-table th { padding:3px 8px; font-weight:bold; }
+.data-table td { padding:3px 8px; }
+
+.data-table thead th {
+font-weight: bold;
+border-right: 1px solid #BEBCB7;
+padding: 2px 8px;
+color: #0A263C;
+white-space: nowrap;
+vertical-align: middle;
+border-bottom: 1px solid #BEBCB7;
+}
+.data-table thead th.wrap { white-space:normal; }
+.data-table thead th a,
+.data-table thead th a:hover { color:#fff; }
+.data-table thead th { background:url(../images/bkg_th.gif) repeat-x 0 100% #d9e5ee; }
+.data-table thead th .tax-flag { font-size:11px; white-space:nowrap; }
+
+.data-table tfoot { border-bottom:1px solid #d9dde3; }
+.data-table tfoot tr.first td { background:url(../images/bkg_tfoot.gif) 0 0 repeat-x; }
+.data-table tfoot tr { background-color:#dee5e8 !important; }
+.data-table tfoot td { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
+.data-table tfoot strong { font-size:16px; }
+
+.data-table tbody th,
+.data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
+/* Bundle products tables */
+.data-table tbody.odd tr { background:#f8f7f5 !important; }
+.data-table tbody.even tr { background:#f6f6f6 !important; }
+.data-table tbody.odd tr td,
+.data-table tbody.even tr td { border-bottom:0; }
+.data-table tbody.odd tr.border td,
+.data-table tbody.even tr.border td { border-bottom:1px solid #d9dde3; }
+
+.data-table tbody td .option-label { font-weight:bold; font-style:italic; }
+.data-table tbody td .option-value { padding-left:10px; }
+]]>                        
+                </page_css>    
+                
+                <background_image>4c6893ea954728d993c6fd0e.jpg</background_image>                
+            </invoice>
+            
+            <shipment>
+                
+                <cover_page_active>0</cover_page_active>
+                <final_page_active>0</final_page_active>
+                
+                <main_content>
+<![CDATA[
+<table border="0" width="100%">
+<tbody>
+<tr>
+<td>
+<h2>SHIPMENT FOR INVOICE #{{pdf.invoice.increment_id}}&nbsp;</h2>
+<p><strong>Grand total:&nbsp;</strong>{{pdf.invoice.base_grand_total}} USD<br /><strong>Tax:&nbsp;</strong>{{pdf.invoice.base_tax_amount}} USD&nbsp;<br /><strong>Total qty:</strong>{{pdf.invoice.total_qty}}&nbsp;</p>
+<p><strong>Firstname</strong>:{{pdf.order.customer_firstname}}<br /><strong>Lastname</strong>:{{pdf.order.customer_lastname}}&nbsp;</p>
+<br /></td>
+<td>
+<p><img src="{{media url="magazento_pdfinvoice/logo.png"}}" alt="" /></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Inenim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p>
+<h2>Ordered items:</h2>
+<p>{{pdf.general.order_items}}</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Inenim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Inenim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p>
+<p>&nbsp;</p>
+<h2>Full list of PDF variables you may use goes bellow</h2>
+<ul>
+<li>billing_adress&nbsp;</li>
+<li>shipping_adress</li>
+<li>order_items</li>
+<li>payment_info</li>
+</ul>
+<h2>Order variables list:</h2>
+<ul>
+<li>entity_id = {{pdf.order.entity_id}}</li>
+<li>state = {{pdf.order.state}}</li>
+<li>status = {{pdf.order.status}}</li>
+<li>coupon_code = {{pdf.order.coupon_code}}</li>
+<li>protect_code = {{pdf.order.protect_code}}</li>
+<li>shipping_description = {{pdf.order.shipping_description}}</li>
+<li>is_virtual = {{pdf.order.is_virtual}}</li>
+<li>store_id = {{pdf.order.store_id}}</li>
+<li>customer_id = {{pdf.order.customer_id}}</li>
+<li>base_discount_amount = {{pdf.order.base_discount_amount}}</li>
+<li>base_discount_canceled = {{pdf.order.base_discount_canceled}}</li>
+<li>base_discount_invoiced = {{pdf.order.base_discount_invoiced}}</li>
+<li>base_discount_refunded = {{pdf.order.base_discount_refunded}}</li>
+<li>base_grand_total= {{pdf.order.base_grand_total}}</li>
+<li>base_shipping_amount = {{pdf.order.base_shipping_amount}}</li>
+<li>base_shipping_canceled = {{pdf.order.base_shipping_canceled}}</li>
+<li>base_shipping_invoiced = {{pdf.order.base_shipping_invoiced}}</li>
+<li>base_shipping_refunded = {{pdf.order.base_shipping_refunded}}</li>
+<li>base_shipping_tax_amount = {{pdf.order.base_shipping_tax_amount}}</li>
+<li>base_shipping_tax_refunded = {{pdf.order.base_shipping_tax_refunded}}</li>
+<li>base_subtotal = {{pdf.order.base_subtotal}}</li>
+<li>base_subtotal_canceled = {{pdf.order.base_subtotal_canceled}}</li>
+<li>base_subtotal_invoiced = {{pdf.order.base_subtotal_invoiced}}</li>
+<li>base_subtotal_refunded = {{pdf.order.base_subtotal_refunded}}</li>
+<li>base_tax_amount = {{pdf.order.base_tax_amount}}</li>
+<li>base_tax_canceled = {{pdf.order.base_tax_canceled}}</li>
+<li>base_tax_invoiced = {{pdf.order.base_tax_invoiced}}</li>
+<li>base_tax_refunded = {{pdf.order.base_tax_refunded}}</li>
+<li>base_to_global_rate = {{pdf.order.base_to_global_rate}}</li>
+<li>base_to_order_rate = {{pdf.order.base_to_order_rate}}</li>
+<li>base_total_canceled = {{pdf.order.base_total_canceled}}</li>
+<li>base_total_invoiced = {{pdf.order.base_total_invoiced}}</li>
+<li>base_total_invoiced_cost = {{pdf.order.base_total_invoiced_cost}}</li>
+<li>base_total_offline_refunded = {{pdf.order.base_total_offline_refunded}}</li>
+<li>base_total_online_refunded = {{pdf.order.base_total_online_refunded}}</li>
+<li>base_total_paid = {{pdf.order.base_total_paid}}</li>
+<li>base_total_qty_ordered = {{pdf.order.base_total_qty_ordered}}</li>
+<li>base_total_refunded = {{pdf.order.base_total_refunded}}</li>
+<li>discount_amount = {{pdf.order.discount_amount}}</li>
+<li>discount_canceled = {{pdf.order.discount_canceled}}</li>
+<li>discount_invoiced = {{pdf.order.discount_invoiced}}</li>
+<li>discount_refunded = {{pdf.order.discount_refunded}}</li>
+<li>grand_total = {{pdf.order.grand_total}}</li>
+<li>shipping_amount = {{pdf.order.shipping_amount}}</li>
+<li>shipping_canceled = {{pdf.order.shipping_canceled}}</li>
+<li>shipping_invoiced = {{pdf.order.shipping_invoiced}}</li>
+<li>shipping_refunded = {{pdf.order.shipping_refunded}}</li>
+<li>shipping_tax_amount = {{pdf.order.shipping_tax_amount}}</li>
+<li>shipping_tax_refunded = {{pdf.order.shipping_tax_refunded}}</li>
+<li>store_to_base_rate = {{pdf.order.store_to_base_rate}}</li>
+<li>store_to_order_rate = {{pdf.order.store_to_order_rate}}</li>
+<li>subtotal = {{pdf.order.subtotal}}</li>
+<li>subtotal_canceled = {{pdf.order.subtotal_canceled}}</li>
+<li>subtotal_invoiced = {{pdf.order.subtotal_invoiced}}</li>
+<li>subtotal_refunded = {{pdf.order.subtotal_refunded}}</li>
+<li>tax_amount = {{pdf.order.tax_amount}}</li>
+<li>tax_canceled = {{pdf.order.tax_canceled}}</li>
+<li>tax_invoiced = {{pdf.order.tax_invoiced}}</li>
+<li>tax_refunded = {{pdf.order.tax_refunded}}</li>
+<li>total_canceled = {{pdf.order.total_canceled}}</li>
+<li>total_invoiced = {{pdf.order.total_invoiced}}</li>
+<li>total_offline_refunded = {{pdf.order.total_offline_refunded}}</li>
+<li>total_online_refunded = {{pdf.order.total_online_refunded}}</li>
+<li>total_paid = {{pdf.order.total_paid}}</li>
+<li>total_qty_ordered = {{pdf.order.total_qty_ordered}}</li>
+<li>total_refunded = {{pdf.order.total_refunded}}</li>
+<li>can_ship_partially = {{pdf.order.can_ship_partially}}</li>
+<li>can_ship_partially_item = {{pdf.order.can_ship_partially_item}}</li>
+<li>customer_is_guest = {{pdf.order.customer_is_guest}}</li>
+<li>customer_note_notify = {{pdf.order.customer_note_notify}}</li>
+<li>billing_address_id = {{pdf.order.billing_address_id}}</li>
+<li>customer_group_id = {{pdf.order.customer_group_id}}</li>
+<li>edit_increment = {{pdf.order.edit_increment}}</li>
+<li>email_sent = {{pdf.order.email_sent}}</li>
+<li>forced_do_shipment_with_invoice = {{pdf.order.forced_do_shipment_with_invoice}}</li>
+<li>gift_message_id = {{pdf.order.gift_message_id}}</li>
+<li>payment_authorization_expiration = {{pdf.order.payment_authorization_expiration}}</li>
+<li>paypal_ipn_customer_notified = {{pdf.order.paypal_ipn_customer_notified}}</li>
+<li>quote_address_id = {{pdf.order.quote_address_id}}</li>
+<li>quote_id = {{pdf.order.quote_id}}</li>
+<li>shipping_address_id = {{pdf.order.shipping_address_id}}</li>
+<li>adjustment_negative = {{pdf.order.adjustment_negative}}</li>
+<li>adjustment_positive = {{pdf.order.adjustment_positive}}</li>
+<li>base_adjustment_negative = {{pdf.order.base_adjustment_negative}}</li>
+<li>base_adjustment_positive = {{pdf.order.base_adjustment_positive}}</li>
+<li>base_shipping_discount_amount = {{pdf.order.base_shipping_discount_amount}}</li>
+<li>base_subtotal_incl_tax = {{pdf.order.base_subtotal_incl_tax}}</li>
+<li>base_total_due = {{pdf.order.base_total_due}}</li>
+<li>payment_authorization_amount = {{pdf.order.payment_authorization_amount}}</li>
+<li>shipping_discount_amount = {{pdf.order.shipping_discount_amount}}</li>
+<li>subtotal_incl_tax = {{pdf.order.subtotal_incl_tax}}</li>
+<li>total_due = {{pdf.order.total_due}}</li>
+<li>weight = {{pdf.order.weight}}</li>
+<li>customer_dob = {{pdf.order.customer_dob}}</li>
+<li>increment_id = {{pdf.order.increment_id}}</li>
+<li>applied_rule_ids = {{pdf.order.applied_rule_ids}}</li>
+<li>base_currency_code = {{pdf.order.base_currency_code}}</li>
+<li>customer_email = {{pdf.order.customer_email}}</li>
+<li>customer_firstname = {{pdf.order.customer_firstname}}</li>
+<li>customer_lastname = {{pdf.order.customer_lastname}}</li>
+<li>customer_middlename = {{pdf.order.customer_middlename}}</li>
+<li>customer_prefix = {{pdf.order.customer_prefix}}</li>
+<li>customer_suffix = {{pdf.order.customer_suffix}}</li>
+<li>customer_taxvat = {{pdf.order.customer_taxvat}}</li>
+<li>discount_description = {{pdf.order.discount_description}}</li>
+<li>ext_customer_id = {{pdf.order.ext_customer_id}}</li>
+<li>ext_order_id =  {{pdf.order.ext_order_id}}</li>
+<li>global_currency_code = {{pdf.order.global_currency_code}}</li>
+<li>hold_before_state = {{pdf.order.hold_before_state}}</li>
+<li>hold_before_status = {{pdf.order.hold_before_status}}</li>
+<li>order_currency_code = {{pdf.order.order_currency_code}}</li>
+<li>original_increment_id = {{pdf.order.original_increment_id}}</li>
+<li>relation_child_id = {{pdf.order.relation_child_id}}</li>
+<li>relation_child_real_id = {{pdf.order.relation_child_real_id}}</li>
+<li>relation_parent_id = {{pdf.order.relation_parent_id}}</li>
+<li>relation_parent_real_id = {{pdf.order.relation_parent_real_id}}</li>
+<li>remote_ip = {{pdf.order.remote_ip}}</li>
+<li>shipping_method = {{pdf.order.shipping_method}}</li>
+<li>store_currency_code = {{pdf.order.store_currency_code}}</li>
+<li>store_name = {{pdf.order.store_name}}</li>
+<li>x_forwarded_for = {{pdf.order.x_forwarded_for}}</li>
+<li>customer_note = {{pdf.order.customer_note}}</li>
+<li>created_at = {{pdf.order.created_at}}</li>
+<li>updated_at = {{pdf.order.updated_at}}</li>
+<li>total_item_count = {{pdf.order.total_item_count}}</li>
+<li>customer_gender = {{pdf.order.customer_gender}}</li>
+<li>base_custbalance_amount = {{pdf.order.base_custbalance_amount}}</li>
+<li>currency_base_id = {{pdf.order.currency_base_id}}</li>
+<li>currency_code = {{pdf.order.currency_code}}</li>
+<li>currency_rate = {{pdf.order.currency_rate}}</li>
+<li>custbalance_amount = {{pdf.order.custbalance_amount}}</li>
+<li>is_hold = {{pdf.order.is_hold}}</li>
+<li>is_multi_payment = {{pdf.order.is_multi_payment}}</li>
+<li>real_order_id = {{pdf.order.real_order_id}}</li>
+<li>tax_percent = {{pdf.order.tax_percent}}</li>
+<li>tracking_numbers = {{pdf.order.tracking_numbers}}</li>
+<li>hidden_tax_amount = {{pdf.order.hidden_tax_amount}}</li>
+<li>base_hidden_tax_amount = {{pdf.order.base_hidden_tax_amount}}</li>
+<li>shipping_hidden_tax_amount = {{pdf.order.shipping_hidden_tax_amount}}</li>
+<li>base_shipping_hidden_tax_amount = {{pdf.order.base_shipping_hidden_tax_amount}}</li>
+<li>hidden_tax_invoiced = {{pdf.order.hidden_tax_invoiced}}</li>
+<li>base_hidden_tax_invoiced = {{pdf.order.base_hidden_tax_invoiced}}</li>
+<li>hidden_tax_refunded = {{pdf.order.hidden_tax_refunded}}</li>
+<li>base_hidden_tax_refunded ={{pdf.order.base_hidden_tax_refunded}}</li>
+</ul>
+<h2>Invoice variables list:</h2>
+<ul>
+<li>entity_id = {{pdf.invoice.entity_id}}</li>
+<li>store_id = {{pdf.invoice.store_id}}</li>
+<li>base_grand_total = {{pdf.invoice.base_grand_total}}</li>
+<li>shipping_tax_amount = {{pdf.invoice.shipping_tax_amount}}</li>
+<li>tax_amount = {{pdf.invoice.tax_amount}}</li>
+<li>base_tax_amount = {{pdf.invoice.base_tax_amount}}</li>
+<li>store_to_order_rate = {{pdf.invoice.store_to_order_rate}}</li>
+<li>base_shipping_tax_amount = {{pdf.invoice.base_shipping_tax_amount}}</li>
+<li>base_discount_amount = {{pdf.invoice.base_discount_amount}}</li>
+<li>base_to_order_rate = {{pdf.invoice.base_to_order_rate}}</li>
+<li>grand_total = {{pdf.invoice.grand_total}}</li>
+<li>shipping_amount = {{pdf.invoice.shipping_amount}}</li>
+<li>subtotal_incl_tax = {{pdf.invoice.subtotal_incl_tax}}</li>
+<li>base_subtotal_incl_tax = {{pdf.invoice.base_subtotal_incl_tax}}</li>
+<li>store_to_base_rate = {{pdf.invoice.store_to_base_rate}}</li>
+<li>base_shipping_amount = {{pdf.invoice.base_shipping_amount}}</li>
+<li>total_qty = {{pdf.invoice.total_qty}}</li>
+<li>base_to_global_rate = {{pdf.invoice.base_to_global_rate}}</li>
+<li>subtotal = {{pdf.invoice.subtotal}}</li>
+<li>base_subtotal = {{pdf.invoice.base_subtotal}}</li>
+<li>discount_amount = {{pdf.invoice.discount_amount}}</li>
+<li>billing_address_id = {{pdf.invoice.billing_address_id}}</li>
+<li>is_used_for_refund = {{pdf.invoice.is_used_for_refund}}</li>
+<li>order_id = {{pdf.invoice.order_id}}</li>
+<li>email_sent = {{pdf.invoice.email_sent}}</li>
+<li>can_void_flag = {{pdf.invoice.can_void_flag}}</li>
+<li>state = {{pdf.invoice.state}}</li>
+<li>shipping_address_id = {{pdf.invoice.shipping_address_id}}</li>
+<li>cybersource_token = {{pdf.invoice.cybersource_token}}</li>
+<li>store_currency_code = {{pdf.invoice.store_currency_code}}</li>
+<li>transaction_id = {{pdf.invoice.transaction_id}}</li>
+<li>order_currency_code = {{pdf.invoice.order_currency_code}}</li>
+<li>base_currency_code = {{pdf.invoice.base_currency_code}}</li>
+<li>global_currency_code = {{pdf.invoice.global_currency_code}}</li>
+<li>increment_id = {{pdf.invoice.increment_id}}</li>
+<li>created_at = {{pdf.invoice.created_at}}</li>
+<li>updated_at = {{pdf.invoice.updated_at}}</li>
+<li>customer_id = {{pdf.invoice.customer_id}}</li>
+<li>invoice_status_id = {{pdf.invoice.invoice_status_id}}</li>
+<li>invoice_type = {{pdf.invoice.invoice_type}}</li>
+<li>is_virtual = {{pdf.invoice.is_virtual}}</li>
+<li>real_order_id = {{pdf.invoice.real_order_id}}</li>
+<li>total_due = {{pdf.invoice.total_due}}</li>
+<li>total_paid = {{pdf.invoice.total_paid}}</li>
+<li>hidden_tax_amount = {{pdf.invoice.hidden_tax_amount}}</li>
+<li>base_hidden_tax_amount = {{pdf.invoice.base_hidden_tax_amount}}</li>
+<li>shipping_hidden_tax_amount = {{pdf.invoice.shipping_hidden_tax_amount}}</li>
+<li>base_shipping_hidden_tax_amount = {{pdf.invoice.base_shipping_hidden_tax_amount}}</li>
+<li>shipping_incl_tax = {{pdf.invoice.shipping_incl_tax}}</li>
+<li>base_shipping_incl_tax = {{pdf.invoice.base_shipping_incl_tax}}</li>
+<li>base_total_refunded = {{pdf.invoice.base_total_refunded}}</li>
+</ul>
+]]>                  
+                </main_content>
+                <main_content_header>
+                </main_content_header>
+                <main_content_footer>              
+                </main_content_footer>
+                
+                <cover_content>
+                </cover_content>
+                <cover_content_header>
+                </cover_content_header>
+                <cover_content_footer>
+                </cover_content_footer>
+                
+                <final_content>
+                </final_content>
+                <final_content_header>
+                </final_content_header>
+                <final_content_footer>
+                </final_content_footer>
+                
+                <final_page_layout>L</final_page_layout>
+                <final_page_margin_top>10</final_page_margin_top>
+                <final_page_margin_right>0</final_page_margin_right>                
+                <final_page_margin_bottom>10</final_page_margin_bottom>
+                <final_page_margin_left>0</final_page_margin_left>                
+                <final_page_margin_header>0</final_page_margin_header>
+                <final_page_margin_footer>0</final_page_margin_footer>                
+                
+                <main_page_layout>P</main_page_layout>                
+                <main_page_margin_top>30</main_page_margin_top>
+                <main_page_margin_right>10</main_page_margin_right>                
+                <main_page_margin_bottom>30</main_page_margin_bottom>
+                <main_page_margin_left>10</main_page_margin_left>                
+                <main_page_margin_header>2</main_page_margin_header>
+                <main_page_margin_footer>2</main_page_margin_footer>                
+                
+                <cover_page_layout>L</cover_page_layout>                
+                <cover_page_margin_top>10</cover_page_margin_top>
+                <cover_page_margin_right>0</cover_page_margin_right>                
+                <cover_page_margin_bottom>10</cover_page_margin_bottom>
+                <cover_page_margin_left>0</cover_page_margin_left>                
+                <cover_page_margin_header>0</cover_page_margin_header>
+                <cover_page_margin_footer>0</cover_page_margin_footer>                
+                
+                <page_css>
+<![CDATA[                    
+*     { background:none !important; text-align:left !important; }
+html  { margin:0 !important; padding:0 !important; }
+body  { background:#fff !important; font-size:9pt !important; padding:0 !important; margin:10px !important; }
+a     { color:#2976c9 !important; }
+
+
+/* Data Table */
+.data-table { width:100%; border:1px solid #bebcb7; }
+.data-table .odd  { background:#f8f7f5 }
+.data-table .even { background:#eeeded; }
+/*.data-table tr.odd:hover,
+.data-table tr.even:hover { background:#ebf1f6; }*/
+.data-table td.last,
+.data-table th.last { border-right:0; }
+.data-table tr.last th,
+.data-table tr.last td { border-bottom:0 !important; }
+.data-table th { padding:3px 8px; font-weight:bold; }
+.data-table td { padding:3px 8px; }
+
+.data-table thead th {
+font-weight: bold;
+border-right: 1px solid #BEBCB7;
+padding: 2px 8px;
+color: #0A263C;
+white-space: nowrap;
+vertical-align: middle;
+border-bottom: 1px solid #BEBCB7;
+}
+.data-table thead th.wrap { white-space:normal; }
+.data-table thead th a,
+.data-table thead th a:hover { color:#fff; }
+.data-table thead th { background:url(../images/bkg_th.gif) repeat-x 0 100% #d9e5ee; }
+.data-table thead th .tax-flag { font-size:11px; white-space:nowrap; }
+
+.data-table tfoot { border-bottom:1px solid #d9dde3; }
+.data-table tfoot tr.first td { background:url(../images/bkg_tfoot.gif) 0 0 repeat-x; }
+.data-table tfoot tr { background-color:#dee5e8 !important; }
+.data-table tfoot td { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
+.data-table tfoot strong { font-size:16px; }
+
+.data-table tbody th,
+.data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
+/* Bundle products tables */
+.data-table tbody.odd tr { background:#f8f7f5 !important; }
+.data-table tbody.even tr { background:#f6f6f6 !important; }
+.data-table tbody.odd tr td,
+.data-table tbody.even tr td { border-bottom:0; }
+.data-table tbody.odd tr.border td,
+.data-table tbody.even tr.border td { border-bottom:1px solid #d9dde3; }
+
+.data-table tbody td .option-label { font-weight:bold; font-style:italic; }
+.data-table tbody td .option-value { padding-left:10px; }
+]]>                        
+                </page_css>    
+                
+                <background_image>4c6893ea954728d993c6fd0e.jpg</background_image>      
+                
+            </shipment>
+            
+            <creditmemo>
+                <cover_page_active>0</cover_page_active>
+                <final_page_active>0</final_page_active>
+                
+                <main_content>
+<![CDATA[ 
+<table border="0" width="100%">
+<tbody>
+<tr>
+<td>
+<h2>CREDIT MEMO FOR INVOICE #{{pdf.invoice.increment_id}}&nbsp;</h2>
+<p><strong>Grand total:&nbsp;</strong>{{pdf.invoice.base_grand_total}} USD<br /><strong>Tax:&nbsp;</strong>{{pdf.invoice.base_tax_amount}} USD&nbsp;<br /><strong>Total qty:</strong>{{pdf.invoice.total_qty}}&nbsp;</p>
+<p><strong>Firstname</strong>:{{pdf.order.customer_firstname}}<br /><strong>Lastname</strong>:{{pdf.order.customer_lastname}}&nbsp;</p>
+<br /></td>
+<td>
+<p><img src="{{media url="magazento_pdfinvoice/logo.png"}}" alt="" /></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Inenim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p>
+<h2>Ordered items:</h2>
+<p>{{pdf.general.order_items}}</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Inenim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p>
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nasceturridiculus mus. Donec quam felis, ultri- cies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Inenim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.</p>
+<h2>Full list of PDF variables you may use goes bellow</h2>
+<ul>
+<li>billing_adress&nbsp;</li>
+<li>shipping_adress</li>
+<li>order_items</li>
+<li>payment_info</li>
+</ul>
+<h2>Order variables list:</h2>
+<ul>
+<li>entity_id = {{pdf.order.entity_id}}</li>
+<li>state = {{pdf.order.state}}</li>
+<li>status = {{pdf.order.status}}</li>
+<li>coupon_code = {{pdf.order.coupon_code}}</li>
+<li>protect_code = {{pdf.order.protect_code}}</li>
+<li>shipping_description = {{pdf.order.shipping_description}}</li>
+<li>is_virtual = {{pdf.order.is_virtual}}</li>
+<li>store_id = {{pdf.order.store_id}}</li>
+<li>customer_id = {{pdf.order.customer_id}}</li>
+<li>base_discount_amount = {{pdf.order.base_discount_amount}}</li>
+<li>base_discount_canceled = {{pdf.order.base_discount_canceled}}</li>
+<li>base_discount_invoiced = {{pdf.order.base_discount_invoiced}}</li>
+<li>base_discount_refunded = {{pdf.order.base_discount_refunded}}</li>
+<li>base_grand_total= {{pdf.order.base_grand_total}}</li>
+<li>base_shipping_amount = {{pdf.order.base_shipping_amount}}</li>
+<li>base_shipping_canceled = {{pdf.order.base_shipping_canceled}}</li>
+<li>base_shipping_invoiced = {{pdf.order.base_shipping_invoiced}}</li>
+<li>base_shipping_refunded = {{pdf.order.base_shipping_refunded}}</li>
+<li>base_shipping_tax_amount = {{pdf.order.base_shipping_tax_amount}}</li>
+<li>base_shipping_tax_refunded = {{pdf.order.base_shipping_tax_refunded}}</li>
+<li>base_subtotal = {{pdf.order.base_subtotal}}</li>
+<li>base_subtotal_canceled = {{pdf.order.base_subtotal_canceled}}</li>
+<li>base_subtotal_invoiced = {{pdf.order.base_subtotal_invoiced}}</li>
+<li>base_subtotal_refunded = {{pdf.order.base_subtotal_refunded}}</li>
+<li>base_tax_amount = {{pdf.order.base_tax_amount}}</li>
+<li>base_tax_canceled = {{pdf.order.base_tax_canceled}}</li>
+<li>base_tax_invoiced = {{pdf.order.base_tax_invoiced}}</li>
+<li>base_tax_refunded = {{pdf.order.base_tax_refunded}}</li>
+<li>base_to_global_rate = {{pdf.order.base_to_global_rate}}</li>
+<li>base_to_order_rate = {{pdf.order.base_to_order_rate}}</li>
+<li>base_total_canceled = {{pdf.order.base_total_canceled}}</li>
+<li>base_total_invoiced = {{pdf.order.base_total_invoiced}}</li>
+<li>base_total_invoiced_cost = {{pdf.order.base_total_invoiced_cost}}</li>
+<li>base_total_offline_refunded = {{pdf.order.base_total_offline_refunded}}</li>
+<li>base_total_online_refunded = {{pdf.order.base_total_online_refunded}}</li>
+<li>base_total_paid = {{pdf.order.base_total_paid}}</li>
+<li>base_total_qty_ordered = {{pdf.order.base_total_qty_ordered}}</li>
+<li>base_total_refunded = {{pdf.order.base_total_refunded}}</li>
+<li>discount_amount = {{pdf.order.discount_amount}}</li>
+<li>discount_canceled = {{pdf.order.discount_canceled}}</li>
+<li>discount_invoiced = {{pdf.order.discount_invoiced}}</li>
+<li>discount_refunded = {{pdf.order.discount_refunded}}</li>
+<li>grand_total = {{pdf.order.grand_total}}</li>
+<li>shipping_amount = {{pdf.order.shipping_amount}}</li>
+<li>shipping_canceled = {{pdf.order.shipping_canceled}}</li>
+<li>shipping_invoiced = {{pdf.order.shipping_invoiced}}</li>
+<li>shipping_refunded = {{pdf.order.shipping_refunded}}</li>
+<li>shipping_tax_amount = {{pdf.order.shipping_tax_amount}}</li>
+<li>shipping_tax_refunded = {{pdf.order.shipping_tax_refunded}}</li>
+<li>store_to_base_rate = {{pdf.order.store_to_base_rate}}</li>
+<li>store_to_order_rate = {{pdf.order.store_to_order_rate}}</li>
+<li>subtotal = {{pdf.order.subtotal}}</li>
+<li>subtotal_canceled = {{pdf.order.subtotal_canceled}}</li>
+<li>subtotal_invoiced = {{pdf.order.subtotal_invoiced}}</li>
+<li>subtotal_refunded = {{pdf.order.subtotal_refunded}}</li>
+<li>tax_amount = {{pdf.order.tax_amount}}</li>
+<li>tax_canceled = {{pdf.order.tax_canceled}}</li>
+<li>tax_invoiced = {{pdf.order.tax_invoiced}}</li>
+<li>tax_refunded = {{pdf.order.tax_refunded}}</li>
+<li>total_canceled = {{pdf.order.total_canceled}}</li>
+<li>total_invoiced = {{pdf.order.total_invoiced}}</li>
+<li>total_offline_refunded = {{pdf.order.total_offline_refunded}}</li>
+<li>total_online_refunded = {{pdf.order.total_online_refunded}}</li>
+<li>total_paid = {{pdf.order.total_paid}}</li>
+<li>total_qty_ordered = {{pdf.order.total_qty_ordered}}</li>
+<li>total_refunded = {{pdf.order.total_refunded}}</li>
+<li>can_ship_partially = {{pdf.order.can_ship_partially}}</li>
+<li>can_ship_partially_item = {{pdf.order.can_ship_partially_item}}</li>
+<li>customer_is_guest = {{pdf.order.customer_is_guest}}</li>
+<li>customer_note_notify = {{pdf.order.customer_note_notify}}</li>
+<li>billing_address_id = {{pdf.order.billing_address_id}}</li>
+<li>customer_group_id = {{pdf.order.customer_group_id}}</li>
+<li>edit_increment = {{pdf.order.edit_increment}}</li>
+<li>email_sent = {{pdf.order.email_sent}}</li>
+<li>forced_do_shipment_with_invoice = {{pdf.order.forced_do_shipment_with_invoice}}</li>
+<li>gift_message_id = {{pdf.order.gift_message_id}}</li>
+<li>payment_authorization_expiration = {{pdf.order.payment_authorization_expiration}}</li>
+<li>paypal_ipn_customer_notified = {{pdf.order.paypal_ipn_customer_notified}}</li>
+<li>quote_address_id = {{pdf.order.quote_address_id}}</li>
+<li>quote_id = {{pdf.order.quote_id}}</li>
+<li>shipping_address_id = {{pdf.order.shipping_address_id}}</li>
+<li>adjustment_negative = {{pdf.order.adjustment_negative}}</li>
+<li>adjustment_positive = {{pdf.order.adjustment_positive}}</li>
+<li>base_adjustment_negative = {{pdf.order.base_adjustment_negative}}</li>
+<li>base_adjustment_positive = {{pdf.order.base_adjustment_positive}}</li>
+<li>base_shipping_discount_amount = {{pdf.order.base_shipping_discount_amount}}</li>
+<li>base_subtotal_incl_tax = {{pdf.order.base_subtotal_incl_tax}}</li>
+<li>base_total_due = {{pdf.order.base_total_due}}</li>
+<li>payment_authorization_amount = {{pdf.order.payment_authorization_amount}}</li>
+<li>shipping_discount_amount = {{pdf.order.shipping_discount_amount}}</li>
+<li>subtotal_incl_tax = {{pdf.order.subtotal_incl_tax}}</li>
+<li>total_due = {{pdf.order.total_due}}</li>
+<li>weight = {{pdf.order.weight}}</li>
+<li>customer_dob = {{pdf.order.customer_dob}}</li>
+<li>increment_id = {{pdf.order.increment_id}}</li>
+<li>applied_rule_ids = {{pdf.order.applied_rule_ids}}</li>
+<li>base_currency_code = {{pdf.order.base_currency_code}}</li>
+<li>customer_email = {{pdf.order.customer_email}}</li>
+<li>customer_firstname = {{pdf.order.customer_firstname}}</li>
+<li>customer_lastname = {{pdf.order.customer_lastname}}</li>
+<li>customer_middlename = {{pdf.order.customer_middlename}}</li>
+<li>customer_prefix = {{pdf.order.customer_prefix}}</li>
+<li>customer_suffix = {{pdf.order.customer_suffix}}</li>
+<li>customer_taxvat = {{pdf.order.customer_taxvat}}</li>
+<li>discount_description = {{pdf.order.discount_description}}</li>
+<li>ext_customer_id = {{pdf.order.ext_customer_id}}</li>
+<li>ext_order_id =  {{pdf.order.ext_order_id}}</li>
+<li>global_currency_code = {{pdf.order.global_currency_code}}</li>
+<li>hold_before_state = {{pdf.order.hold_before_state}}</li>
+<li>hold_before_status = {{pdf.order.hold_before_status}}</li>
+<li>order_currency_code = {{pdf.order.order_currency_code}}</li>
+<li>original_increment_id = {{pdf.order.original_increment_id}}</li>
+<li>relation_child_id = {{pdf.order.relation_child_id}}</li>
+<li>relation_child_real_id = {{pdf.order.relation_child_real_id}}</li>
+<li>relation_parent_id = {{pdf.order.relation_parent_id}}</li>
+<li>relation_parent_real_id = {{pdf.order.relation_parent_real_id}}</li>
+<li>remote_ip = {{pdf.order.remote_ip}}</li>
+<li>shipping_method = {{pdf.order.shipping_method}}</li>
+<li>store_currency_code = {{pdf.order.store_currency_code}}</li>
+<li>store_name = {{pdf.order.store_name}}</li>
+<li>x_forwarded_for = {{pdf.order.x_forwarded_for}}</li>
+<li>customer_note = {{pdf.order.customer_note}}</li>
+<li>created_at = {{pdf.order.created_at}}</li>
+<li>updated_at = {{pdf.order.updated_at}}</li>
+<li>total_item_count = {{pdf.order.total_item_count}}</li>
+<li>customer_gender = {{pdf.order.customer_gender}}</li>
+<li>base_custbalance_amount = {{pdf.order.base_custbalance_amount}}</li>
+<li>currency_base_id = {{pdf.order.currency_base_id}}</li>
+<li>currency_code = {{pdf.order.currency_code}}</li>
+<li>currency_rate = {{pdf.order.currency_rate}}</li>
+<li>custbalance_amount = {{pdf.order.custbalance_amount}}</li>
+<li>is_hold = {{pdf.order.is_hold}}</li>
+<li>is_multi_payment = {{pdf.order.is_multi_payment}}</li>
+<li>real_order_id = {{pdf.order.real_order_id}}</li>
+<li>tax_percent = {{pdf.order.tax_percent}}</li>
+<li>tracking_numbers = {{pdf.order.tracking_numbers}}</li>
+<li>hidden_tax_amount = {{pdf.order.hidden_tax_amount}}</li>
+<li>base_hidden_tax_amount = {{pdf.order.base_hidden_tax_amount}}</li>
+<li>shipping_hidden_tax_amount = {{pdf.order.shipping_hidden_tax_amount}}</li>
+<li>base_shipping_hidden_tax_amount = {{pdf.order.base_shipping_hidden_tax_amount}}</li>
+<li>hidden_tax_invoiced = {{pdf.order.hidden_tax_invoiced}}</li>
+<li>base_hidden_tax_invoiced = {{pdf.order.base_hidden_tax_invoiced}}</li>
+<li>hidden_tax_refunded = {{pdf.order.hidden_tax_refunded}}</li>
+<li>base_hidden_tax_refunded ={{pdf.order.base_hidden_tax_refunded}}</li>
+</ul>
+<h2>Invoice variables list:</h2>
+<ul>
+<li>entity_id = {{pdf.invoice.entity_id}}</li>
+<li>store_id = {{pdf.invoice.store_id}}</li>
+<li>base_grand_total = {{pdf.invoice.base_grand_total}}</li>
+<li>shipping_tax_amount = {{pdf.invoice.shipping_tax_amount}}</li>
+<li>tax_amount = {{pdf.invoice.tax_amount}}</li>
+<li>base_tax_amount = {{pdf.invoice.base_tax_amount}}</li>
+<li>store_to_order_rate = {{pdf.invoice.store_to_order_rate}}</li>
+<li>base_shipping_tax_amount = {{pdf.invoice.base_shipping_tax_amount}}</li>
+<li>base_discount_amount = {{pdf.invoice.base_discount_amount}}</li>
+<li>base_to_order_rate = {{pdf.invoice.base_to_order_rate}}</li>
+<li>grand_total = {{pdf.invoice.grand_total}}</li>
+<li>shipping_amount = {{pdf.invoice.shipping_amount}}</li>
+<li>subtotal_incl_tax = {{pdf.invoice.subtotal_incl_tax}}</li>
+<li>base_subtotal_incl_tax = {{pdf.invoice.base_subtotal_incl_tax}}</li>
+<li>store_to_base_rate = {{pdf.invoice.store_to_base_rate}}</li>
+<li>base_shipping_amount = {{pdf.invoice.base_shipping_amount}}</li>
+<li>total_qty = {{pdf.invoice.total_qty}}</li>
+<li>base_to_global_rate = {{pdf.invoice.base_to_global_rate}}</li>
+<li>subtotal = {{pdf.invoice.subtotal}}</li>
+<li>base_subtotal = {{pdf.invoice.base_subtotal}}</li>
+<li>discount_amount = {{pdf.invoice.discount_amount}}</li>
+<li>billing_address_id = {{pdf.invoice.billing_address_id}}</li>
+<li>is_used_for_refund = {{pdf.invoice.is_used_for_refund}}</li>
+<li>order_id = {{pdf.invoice.order_id}}</li>
+<li>email_sent = {{pdf.invoice.email_sent}}</li>
+<li>can_void_flag = {{pdf.invoice.can_void_flag}}</li>
+<li>state = {{pdf.invoice.state}}</li>
+<li>shipping_address_id = {{pdf.invoice.shipping_address_id}}</li>
+<li>cybersource_token = {{pdf.invoice.cybersource_token}}</li>
+<li>store_currency_code = {{pdf.invoice.store_currency_code}}</li>
+<li>transaction_id = {{pdf.invoice.transaction_id}}</li>
+<li>order_currency_code = {{pdf.invoice.order_currency_code}}</li>
+<li>base_currency_code = {{pdf.invoice.base_currency_code}}</li>
+<li>global_currency_code = {{pdf.invoice.global_currency_code}}</li>
+<li>increment_id = {{pdf.invoice.increment_id}}</li>
+<li>created_at = {{pdf.invoice.created_at}}</li>
+<li>updated_at = {{pdf.invoice.updated_at}}</li>
+<li>customer_id = {{pdf.invoice.customer_id}}</li>
+<li>invoice_status_id = {{pdf.invoice.invoice_status_id}}</li>
+<li>invoice_type = {{pdf.invoice.invoice_type}}</li>
+<li>is_virtual = {{pdf.invoice.is_virtual}}</li>
+<li>real_order_id = {{pdf.invoice.real_order_id}}</li>
+<li>total_due = {{pdf.invoice.total_due}}</li>
+<li>total_paid = {{pdf.invoice.total_paid}}</li>
+<li>hidden_tax_amount = {{pdf.invoice.hidden_tax_amount}}</li>
+<li>base_hidden_tax_amount = {{pdf.invoice.base_hidden_tax_amount}}</li>
+<li>shipping_hidden_tax_amount = {{pdf.invoice.shipping_hidden_tax_amount}}</li>
+<li>base_shipping_hidden_tax_amount = {{pdf.invoice.base_shipping_hidden_tax_amount}}</li>
+<li>shipping_incl_tax = {{pdf.invoice.shipping_incl_tax}}</li>
+<li>base_shipping_incl_tax = {{pdf.invoice.base_shipping_incl_tax}}</li>
+<li>base_total_refunded = {{pdf.invoice.base_total_refunded}}</li>
+</ul>
+]]>                     
+                </main_content>
+                <main_content_header>
+<![CDATA[ 
+<p><img src="{{media url="magazento_pdfinvoice/web_banner_840x110_01.png"}}" alt="" /></p>
+]]>                     
+                </main_content_header>
+                <main_content_footer>
+<![CDATA[ 
+<p><img src="{{media url="magazento_pdfinvoice/web_banner_840x110_01.png"}}" alt="" /></p>
+]]>                     
+                </main_content_footer>
+                
+                <cover_content> cover content </cover_content>
+                <cover_content_header> cover_content_header </cover_content_header>
+                <cover_content_footer> cover_content_footer </cover_content_footer>
+                
+                <final_content> final content </final_content>
+                <final_content_header>final_content_header</final_content_header>
+                <final_content_footer>final_content_footer</final_content_footer>
+                
+                <final_page_layout>L</final_page_layout>
+                <final_page_margin_top>10</final_page_margin_top>
+                <final_page_margin_right>0</final_page_margin_right>                
+                <final_page_margin_bottom>10</final_page_margin_bottom>
+                <final_page_margin_left>0</final_page_margin_left>                
+                <final_page_margin_header>0</final_page_margin_header>
+                <final_page_margin_footer>0</final_page_margin_footer>                
+                
+                <main_page_layout>P</main_page_layout>                
+                <main_page_margin_top>30</main_page_margin_top>
+                <main_page_margin_right>10</main_page_margin_right>                
+                <main_page_margin_bottom>30</main_page_margin_bottom>
+                <main_page_margin_left>10</main_page_margin_left>                
+                <main_page_margin_header>2</main_page_margin_header>
+                <main_page_margin_footer>2</main_page_margin_footer>                
+                
+                <cover_page_layout>L</cover_page_layout>                
+                <cover_page_margin_top>10</cover_page_margin_top>
+                <cover_page_margin_right>0</cover_page_margin_right>                
+                <cover_page_margin_bottom>10</cover_page_margin_bottom>
+                <cover_page_margin_left>0</cover_page_margin_left>                
+                <cover_page_margin_header>0</cover_page_margin_header>
+                <cover_page_margin_footer>0</cover_page_margin_footer>                 
+                
+                <pdf_layout>L</pdf_layout>   
+                <page_css>
+<![CDATA[ 
+*     { background:none !important; text-align:left !important; }
+html  { margin:0 !important; padding:0 !important; }
+body  { background:#fff !important; font-size:9pt !important; padding:0 !important; margin:10px !important; }
+a     { color:#2976c9 !important; }
+
+
+/* Data Table */
+.data-table { width:100%; border:1px solid #bebcb7; }
+.data-table .odd  { background:#f8f7f5 }
+.data-table .even { background:#eeeded; }
+/*.data-table tr.odd:hover,
+.data-table tr.even:hover { background:#ebf1f6; }*/
+.data-table td.last,
+.data-table th.last { border-right:0; }
+.data-table tr.last th,
+.data-table tr.last td { border-bottom:0 !important; }
+.data-table th { padding:3px 8px; font-weight:bold; }
+.data-table td { padding:3px 8px; }
+
+.data-table thead th {
+font-weight: bold;
+border-right: 1px solid #BEBCB7;
+padding: 2px 8px;
+color: #0A263C;
+white-space: nowrap;
+vertical-align: middle;
+border-bottom: 1px solid #BEBCB7;
+}
+.data-table thead th.wrap { white-space:normal; }
+.data-table thead th a,
+.data-table thead th a:hover { color:#fff; }
+.data-table thead th { background:url(../images/bkg_th.gif) repeat-x 0 100% #d9e5ee; }
+.data-table thead th .tax-flag { font-size:11px; white-space:nowrap; }
+
+.data-table tfoot { border-bottom:1px solid #d9dde3; }
+.data-table tfoot tr.first td { background:url(../images/bkg_tfoot.gif) 0 0 repeat-x; }
+.data-table tfoot tr { background-color:#dee5e8 !important; }
+.data-table tfoot td { padding-top:1px; padding-bottom:1px; border-bottom:0; border-right:1px solid #d9dde3; }
+.data-table tfoot strong { font-size:16px; }
+
+.data-table tbody th,
+.data-table tbody td { border-bottom:1px solid #d9dde3; border-right:1px solid #d9dde3; }
+/* Bundle products tables */
+.data-table tbody.odd tr { background:#f8f7f5 !important; }
+.data-table tbody.even tr { background:#f6f6f6 !important; }
+.data-table tbody.odd tr td,
+.data-table tbody.even tr td { border-bottom:0; }
+.data-table tbody.odd tr.border td,
+.data-table tbody.even tr.border td { border-bottom:1px solid #d9dde3; }
+
+.data-table tbody td .option-label { font-weight:bold; font-style:italic; }
+.data-table tbody td .option-value { padding-left:10px; }
+]]>                        
+                </page_css>    
+                
+                <background_image>4c6893ea954728d993c6fd0e.jpg</background_image>                
+            </creditmemo>
+            <licence>
+                <serial>4c6893ea954728d993c6fd0e</serial>                  
+            </licence>
+            
+            
+            
+        </pdfinvoice>
+    </default>
+</config>

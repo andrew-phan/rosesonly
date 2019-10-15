@@ -1,0 +1,129 @@
+
+.nav-container .nav {
+    background: none repeat scroll 0 0 #fff;
+    padding-top: 67px;
+}
+.data-table .item-options {
+    display: none;
+}
+.onestepcheckout-step1 .onepage-left{
+    width: 52%;
+    float: left;
+}
+.onestepcheckout-step1 .onepage-right{
+    width: 48%;
+    float: right;
+}
+#checkout-review-table .cart .item-options{
+    display: block;
+}
+.onestepcheckout-step2 .onepage-left{
+    width: 52%;
+    float: left;
+}
+.onestepcheckout-step2 .onepage-right{
+    width: 48%;
+    float: right;
+}
+.top_checkout{
+    display: inline-block;
+    width: 100%;
+}
+
+.top_checkout .onestepcheckout-title{
+    float: left;
+    width: 30%;
+}
+.checkoutsteps{
+    float: left;
+    width: 70%;
+}
+
+.checkoutsteps li{
+    background: url("../images/ck_top.png") repeat scroll 0 0 #fff;
+    float: left;
+    height: 36px;
+    margin-left: 1%;
+    padding: 13px 15px;
+    width: 28.3%;
+}
+.checkoutsteps li.current{
+    background: url("../images/ck_top_active.png") no-repeat scroll right top #fff;
+  
+}
+.checkoutsteps li.current .step_number{
+    background: #000;
+    color: #fff;
+}
+.checkoutsteps li .step_number
+{
+background: none repeat scroll 0 0 #fff;
+display: block;
+float: left;
+margin-right: 10px;
+margin-top: -5px;
+padding: 6px 10px;
+}
+a#btn-next {
+    background-color: #f55856;
+    color: #fff;
+    float: right;
+    padding: 10px 30px;
+}
+.onestepcheckout-numbers{
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 10px 0px 20px 0;
+    padding-bottom: 5px;
+    padding-left: 10px;
+}
+.gift-messages-form {
+     border: none;
+ }
+.form-list label {
+    float: left;
+    font-weight: normal;}
+.co-shipping-form{
+    padding-left: 10px;
+}
+.data-table td {
+    border-left: 1px solid #eee;
+}
+#checkout-review-table-wrapper{
+    /*border: 1px solid #eee;*/
+}
+.review_title
+{
+    background: none repeat scroll 0 0 #eee;
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 0;
+    padding: 5px 45px;
+}
+#checkout_step3 .delivery-charge{
+    display: none;
+}
+#checkout_step3 .totals table{
+    width: 100%;
+}
+#checkout_step3 .totals {
+background: none repeat scroll 0 0 #eee;
+    padding: 18px;
+}
+#content{
+    min-height: 390px;
+    width: 440px;
+    padding: 10px;
+}
+#content p{
+    text-align: center;
+    padding: 10px;
+}
+#content .box>label{
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+#loading-mask{
+    display: none!important;
+}

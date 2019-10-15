@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Leadtime>
+            <version>0.1.0</version>
+        </Ant_Leadtime>
+    </modules>
+    <global>	
+        <resources>
+            <leadtime_setup>
+                <setup>
+                    <module>Ant_Leadtime</module>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </leadtime_setup>
+            <leadtime_setup_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </leadtime_setup_write>
+            <leadtime_setup_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </leadtime_setup_read>
+        </resources>
+    </global>
+</config> 

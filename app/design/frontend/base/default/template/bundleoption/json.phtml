@@ -1,0 +1,29 @@
+<?php
+/*
+*
+*
+*/
+?>
+<script type="text/javascript">
+//<![CDATA[
+	var baseImages = <?php echo $this->jsonForbaseImage()?>;
+//]]>
+jQuery(document).ready(function(){
+	actualImage = jQuery('#image').attr('src');
+	jQuery('#product-options-wrapper select').on('change',function(){		
+		key = jQuery(this).val();		
+		if(key.empty()){
+			jQuery('#image').attr('src',actualImage);
+		}else{
+			if(typeof baseImages[key] != "undefined")
+			{
+				jQuery('#image').attr('src',baseImages[key]);
+			}			
+		}
+	
+	});
+
+	
+});
+
+</script>

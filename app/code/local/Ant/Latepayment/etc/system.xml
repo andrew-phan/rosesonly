@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <latepayment  translate="label" module="latepayment">                    
+            <label>Late payment</label>
+            <tab>sales</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>            
+            <groups>
+                <latepaymentsetting translate="label"> 
+                    <label>Late payment Reminder</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <latepaymentday translate="label">
+                            <label>Check Order before</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </latepaymentday>
+						<payment_method translate="label">
+                            <label>Payment methods</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>Purchase/source_sac_paymentMethods</source_model>
+                            <can_be_empty>1</can_be_empty>
+                        </payment_method>
+                        <email_template translate="label">
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_template>
+                    </fields>
+                </latepaymentsetting>
+            </groups>
+        </latepayment>
+    </sections>
+</config>

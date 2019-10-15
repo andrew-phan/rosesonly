@@ -1,0 +1,82 @@
+<?php $_categories = $this->getStoreCategories() ?>
+<?php if (count($_categories)): ?>
+    <div class="nav-container">
+        <div id="custommenu">
+            <?php if ($this->showHomeLink()) : ?>
+                <div class="menu">
+                    <div class="parentMenu">
+                        <a href="<?php echo $this->getUrl('') ?>">
+                            <span><?php echo $this->__('Home'); ?></span>
+                        </a>
+                    </div>
+                </div>
+            <?php endif ?>
+            <?php foreach ($_categories as $_category): ?>
+                <?php echo $this->drawCustomMenuItem($_category) ?>
+            <?php endforeach ?>
+            <!--div class="menu">
+                <div class="parentMenu">
+                    <a href="< ?php echo $this->getUrl('popular') ?>">
+                        <span>< ?php echo $this->__('Most popular'); ?></span>
+                    </a>
+                </div>
+            </div-->
+            <!--div class="menu" id="mnu-price" 
+                 onmouseover="wpShowMenuPopup(this, 'popup-price');" 
+                 onmouseout="wpHideMenuPopup(this, event, 'popup-price', 'mnu-price')">
+                <div class="parentMenu">               
+                    <a href="#">
+                        <span>< ?php echo $this->__('Price'); ?></span>
+                    </a>
+                </div>
+                <div id="popup-price" class="wp-custom-menu-popup" 
+                     onmouseout="wpHideMenuPopup(this, event, 'popup-price', 'mnu-price')" 
+                     onmouseover="wpPopupOver(this, event, 'popup-price', 'mnu-price')" 
+                     style="z-index: 10000; display: none; top: 20px; left: 134px; ">
+                    <div class="block1">
+                        <div class="column first last odd">
+                            <div class="itemMenu level1">
+                                <a class="itemMenuName level1" href="occasion.html?price=-50">
+                                    <span>Under < ?php echo Mage::helper('core')->currency('50',true,false); ?></span>
+                                </a>
+                                <a class="itemMenuName level1" href="occasion.html?price=50-100">
+                                    <span>< ?php echo Mage::helper('core')->currency('50',true,false); ?> - < ?php echo Mage::helper('core')->currency('100',true,false); ?></span>
+                                </a>
+                                <a class="itemMenuName level1" href="occasion.html?price=100-150">
+                                    <span>< ?php echo Mage::helper('core')->currency('100',true,false); ?> - < ?php echo Mage::helper('core')->currency('150',true,false); ?></span>
+                                </a>
+                                <a class="itemMenuName level1" href="occasion.html?price=150-200">
+                                    <span>< ?php echo Mage::helper('core')->currency('150',true,false); ?> - < ?php echo Mage::helper('core')->currency('200',true,false); ?></span>
+                                </a>
+                                <a class="itemMenuName level1" href="occasion.html?price=200-">
+                                    <span>< ?php echo Mage::helper('core')->currency('200',true,false); ?> & above</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="clearBoth"></div>
+                    </div>
+                </div>
+            </div-->
+            <!--div class="menu">
+                <div class="parentMenu">
+                    <a href="< ?php echo $this->getUrl('') ?>">
+                        <span>< ?php echo $this->__('Promotions'); ?></span>
+                    </a>
+                </div>
+            </div-->
+            <div class="clearBoth"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //<![CDATA[
+        var CUSTOMMENU_POPUP_WIDTH = <?php echo Mage::getStoreConfig('custom_menu/popup/width') + 0; ?>;
+        var CUSTOMMENU_POPUP_TOP_OFFSET = <?php echo Mage::getStoreConfig('custom_menu/popup/top_offset') + 0; ?>;
+        var CUSTOMMENU_POPUP_RIGHT_OFFSET_MIN = <?php echo Mage::getStoreConfig('custom_menu/popup/right_offset_min') + 0; ?>;
+        var CUSTOMMENU_POPUP_DELAY_BEFORE_DISPLAYING = <?php echo Mage::getStoreConfig('custom_menu/popup/delay_displaying') + 0; ?>;
+        var CUSTOMMENU_POPUP_DELAY_BEFORE_HIDING = <?php echo Mage::getStoreConfig('custom_menu/popup/delay_hiding') + 0; ?>;
+        var wpCustommenuTimerShow = {};
+        var wpCustommenuTimerHide = {};
+        //]]>
+    </script>
+    <?php
+ endif ?>

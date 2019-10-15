@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Imageimport>
+            <version>0.1.0</version>
+        </Ant_Imageimport>
+    </modules>
+    <global>
+        <models>
+            <imageimport>
+                <class>Ant_ImageImport_Model</class>
+            </imageimport>
+            <catalog>
+                <rewrite>
+                    <convert_adapter_product>Ant_Imageimport_Model_Catalog_Convert_Adapter_Product</convert_adapter_product>
+                </rewrite>
+            </catalog>
+        </models>
+        <helpers>
+            <imageimport>
+                <class>Ant_Imageimport_Helper</class>
+            </imageimport>
+        </helpers>
+    </global>
+    <default>
+        <catalog>
+            <catalog>
+                <image_exclude_enabled>1</image_exclude_enabled>
+                <multiple_image_column_name>additional_images</multiple_image_column_name>
+            </catalog>
+        </catalog>
+    </default>
+</config> 

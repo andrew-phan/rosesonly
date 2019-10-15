@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Ant_Databasehelper>
+      <version>0.1.6</version>
+    </Ant_Databasehelper>
+  </modules>
+  <global>
+    <helpers>
+      <databasehelper>
+        <class>Ant_Databasehelper_Helper</class>
+      </databasehelper>
+    </helpers>
+	<resources>
+	  <databasehelper_setup>
+		<setup>
+		  <module>Ant_Databasehelper</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </databasehelper_setup>
+	  <databasehelper_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </databasehelper_write>
+	  <databasehelper_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </databasehelper_read>
+	</resources>
+  </global>
+</config> 

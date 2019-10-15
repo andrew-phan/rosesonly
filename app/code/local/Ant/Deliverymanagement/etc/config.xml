@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Ant_Deliverymanagement>
+      <version>0.1.0</version>
+    </Ant_Deliverymanagement>
+  </modules>
+  <global>
+    <helpers>
+      <deliverymanagement>
+        <class>Ant_Deliverymanagement_Helper</class>
+      </deliverymanagement>
+    </helpers>
+	<blocks>
+	  <deliverymanagement>
+		<class>Ant_Deliverymanagement_Block</class>
+	  </deliverymanagement>
+	</blocks>
+	<models>
+	  <deliverymanagement>
+		<class>Ant_Deliverymanagement_Model</class>
+		<resourceModel>deliverymanagement_mysql4</resourceModel>
+	  </deliverymanagement>
+	  <deliverymanagement_mysql4>
+		<class>Ant_Deliverymanagement_Model_Mysql4</class>
+		<entities>
+		  <deliverymanagement>
+			<table>ant_delivery</table>
+		  </deliverymanagement>
+        </entities>
+	  </deliverymanagement_mysql4>
+	</models>
+	<resources>
+	  <deliverymanagement_setup>
+		<setup>
+		  <module>Ant_Deliverymanagement</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </deliverymanagement_setup>
+	  <deliverymanagement_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </deliverymanagement_write>
+	  <deliverymanagement_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </deliverymanagement_read>
+	</resources>
+  </global>
+  <admin>
+	<routers>
+	  <deliverymanagement>
+	    <use>admin</use>
+		<args>
+		  <module>Ant_Deliverymanagement</module>
+		  <frontName>deliverymanagement</frontName>
+		</args>
+	  </deliverymanagement>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <deliverymanagement module="deliverymanagement">
+		<title>Delivery</title>
+		<sort_order>90</sort_order>
+		<children>
+		  <deliverymanagement module="deliverymanagement">
+		    <title>Delivery Management</title>
+			<sort_order>0</sort_order>
+			<action>deliverymanagement/adminhtml_deliverymanagement</action>
+		  </deliverymanagement>
+		  <arrangedriver module="deliverymanagement">
+		    <title>Arrange Driver</title>
+			<sort_order>0</sort_order>
+			<action>deliverymanagement/adminhtml_arrangedriver</action>
+		  </arrangedriver>
+		  <updatestatus module="deliverymanagement">
+		    <title>Update Status</title>
+			<sort_order>0</sort_order>
+			<action>deliverymanagement/adminhtml_updatestatus</action>
+		  </updatestatus>
+		</children>
+	  </deliverymanagement>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<deliverymanagement translate="title" module="deliverymanagement">
+			  <title>Deliverymanagement</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <delivery translate="title">
+			<title>Manage Deliverymanagement</title>
+		  </delivery>
+		  <arrangedriver translate="title">
+			<title>Manage Arrangedriver</title>
+		  </arrangedriver>
+		  <updatestatus translate="title">
+			<title>Manage Updatestatus</title>
+		  </updatestatus>
+			  </children>
+			</deliverymanagement>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<deliverymanagement>
+		  <file>deliverymanagement.xml</file>
+		</deliverymanagement>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

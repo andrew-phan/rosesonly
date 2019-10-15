@@ -1,0 +1,208 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+date_default_timezone_set('Asia/Singapore');
+?>
+<?php
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+$currUrl = $this->getUrl('') . $_SERVER['REQUEST_URI'];
+$quickview = Mage::getStoreConfig('quickshop/general/active');
+?>
+<?php if (!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+
+    <div class="category-products">
+        <?php echo $this->getToolbarHtml() ?>
+        <div class="category-title">
+            <h1>Browse Gifts <?php echo Mage::getModel('catalog/layer')->getCurrentCategory()->getName(); ?> </h1>
+        </div>
+        <?php // List mode  ?>
+        <?php if ($this->getMode() != 'grid'): ?>
+            <?php $_iterator = 0; ?>
+            <ol class="products-list quickview-products" id="products-list">
+                <?php foreach ($_productCollection as $_product): ?>
+                    <li class="item<?php if (++$_iterator == sizeof($_productCollection)): ?> last<?php endif; ?>">
+                        <?php // Product Image  ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300); ?>" width="160" height="160" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        </a>                        
+                        <?php // Product description  ?>
+                        <div class="product-shop">
+                            <div class="f-fix">
+                                <?php
+                                $_productNameStripped = $this->stripTags($_product->getName(), null, true);
+                                $desc = $_product->getShortDescription();
+                                if (strlen($desc) > 200) {
+                                    $desc = substr($desc, 0, 200) . '...';
+                                }
+                                ?>
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></a></h2>
+                                <div class="desc std">
+                                    <?php
+                                    //echo $_helper->productAttribute($_product, $desc, 'short_description');
+                                    echo $desc;
+                                    ?>
+                                </div>
+                                <?php
+                                $pieces = explode("/", $_product->getProductUrl());
+
+                                $p_link = $pieces[sizeof($pieces) - 1];
+                                ?>
+                                <div>
+                                    <span class="price"><?php //echo $this->getPriceHtml($_product, true) ?>
+                                    <!-- Hau Vo: discount 10% for DBS store-->
+                                        <div class="price-box">
+                                            <p class="price-from">
+                                                <span class="price-label">From</span>
+                                                <span class="price">
+                                                    <?php  
+                                                    //echo $this->getPriceHtml($_product, false, '-new') ;                                                  
+                                                    if(Mage::app()->getStore()->getCode() === 'dbs'){
+                                                        $today = date('Y-m-d');
+                                                        $from = date('Y-m-d', strtotime('2014-04-01'));
+                                                        $to = date('Y-m-d', strtotime('2014-09-30'));
+                                                        if($today <= $to && $today >= $from)
+                                                            echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.85,2), true, false);
+                                                        else
+                                                            echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.9,2), true, false);
+                                                    }
+                                                    else
+                                                        echo Mage::helper('core')->currency($_product->getMinimalPrice(), true, false);
+                                                    ?>
+                                                </span>
+                                            <p>
+                                        </div>
+                                    </span>					
+                                    <?php if ($quickview == 1): ?>
+
+                                        <!--<span class="quick"><a class="em_quickshop_handler" href="<?php /*echo $this->getUrl('') */?>index.php/quickshop/index/view/path/<?php /*echo $p_link */?>">+ Quick View</a></span>-->
+
+                                    <?php endif; ?>
+                                    <span class="details">> <a href="<?php echo $_product->getProductUrl() ?>">View item details</a></span>
+
+                                </div>
+                                <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                    <div style="clear:both;"><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></div>
+                                <?php endif; ?>
+                                <div id="quickview" class="quickview"></div>
+
+                                <?php if ($_product->getResource()->getAttribute('is_best_seller')->getFrontend()->getValue($_product) == "Yes"): ?>
+                                    <div class="best-seller">Best Seller</div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+
+        <?php else: ?>
+
+            <?php // Grid Mode    ?>
+
+            <ol class="products-grid quickview-products" id="products-list">
+
+                <?php foreach ($_productCollection as $_product): ?>                            
+                    <li class="item">
+                        <!--div class="product-shop"-->
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                            <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(300); ?>" width="155" height="155" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        </a>
+                        <h2 class="product-name"><a href="<?php echo $_product->getProductUrl()  ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                        <div class="desc std">
+                            <?php
+                            //echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description');
+                            $desc = $_product->getShortDescription();
+                            if (strlen($desc) > 100) {
+                                $desc = substr($desc, 0, 100) . '...';
+                            }
+                            echo $desc;
+                            ?> 
+                        </div>
+                        <?php if ($_product->getRatingSummary()): ?>
+                            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                        <?php endif; ?>
+                        <div>
+                            <span class="price">
+                                <!-- Hau Vo: discount 10% for DBS store-->
+                                <div class="price-box">
+                                    <p class="price-from">
+                                        <span class="price-label">From</span>
+                                        <span class="price">
+                                            <?php  
+                                            //echo $this->getPriceHtml($_product, false, '-new') ;
+                                            if(Mage::app()->getStore()->getCode() === 'dbs'){
+                                                $today = date('Y-m-d');
+                                                $from = date('Y-m-d', strtotime('2014-04-01'));
+                                                $to = date('Y-m-d', strtotime('2014-09-30'));
+                                                if($today <= $to && $today >= $from)
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.85,2), true, false);
+                                                else
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.9,2), true, false);
+                                            }
+                                            else
+                                                echo Mage::helper('core')->currency($_product->getMinimalPrice(), true, false);
+                                            ?>
+                                        </span>
+                                    <p>
+                                </div>
+                            </span>
+                        </div >
+                        <?php
+                        $pieces = explode("/", $_product->getProductUrl());
+                        $p_link = $pieces[sizeof($pieces) - 1];
+                        ?>
+                        <div style="clear:both;">
+                            <span class="grid-detail">> <a href="<?php echo $_product->getProductUrl() ?>">View item details</a></span>
+                            <?php if ($quickview == 1): ?>
+
+                                <!--<span class="grid-quick"><a class="em_quickshop_handler" href="<?php /*echo $this->getUrl('') */?>index.php/quickshop/index/view/path/<?php /*echo $p_link */?>">+ Quick View</a></span>-->
+
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                            <div style="clear:both;"><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></div>
+                        <?php endif; ?>
+                        <?php if ($_product->getResource()->getAttribute('is_best_seller')->getFrontend()->getValue($_product) == "Yes"): ?>
+                            <div class="best-seller">Best Seller</div>
+                        <?php endif; ?>
+                        <!--/div-->
+                    </li>               
+                <?php endforeach ?>
+            </ol>
+            <!--<script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>-->
+            <script type="text/javascript">decorateGeneric($$('ol.products-grid'), ['odd','even','first','last'])</script>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

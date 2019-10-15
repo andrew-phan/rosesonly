@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <GentoTech_Customer>
+            <version>0.1.0</version>
+        </GentoTech_Customer>
+    </modules>
+
+    <frontend>
+
+        <!--<layout>
+            <updates>
+                <gentotech_customer>
+                    <file>gentotech_soldout.xml</file>
+                </gentotech_customer>
+            </updates>
+        </layout>-->
+
+        <routers>
+            <customer>
+                <use>standard</use>
+                <args>
+                    <module>GentoTech_Customer</module>
+                    <frontName>customer</frontName>
+                </args>
+            </customer>
+            <customer>
+                <args>
+                    <modules>
+                        <gentotech_customer before="Mage_Customer">GentoTech_Customer</gentotech_customer>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+
+    </frontend>
+
+    <global>
+
+    </global>
+
+</config>

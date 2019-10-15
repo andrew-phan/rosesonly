@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Baobaz
+ * @package    Baobaz_Ems
+ * @copyright  Copyright (c) 2010 Baobaz (http://www.baobaz.com)
+ * @author     Arnaud Ligny <arnaud.ligny@baobaz.com>
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Baobaz_Ems>
+            <version>0.0.5</version>
+        </Baobaz_Ems>
+    </modules>
+    <settings>
+        <ems>
+            <debug>1</debug>
+            <debug_soapclient>1</debug_soapclient>
+            <soap>
+                <wsdl><![CDATA[http://ws1.ems6.net/%s.asmx?WSDL]]></wsdl>
+                <wsdl_secure><![CDATA[https://ws1.ems6.net/%s.asmx?WSDL]]></wsdl_secure>
+            </soap>
+        </ems>
+    </settings>
+    <global>
+        <helpers>
+            <baobaz_ems>
+                <class>Baobaz_Ems_Helper</class>
+            </baobaz_ems>
+        </helpers>
+        <blocks>
+            <baobaz_ems>
+                 <class>Baobaz_Ems_Block</class>
+            </baobaz_ems>
+
+            <adminhtml>
+                <rewrite>
+                    <newsletter_subscriber_grid>Baobaz_Ems_Block_Adminhtml_Newsletter_Subscriber_Grid</newsletter_subscriber_grid>
+                </rewrite>
+            </adminhtml>
+
+        </blocks>
+        <models>
+            <baobaz_ems>
+                <class>Baobaz_Ems_Model</class>
+            </baobaz_ems>
+            <newsletter_resource>
+                <subscriber_collection>Baobaz_Ems_Model_Resource_Subscriber_Collection</subscriber_collection>
+            </newsletter_resource>
+        </models>
+    </global>
+    <frontend>
+        <!-- Overriding Magento Controllers -->
+
+        <!--<routers>
+            <customer>
+                <use>standard</use>
+                <args>
+                    <module>Baobaz_Ems</module>
+                    <frontName>test</frontName>
+                </args>
+            </customer>
+            <customer>
+                <args>
+                    <modules>
+                        <baobaz_ems before="Mage_Customer">Baobaz_Ems</baobaz_ems>
+                    </modules>
+                </args>
+            </customer>
+        </routers>-->
+
+        <events>
+            <!-- customer events -->
+            <customer_save_commit_after>
+                <observers>
+                    <baobaz_ems_add_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>updateCustomer</method>
+                    </baobaz_ems_add_subscriber>
+                </observers>
+            </customer_save_commit_after>
+            <customer_delete_before>
+                <observers>
+                    <baobaz_ems_delete_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>deleteCustomer</method>
+                    </baobaz_ems_delete_subscriber>
+                </observers>
+            </customer_delete_before>
+            <!-- subscriber events -->
+            <newsletter_subscriber_save_before>
+                <observers>
+                    <baobaz_ems_update_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>updateSubscriberStatusDate</method>
+                    </baobaz_ems_update_subscriber>
+                </observers>
+            </newsletter_subscriber_save_before>
+            <newsletter_subscriber_save_after>
+                <observers>
+                    <baobaz_ems_update_ems_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>updateSubscriber</method>
+                    </baobaz_ems_update_ems_subscriber>
+                </observers>
+            </newsletter_subscriber_save_after>
+        </events>
+    </frontend>
+    <adminhtml>
+        <events>
+            <!-- block events -->
+            <!--<core_block_abstract_to_html_before>
+                <observers>
+                    <baobaz_ems_block_newsletter_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>beforeBlockToHtml</method>
+                    </baobaz_ems_block_newsletter_subscriber>
+                </observers>
+            </core_block_abstract_to_html_before>-->
+            <!-- customer events -->
+            <customer_save_commit_after>
+                <observers>
+                    <baobaz_ems_add_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>updateCustomer</method>
+                    </baobaz_ems_add_subscriber>
+                </observers>
+            </customer_save_commit_after>
+            <customer_delete_before>
+                <observers>
+                    <baobaz_ems_delete_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>deleteCustomer</method>
+                    </baobaz_ems_delete_subscriber>
+                </observers>
+            </customer_delete_before>
+            <!-- subscriber events -->
+            <newsletter_subscriber_save_before>
+                <observers>
+                    <baobaz_ems_update_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>updateSubscriberStatusDate</method>
+                    </baobaz_ems_update_subscriber>
+                </observers>
+            </newsletter_subscriber_save_before>
+            <newsletter_subscriber_save_after>
+                <observers>
+                    <baobaz_ems_update_ems_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>updateSubscriber</method>
+                    </baobaz_ems_update_ems_subscriber>
+                </observers>
+            </newsletter_subscriber_save_after>
+            <newsletter_subscriber_delete_after>
+                <observers>
+                    <baobaz_ems_delete_ems_subscriber>
+                        <type>singleton</type>
+                        <class>baobaz_ems/observer</class>
+                        <method>deleteSubscriber</method>
+                    </baobaz_ems_delete_ems_subscriber>
+                </observers>
+            </newsletter_subscriber_delete_after>
+        </events>
+
+        <layout>
+            <updates>
+                <baobaz_ems>
+                    <file></file>
+                </baobaz_ems>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <baobazems after="Mage_Adminhtml">Baobaz_Ems_Adminhtml</baobazems>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <ems>
+            <soap>
+                <password backend_model="adminhtml/system_config_backend_encrypted"/>
+            </soap>
+        </ems>
+    </default>
+    <crontab>
+        <jobs>
+            <baobaz_ems_scheduled_actions>
+                <!-- every day at 01:00am -->
+                <schedule><cron_expr>0 1 * * *</cron_expr></schedule>
+                <run><model>baobaz_ems/observer::scheduledActions</model></run>
+            </baobaz_ems_scheduled_actions>
+
+            <baobaz_ems_update_subscriptions>
+                <schedule>
+                    <cron_expr>*/2 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>baobaz_ems/observer::update_subscriptions</model>
+                </run>
+            </baobaz_ems_update_subscriptions>
+
+            <baobaz_ems_update_unsubscriptions>
+                <schedule>
+                    <cron_expr>*/2 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>baobaz_ems/observer::update_unsubscriptions</model>
+                </run>
+            </baobaz_ems_update_unsubscriptions>
+
+            <baobaz_ems_update_coa>
+                <schedule>
+                    <cron_expr>*/2 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>baobaz_ems/observer::update_coa</model>
+                </run>
+            </baobaz_ems_update_coa>
+        </jobs>
+    </crontab>
+</config>

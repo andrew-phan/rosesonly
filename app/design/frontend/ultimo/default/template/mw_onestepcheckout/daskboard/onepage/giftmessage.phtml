@@ -1,0 +1,104 @@
+<style type="text/css">
+    .box{
+        padding: 20px;
+        display: none;
+        margin-top: 20px;
+        /*border: 1px solid #000;*/
+    }
+    /*.anniversary{ background: #ff0000; }*/
+    .green{ background: #00ff00; }
+    .blue{ background: #0000ff; }
+</style>
+
+
+<?php
+$model = Mage::getModel('blog/blog');
+$collection = $model->getCollection();
+foreach($collection as $item){
+    print_r($item->getData());
+    print_r($item->getTitle());
+}
+?>
+
+<h2 style="border-bottom: 1px solid #e5e5e5;">GIFT MESSAGE</h2>
+<label>Please select appropriate occasion</label>
+<div class="styled-select">
+    <select style="width: 242px">
+        <option selected="selected">Select an occasion</option>
+        <?php
+        $parentCategoryId = 36; // set correct parent category id
+        foreach (Mage::getModel('catalog/category')
+                     ->load($parentCategoryId)
+                     ->getChildrenCategories() as $childCategory) :
+            ?>
+            <option value="<?php echo $childCategory->getUrlKey() ?>"><?php echo $childCategory->getName() ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+<?php
+    if (isset($_POST['submit']) || !empty($_POST['anniversary']))
+    {
+        if(empty($_POST['anniversary']))
+        {
+            echo 'Make a selection.';
+        }
+        $anniversary = $_POST['anniversary'];
+    }
+
+?>
+
+<form action="<?php echo $this->getUrl('checkout/onepage'); ?>" method="post">
+    <div class="birthday box">
+        <label>select gift message</label>
+        <p><input type="radio" value="0" /><label>Birthday 1</label></p>
+        <p><input type="radio" value="1" /><label>Birthday 2</label></p>
+        <p><input type="radio" value="2" /><label>Birthday 3</label></p>
+    </div>
+    <div class="love-romance box">
+        <label>select gift message</label>
+        <p><input type="radio" value="0" /><label>Love romance 1</label></p>
+        <p><input type="radio" value="1" /><label>Love romance 2</label></p>
+        <p><input type="radio" value="2" /><label>Love romance 3</label></p>
+    </div>
+    <div class="anniversary box">
+        <label>select gift message</label>
+        <p><input type="radio" name="anniversary" value="0" /><label>Happy Anniversary. A Rose speaks of love silently in a language known only to the heart...</label></p>
+        <p><input type="radio" name="anniversary" value="1" /><label>Love is not as simple as candlelight and roses... love is day-to-day living, taking time, making time to be there, with open arms and a giving heart... Love is the special life we share... Happy Anniversary.</label></p>
+        <p><input type="radio" name="anniversary" value="2" /><label>You're stuck with me like glue, There is no one else beside you; For you will always be the apple of my eys, I will always love you until the day I die. I love you. Happy Anniversary!</label></p>
+    </div>
+    <input type="submit" name="submit" value="Submit" />
+</form>
+
+<textarea><?php echo $_POST['anniversary']; ?></textarea>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $("select").change(function(){
+            $( "select option:selected").each(function(){
+                if($(this).attr("value")==""){
+                    $(".box").show();
+                    //$(".birthday").show();
+                }
+                if($(this).attr("value")=="birthday"){
+                    $(".box").hide();
+                    $(".birthday").show();
+                }
+                if($(this).attr("value")=="love-romance"){
+                    $(".box").hide();
+                    $(".love-romance").show();
+                }
+                if($(this).attr("value")=="anniversary"){
+                    $(".box").hide();
+                    $(".anniversary").show();
+                }
+            });
+        }).change();
+
+
+    });
+
+</script>

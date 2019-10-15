@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Ant_Bundle>
+            <version>0.1.0</version>
+        </Ant_Bundle>
+    </modules>
+    <global>
+        <models>
+            <bundle>
+                <rewrite>
+                    <sales_order_pdf_items_shipment>Ant_Bundle_Model_Sales_Order_Pdf_Items_Shipment</sales_order_pdf_items_shipment>
+                    <sales_order_pdf_items_invoice>Ant_Bundle_Model_Sales_Order_Pdf_Items_Invoice</sales_order_pdf_items_invoice>
+                </rewrite>
+            </bundle>
+        </models>
+    </global>
+</config>

@@ -1,0 +1,29 @@
+<div class="box-account">
+    <div class="box-head">
+        <h2>Current Reminders</h2>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>OCCASION</th>
+                <th>DATE</th>
+                <th>DELIVERY ADDRESS</th>
+                <th>GIFT</th>
+                <th>EDIT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($data as $reminder) { ?>	
+                <tr>
+                    <td><?php echo $reminder->getName(); ?></td>		
+                    <td><?php echo $reminder->getOccasion(); ?></td>
+                    <td><?php if ($reminder->getDate() != '') echo date_format(date_create($reminder->getDate()), 'd-m-Y') ?></td>
+                    <td><?php echo $reminder->getDeliveryAddress(); ?></td>
+                    <td><?php echo $reminder->getGiftType(); ?></td>
+                    <td><a onclick="return confirm ('Are you want to delete this reminder?');" href="<?php echo $this->getUrl('reminder/list/delete') . '?id=' . $reminder->getId() ?>">Delete</a></td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>

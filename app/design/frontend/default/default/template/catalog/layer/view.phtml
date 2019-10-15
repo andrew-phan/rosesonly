@@ -1,0 +1,94 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Category layered navigation
+ *<?php echo $this->getStateHtml() ?>
+ * @see Mage_Catalog_Block_Layer_View
+ */
+?>
+<?php $flag = 0 ?>
+<?php if ($this->canShowBlock()): ?>
+    <div class="block block-layered-nav">
+        <script type="text/javascript">
+            window.onload = function (){
+                var options = document.querySelectorAll("#narrow-by-list dd");
+                for (var i=0; i<options.length; i++){
+                    options[i].hide();
+                }
+            }
+        </script>
+        <div class="block-content">
+            
+            <?php if ($this->getLayer1()->getState()->getFilters()): ?>
+                    <!--<div class="actions"><a href="<?php echo $this->getClearUrl1() ?>"><?php echo $this->__('Clear All') ?></a></div>-->
+            <?php endif; ?>
+            <?php if (1==1): ?>           
+                <dl id="narrow-by-list">
+                    <?php $_filters = $this->getFilters() ?>
+                    <?php foreach ($_filters as $_filter): ?>
+                        <?php if ($_filter->getItemsCount()): ?>
+                            <?php $id = str_replace(' ', '', $this->__($_filter->getName())) ?>
+                            <dt style="cursor: pointer;" onclick="document.getElementById('dd<?php echo $id ?>').style.display=='none'?document.getElementById('dd<?php echo $id ?>').show():document.getElementById('dd<?php echo $id ?>').hide()"><?php echo $this->__($_filter->getName()) ?></dt>
+                            <dd id="dd<?php echo $id ?>"><?php echo $_filter->getHtml() ?></dd>
+						<?php else: ?>
+									<?php $_filtersw = $this->getActiveFilters() ?>
+									<?php $no = 1 ?>
+									<?php if(!empty($_filtersw)): ?>
+									<div class="currently">    
+										<ol>
+										<?php foreach ($_filtersw as $_filterw): ?>
+											<?php if (($flag == $no)&&($flag <6)): ?>
+											<li>
+												<span class="value"><?php echo $this->stripTags($_filterw->getLabel()) ?></span>
+												<?php
+													$clearLinkUrlw = $_filterw->getClearLinkUrl();
+													if ($clearLinkUrlw):
+												?>
+													<a  class="btn-previous" href="<?php echo $_filterw->getRemoveUrl() ?>" title="<?php echo $this->__('Previous') ?>"><?php echo $this->__('Previous') ?></a>
+													<a  class="btn-remove" title="<?php echo $this->escapeHtml($_filterw->getFilter()->getClearLinkText()) ?>" href="<?php echo $clearLinkUrlw ?>"><?php echo $this->escapeHtml($_filterw->getFilter()->getClearLinkText()) ?></a>
+												<?php else: ?>
+													<a class="reset" href="<?php echo $_filterw->getRemoveUrl() ?>" title="<?php echo $this->__('Reset') ?>"><?php echo $this->__('Reset') ?></a>
+												<?php endif; ?>
+											</li>
+											<?php endif; ?>
+											<?php $no = $no +1 ?>
+										<?php endforeach; ?>
+										</ol>
+									</div>
+									<?php endif; ?>
+									<?php $flag = $flag + 1 ?>
+									 
+                        <?php endif; ?>
+						
+                    <?php endforeach; ?>
+                </dl>
+            <?php endif; ?>
+        </div>
+		
+    </div>
+<?php endif; ?>

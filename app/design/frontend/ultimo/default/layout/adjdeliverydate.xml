@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    <checkout_onepage_index>
+    
+       <reference name="head">            
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addJs"><script>aitoc/deliverydate/validate.js</script></action>
+        </reference> 
+        
+        <reference name="content">
+            <block type="core/html_calendar" name="head.calendar" as="html_calendar" template="adjdeliverydate/js/calendar.phtml"/>   
+        </reference> 
+        
+    	<reference name="checkout.onepage.shipping_method">
+            <block type="adjdeliverydate/container" name="adjdeliverydate.container" as="available" template="adjdeliverydate/container.phtml">
+                <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method_available" as="availablecopy" template="checkout/onepage/shipping_method/available.phtml"/>
+            </block>
+    	</reference>
+        
+    </checkout_onepage_index>
+
+    <checkout_onepage_shippingmethod>
+        <remove name="right"/>
+        <remove name="left"/>
+	<block type="core/text_list" name="root" output="toHtml">
+            <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method_available" template="checkout/onepage/shipping_method/available.phtml"/>
+            <block type="adjdeliverydate/container" name="adjdeliverydate.container" template="adjdeliverydate/container.phtml"/>
+            <block type="adjdeliverydate/renderer_deliverydate_js" name="deliverydate_js" template="adjdeliverydate/renderer/deliverydate/js.phtml" />
+        </block>
+    </checkout_onepage_shippingmethod> 
+
+    
+    
+    <checkout_multishipping translate="label">
+    
+	<reference name="head">            
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addJs"><script>aitoc/deliverydate/validate.js</script></action>
+        </reference> 
+        
+        <reference name="content">
+            <block type="core/html_calendar" name="head.calendar" as="html_calendar" template="adjdeliverydate/js/calendar.phtml"/>
+        </reference>
+    </checkout_multishipping>
+    
+    <checkout_multishipping_shipping>
+        <reference name="checkout_shipping">
+            <action method="setTemplate"><template>aitcommonfiles/design--frontend--base--default--template--checkout--multishipping--shipping.phtml</template></action>   
+        </reference>
+        <reference name="content">
+            <block type="adjdeliverydate/renderer_deliverydate_js" after="checkout_shipping" name="deliverydate_js" template="adjdeliverydate/renderer/deliverydate/js.phtml" />
+        </reference>
+    </checkout_multishipping_shipping>
+
+</layout>
+<!--
+/**
+ * Product:     Delivery Date
+ * Package:     AdjustWare_Deliverydate_1.0.13_395941
+ * Purchase ID: TV9byO7sQKTwpQGRiiOgqFtWDhKtDztzSEUuAFJORn
+ * Generated:   2012-10-09 15:42:26
+ * File path:   app/design/frontend/default/default/layout/adjdeliverydate.xml
+ * Copyright:   (c) 2012 AITOC, Inc.
+ */
+-->

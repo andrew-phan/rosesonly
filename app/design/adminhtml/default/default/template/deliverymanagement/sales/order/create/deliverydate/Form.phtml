@@ -1,0 +1,120 @@
+<script type="text/javascript">
+    //<![CDATA[
+//    Calendar.setup({
+//        inputField : '_deliverydate',
+//        ifFormat : '%m/%d/%Y',
+//        button : '_deliverydate_trig',
+//        align : 'Bl',
+//        singleClick : true,
+//        dateStatusFunc : disabledDate
+//    });
+    //]]>
+</script>
+<script type="text/javascript">
+//    //<![CDATA[
+//    var today_date =  new Date();
+//    var tomorrow_date =  new Date();
+//    tomorrow_date.setDate(today_date.getDate()+1);
+//    tomorrow_date.setHours(0,0,0);
+//    var disabled_date = [];
+//    disabled_date[2010] = { 
+//        0:[1,6],
+//        1:[],
+//        2:[],
+//        3:[2],
+//        4:[1],
+//        5:[],
+//        6:[],
+//        7:[15],
+//        8:[],
+//        9:[12],
+//        10:[1],
+//        11:[6,8,25]};
+//    disabled_date[2011] = { 
+//        0:[1,6],
+//        1:[],
+//        2:[],
+//        3:[2],
+//        4:[1],
+//        5:[],
+//        6:[],
+//        7:[15],
+//        8:[],
+//        9:[12],
+//        10:[1],
+//        11:[6,8,25]};
+//    var weekend_days = [0,1,6];
+//    var starting_date= new Date(2010,9,19);
+//    var ending_date= new Date(2011,6,1);
+//    
+//    function disabledDate(date, y, m, d) {
+//        if (date <= today_date || date <starting_date || date >= ending_date)
+//        return true;
+//        for (var i in weekend_days) 
+//            if (weekend_days[i] == date.getDay()) 
+//                return true;
+//        if (disabled_date[y])
+//        {                    
+//            var no_delivery = disabled_date[y][m];
+//            if (no_delivery){
+//                for (var i in no_delivery) 
+//                    if (no_delivery[i] == d) 
+//                        return true;
+//            }
+//        }
+//        return false; 
+//    };
+    //]]>
+</script>
+<div id="deliveryshow"> 
+    <table width="52%">
+        <tr>
+            <td>
+                <div id="datex">
+                    <div class="blockdate">
+                        <label for="deliverydate"><?php echo $this->__('Date:') ?></label>
+                        <div class="blockdate">
+                            <input type="text" name="_deliverydate" id="_deliverydate" value=""> 
+                            <img title="Select date" id="_deliverydate_trig" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>" class="v-middle">
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td><div id="timex">
+                    <div>
+                        <label for="onestepcheckout_time"><?php echo $this->__('Time:') ?></label>
+                        <input type="hidden" name="onestepcheckout_time" id="onestepcheckout_time" value="<?php echo $mytime ?>"/>
+                    </div>
+                    <?php if (Mage::getStoreConfig("onestepcheckout/deliverydate/timerange")): ?>
+                        <?php
+                        $time = Mage::getStoreConfig('onestepcheckout/deliverydate/addtimerange'); //kq:  string(85) "a:1:{s:18:"_1289468104191_191";a:2:{s:6:"regexp";s:4:"6:20";s:5:"value";s:4:"8:20";}}" 
+                        if ($time) {
+                            $arraytime = unserialize($time);
+                            $slotime = array();
+                            foreach ($arraytime as $time => $timerange) {
+                                $slotime[] = implode("-", $timerange);
+                            }
+                        }
+                        //var_dump($slotime);die();
+                        ?>
+                        <div style="width:95px;margin-left:5px;float:left;">
+                            <select id="delivery-timerange" size="1" name="delivery-timerange" >
+                                <option value=""><?php echo $this->__('Time Range'); ?></option>
+                                <?php foreach ($slotime as $slot): ?>
+                                    <?php if ($slot): ?>
+                                        <option value="<?php echo $slot ?>"><?php echo $slot ?></option>
+                                    <?php endif ?>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    <?php endif ?>
+                </div></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                    <label for="deliverycomment"><?php echo $this->__('Delivery Comment:') ?></label>
+                    <br/><textarea name="deliverycomment" id="deliverycomment" rows="5" cols="45"></textarea>
+            </td>
+        </tr>
+    </table>
+</div>

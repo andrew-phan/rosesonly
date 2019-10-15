@@ -1,0 +1,96 @@
+
+.multiple-checkout .review_title{
+    background: none repeat scroll 0 0 #eee;
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 0;
+    padding: 5px 45px;
+}
+.checkout-multishipping-addresses .top_checkout,
+.checkout-multishipping-shipping .top_checkout,
+.checkout-multishipping-billing .top_checkout,
+.checkout-multishipping-overview .top_checkout
+{
+    display: inline-block;
+    width: 100%;
+}
+.checkout-multishipping-addresses .checkoutsteps,
+.checkout-multishipping-shipping .checkoutsteps,
+.checkout-multishipping-billing .checkoutsteps,
+.checkout-multishipping-overview .checkoutsteps
+{
+    float: left;
+    width: 100%;
+    margin-left: 12px;
+}
+.checkout-multishipping-addresses .checkoutsteps li,
+.checkout-multishipping-shipping .checkoutsteps li,
+.checkout-multishipping-billing .checkoutsteps li,
+.checkout-multishipping-overview .checkoutsteps li
+{
+    background: url("../images/ck_top.png") repeat scroll 0 0 #fff;
+    float: left;
+    height: 36px;
+    margin-right: 8px;
+    padding: 13px 15px;
+    width: 16%;
+}
+.checkout-multishipping-addresses .checkoutsteps li .step_number,
+.checkout-multishipping-shipping .checkoutsteps li .step_number,
+.checkout-multishipping-billing .checkoutsteps li .step_number,
+.checkout-multishipping-overview .checkoutsteps li .step_number
+{
+    background: none repeat scroll 0 0 #fff;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-top: -5px;
+    padding: 6px 10px;
+}
+.multiple-checkout img.multi-checkout-img{
+    border: 1px solid #ddd;
+}
+.multicheckout-step .multiple-left{
+    width: 50%;
+    float: left;
+}
+.multicheckout-step .onepage-right{
+    width: 50%;
+    float: right;
+}
+.multicheckout-step .multicheckout-numbers{
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 10px 0px 20px 0;
+    padding-bottom: 5px;
+    padding-left: 10px;
+}
+.multicheckout-step .box-title,.multicheckout-step .shipping-info, .multicheckout-step .billing-info,.multicheckout-step .box-content{padding-left: 10px;}
+.overview .overview-info .deliver{
+    float: left;
+    width: 47%;
+}
+.overview .overview-info .cart-message{
+    float: right;
+    width: 47%;
+}
+.multiple-checkout .multiple-delivery-charge{display: none;}
+.overview .multishipping-shipping-table .even{background-color: #fff;}
+.multiple-checkout .checkout-overview-table-wrapper,.multiple-checkout .checkout-shipping-table-wrapper{border: 1px solid #eee;}
+
+.checkout-multishipping-addresses .checkoutsteps li.current,
+.checkout-multishipping-shipping .checkoutsteps li.current,
+.checkout-multishipping-billing .checkoutsteps li.current,
+.checkout-multishipping-overview .checkoutsteps li.current
+{
+    background: url("../images/ck_top_active.png") no-repeat #fff;
+}
+.checkout-multishipping-addresses .checkoutsteps li.current .step_number,
+.checkout-multishipping-shipping .checkoutsteps li.current .step_number,
+.checkout-multishipping-billing .checkoutsteps li.current .step_number,
+.checkout-multishipping-overview .checkoutsteps li.current .step_number
+{
+    background: #000;
+    color: #fff;
+}

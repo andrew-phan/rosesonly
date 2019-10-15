@@ -1,0 +1,32 @@
+<?php
+$_productCollection=$this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output'); $color = 1;
+?>
+<?php if(!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+    <div class="customized_products" id="products_color">
+        <h5 class="choosing_title">Choose Colour (Up to 3 colours)<span style="color: red">*</span> </h5>
+        <?php if($this->getMode()!='grid'): ?>
+        <?php else: ?>
+        <?php $_collectionSize = $_productCollection->count() ?>
+        <?php $_columnCount = 4; ?>
+        <?php $i=0; foreach ($_productCollection as $_product): $color++; ?>
+        <?php if ($i++%$_columnCount==0): ?>
+            <ul class="products-grid">
+        <?php endif ?>
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(116); ?>" width="116" height="116" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                <h2 class="product-name">
+                    <input type="checkbox" name="product_name" value="<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?>" id="<?php echo "color". $color; ?>" />
+                    <label for="<?php echo "color". $color; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></label>
+                </h2>
+            </li>
+            <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+            </ul>
+        <?php endif ?>
+        <?php endforeach ?>
+            <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<config>
+	<tabs>
+		<robbie_bundleoption_tab translate="label" module="bundleoption">
+			<label>Bundleoptions Settings</label>
+			<sort_order>50</sort_order>
+		</robbie_bundleoption_tab>
+	</tabs>
+	<sections>
+		<bundleoption_section_one translate="label" module="bundleoption">
+			<tab>robbie_bundleoption_tab</tab>
+			<label>General</label>
+			<sort_oder>1</sort_oder>
+			<show_in_website>1</show_in_website>
+			<show_in_default>1</show_in_default>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<group_1 translate="label" module="bundleoption">
+					<label>General Setting</label>
+					<comment><![CDATA[<i>For any help you can drop me a mail at</i> <b>rkd711@gmail.com</b>]]></comment>
+					<expanded>1</expanded>
+					<sort_order>1</sort_order>
+					<show_in_website>1</show_in_website>
+					<show_in_default>1</show_in_default>
+					<show_in_store>1</show_in_store>
+					<fields>		
+						<field_checkbox translate="label" module="bundleoption">
+							<label>Enable Images for Option Type Checkboxes</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</field_checkbox>
+						<field_radio translate="label" module="bundleoption">
+							<label>Enable Images for Option Type Radio</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>2</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>	
+						</field_radio>
+						<field_background_color translate="label tooltip comment" module="bundleoption">
+							<label>BackgroudColor</label>
+							<frontend_type>text</frontend_type>
+							<comment><![CDATA[Left empty for none]]></comment>
+							<tooltip><![CDATA[Color will be used for Background of ImageBox on the frondend]]></tooltip>
+							<frontend_model>bundleoption/adminhtml_system_config_form_field_color</frontend_model>
+							<sort_order>3</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>							
+						</field_background_color>
+						<field_basechange_onselect translate="label tooltip comment" module="bundleoption">
+							<label>Enable Base Imagechange for Select</label>
+							<frontend_type>select</frontend_type>
+							<comment><![CDATA[If Enabled, Bundle product image will be changed corresponding to dropdown options]]></comment>		
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>4</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>							
+						</field_basechange_onselect>
+						<field_basechange_onselect_type translate="label tooltip comment" module="bundleoption">
+							<label>BaseImagechange for: </label>
+							<frontend_type>select</frontend_type>							
+							<source_model>bundleoption/adminhtml_system_config_source_boundle</source_model>
+							<sort_order>5</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+							<depends>
+								<field_basechange_onselect>1</field_basechange_onselect>
+							</depends>							
+						</field_basechange_onselect_type>
+						<field_enable_quickview>
+							<label>Enable the Quick View PopUp</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>6</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>
+						</field_enable_quickview>
+						<image_size_group type="group">
+							<label>Image Settings</label>							
+							<sort_order>100</sort_order>
+							<show_in_website>1</show_in_website>
+							<show_in_default>1</show_in_default>
+							<show_in_store>1</show_in_store>		
+								<fields>
+									<image_width translate="label">
+										<label>Image Width: </label>
+										<frontend_type>text</frontend_type>	
+										<validate>required-entry validate-number-range number-range-60-600</validate>	
+										<comment><![CDATA[It can any number between 60-600]]></comment>
+										<sort_order>1</sort_order>
+										<show_in_website>1</show_in_website>
+										<show_in_default>1</show_in_default>
+										<show_in_store>1</show_in_store>
+									</image_width>
+									<image_height translate="label">
+										<label>Image Height: </label>
+										<frontend_type>text</frontend_type>	
+										<validate>required-entry validate-number-range number-range-60-600</validate>
+										<comment><![CDATA[It can any number between 60-600]]></comment>
+										<sort_order>2</sort_order>
+										<show_in_website>1</show_in_website>
+										<show_in_default>1</show_in_default>
+										<show_in_store>1</show_in_store>
+									</image_height>									
+								</fields>
+						</image_size_group>																
+					</fields>					
+				</group_1>
+			</groups>
+		</bundleoption_section_one>
+	</sections>
+</config>

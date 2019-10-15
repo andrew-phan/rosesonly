@@ -1,0 +1,396 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php /** @var $this Mage_Checkout_Block_Multishipping_Overview */ ?>
+<div class="top_checkout">
+
+    <ul class="checkoutsteps">
+        <li id="step1"><span class="step_number">1</span><a href="<?php echo $this->getUrl('checkout/cart') ?>">Shopping Cart</a></li>
+        <li id="step2"><span class="step_number">2</span><a href="javascript:void(0);">Select Addresses</a></li>
+        <li id="step3"><span class="step_number">3</span><a href="javascript:void(0);">Recipient Information</a></li>
+        <li id="step4"><span class="step_number">4</span><a href="javascript:void(0);">Billing Information</a></li>
+        <li id="step5" class="current"><span class="step_number">5</span><a href="javascript:void(0);">Review & Place Order</a></li>
+    </ul>
+</div>
+<div class="multiple-checkout">
+    <!--<div class="page-title">
+        <h1><?php /*echo $this->__('Review Order') */?></h1>
+    </div>-->
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form action="<?php echo $this->getPostActionUrl() ?>" method="post" onsubmit="return showLoader();">
+        <!-- Review -->
+        <div class="col2-set">
+            <?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
+
+                <h3 class="review_title">Gift<?php echo $this->__(' %s', ($_index + 1)) ?></h3>
+                <fieldset>
+                    <div class="overview">
+                        <div id="checkout-review-load">
+                            <div class="checkout-overview-table-wrapper">
+                                <table class="data-table multishipping-shipping-table" id="overview-table-<?php echo $_address->getId() ?>"">
+                                    <col />
+                                    <col />
+                                    <col width="1" />
+                                    <col width="1" />
+                                    <col width="1" />
+                                    <col width="1" />
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th rowspan="1"><?php echo $this->__('Product Name') ?></th>
+                                        <th class="a-center" style="width: 120px"><?php echo $this->__('Delivery Date & Time') ?></th>
+                                        <th class="a-center" style="width: 90px"><?php echo $this->__('Unit Price') ?></th>
+                                        <th class="a-center"><?php echo $this->__('Qty') ?></th>
+                                        <th class="a-center"><?php echo $this->__('Subtotal') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="6" style="background-color: #f5f5f5;">
+                                            <div style="float: right;">
+                                                <p><span><?php echo $this->__('Total ') . '&nbsp;&nbsp;' ?></span><?php echo $this->helper('checkout')->formatPrice($_address->getSubtotalInclTax()) ?></p>
+                                                <p><span><?php echo $this->__('+ Delivery Charge ') . '&nbsp;&nbsp;' ?></span></p>
+                                                <p><span><?php echo $this->__('Total for this address ') . '&nbsp;&nbsp;' ?></span><?php echo $this->helper('checkout')->formatPrice($_address->getGrandTotal()) ?></p>
+                                                <p><span><?php echo $this->__('(GST: ') ?></span><?php echo $this->helper('checkout')->formatPrice($_address->getTaxAmount()) . ')'?></p>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                        <?php //echo $this->renderTotals($this->getShippingAddressTotals($_address), 5); ?>
+                                    </tfoot>
+                                    <tbody>
+
+                                    <?php foreach ($this->getShippingAddressItems($_address) as $_item): ?>
+                                        <tr>
+                                            <td class="a-center" style="width: 100px">
+                                                <img src="<?php echo Mage::helper('catalog/image')->init($_item->getProduct(), 'thumbnail')->resize(100); ?>" width="100" height="100" class="multi-checkout-img" alt="" />
+                                            </td>
+                                            <td>
+                                                <?php echo $this->getItemHtml($_item->getQuoteItem()) ?>
+                                            </td>
+                                            <td class="a-center">
+                                                <dl>
+                                                    <dd class="fixed_height">
+                   <textarea type="text" name="cart[<?php echo $_item->getId(); ?>][comments]" rows="3"
+                             cols="20" class="delivery_datetime_value <?php echo $current_item_name; ?>" readonly="readonly">
+                       <?php echo $_item->getCustom_attribute(); ?>
+                   </textarea>
+
+                                                    </dd>
+                                                </dl>
+                                            </td>
+                                            <?php $_incl = $this->helper('checkout')->getPriceInclTax($_item); ?>
+                                            <td class="a-center"><?php echo $this->helper('checkout')->formatPrice($_incl-$_item->getWeeeTaxDisposition()) ?></td>
+
+                                            <td class="a-center"><?php echo number_format($_item->getQty(), 0) ?></td>
+
+                                            <?php $_incl2 = $this->helper('checkout')->getSubtotalInclTax($_item); ?>
+                                            <td class="a-center"><?php echo $this->helper('checkout')->formatPrice($_incl2-$_item->getWeeeTaxRowDisposition()) ?></td>
+                                        </tr>
+                                        <?php //echo $this->getRowItemHtml($_item); ?>
+                                    <?php endforeach; ?>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <div class="box">
+                                                    <div class="box-title"></div>
+                                                    <div class="overview-info">
+                                                        <div class="deliver">
+                                                            <h4><?php echo $this->__('Deliver To:') ?></h4>
+                                                            <address>
+                                                                <?php echo $_address->format('html') ?>
+                                                            </address>
+                                                        </div>
+                                                        <div class="card-message">
+                                                            <h4><?php echo $this->__('Card Message:') ?></h4>
+                                                            <?php if ($this->helper('giftmessage/message')->getEscapedGiftMessage($_address)): ?>
+                                                                <p><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_address) ?></p>
+                                                            <?php else: ?>
+                                                                (No gift message)
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <script type="text/javascript">decorateTable('overview-table-<?php echo $_address->getId() ?>')</script>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            <br />
+            <?php endforeach; ?>
+        </div>
+        <!-- End review -->
+
+        <div class="col2-set" style="display: none">
+            <h2 class="legend"><?php echo $this->__('Billing Information') ?></h2>
+            <div class="col-1">
+                <div class="box">
+                    <?php $_address=$this->getBillingAddress() ?>
+                    <div class="box-title">
+                        <h3><?php echo $this->__('Billing Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getEditBillingAddressUrl($_address) ?>"><?php echo $this->__('Change') ?></a></h3>
+                    </div>
+                    <div class="box-content">
+                        <address>
+                            <?php echo $_address->format('html') ?>
+                        </address>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="box">
+                    <div class="box-title">
+                        <h3><?php echo $this->__('Payment Method') ?> <span class="separator">|</span> <a href="<?php echo $this->getEditBillingUrl() ?>"><?php echo $this->__('Change') ?></a></h3>
+                    </div>
+                    <div class="box-content">
+                        <input type="hidden" name="payment[cc_number]" value="<?php echo $this->escapeHtml($this->getPayment()->getCcNumber())?>" />
+                        <input type="hidden" name="payment[cc_cid]" value="<?php echo $this->escapeHtml($this->getPayment()->getCcCid())?>" />
+                        <?php echo $this->getPaymentHtml() ?>
+                    </div>
+                </div>
+            </div>
+         </div>
+        <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+        <div class="col2-set" style="display: none">
+        <h2 class="legend"><?php echo $this->__('Shipping Information') ?></h2>
+        <?php foreach ($this->getShippingAddresses() as $_index => $_address): ?>
+            <h3 class="legend"><?php echo $this->__('Address %s of %s', ($_index+1), $this->getShippingAddressCount()) ?></h3>
+                <div class="col-1 col-narrow">
+                    <div class="box">
+                        <div class="box-title">
+                            <h4><?php echo $this->__('Shipping To') ?> <span class="separator">|</span> <a href="<?php echo $this->getEditShippingAddressUrl($_address) ?>"><?php echo $this->__('Change') ?></a></h4>
+                        </div>
+                        <div class="box-content">
+                            <address>
+                                <?php echo $_address->format('html') ?>
+                            </address>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="box-title">
+                            <h4><?php echo $this->__('Shipping Method') ?> <span class="separator">|</span> <a href="<?php echo $this->getEditShippingUrl() ?>"><?php echo $this->__('Change') ?></a></h4>
+                        </div>
+                        <div class="box-content">
+                            <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
+                            <p>
+                            <?php echo $this->escapeHtml($_rate->getCarrierTitle()) ?> - <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                            <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
+                            <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
+                            <?php echo $_excl; ?>
+                            <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                            <?php endif; ?>
+                            </p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 col-wide">
+                    <h4><?php echo $this->__('Items') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressesEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
+                    <table class="data-table" id="overview-table-<?php echo $_address->getId() ?>">
+                        <col />
+                        <col width="1" />
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                        <col width="1" />
+                        <?php endif; ?>
+                        <col width="1" />
+                        <col width="1" />
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                        <col width="1" />
+                        <?php endif; ?>
+                        <thead>
+                            <tr>
+                                <th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Product Name') ?></th>
+                                <th colspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Price') ?></th>
+                                <th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Qty') ?></th>
+                                <th colspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Subtotal') ?></th>
+                            </tr>
+                            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                            <tr>
+                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                            </tr>
+                            <?php endif; ?>
+                        </thead>
+                        <tfoot>
+                            <?php echo $this->renderTotals($this->getShippingAddressTotals($_address)); ?>
+                        </tfoot>
+                        <tbody>
+                        <?php foreach ($this->getShippingAddressItems($_address) as $_item): ?>
+                            <?php echo $this->getRowItemHtml($_item); ?>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <script type="text/javascript">decorateTable('overview-table-<?php echo $_address->getId() ?>')</script>
+                </div>
+            <?php if($this->getShippingAddressCount()!=$_index+1): ?>
+                <div class="divider"></div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </div>
+        <?php if ($this->getQuote()->hasVirtualItems()): ?>
+        <div class="col2-set" style="display: none">
+            <h2 class="legend"><?php echo $this->__('Other Items in Your Order') ?></h2>
+            <div class="col-1 col-narrow"></div>
+            <div class="col-2 col-wide">
+                <h3><?php echo $this->__('Items') ?> <span class="separator">|</span> <a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h3>
+                <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+                <table class="data-table" id="virtual-overview-table">
+                    <col />
+                    <col width="1" />
+                    <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="1" />
+                    <?php endif; ?>
+                    <col width="1" />
+                    <col width="1" />
+                    <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                    <col width="70" />
+                    <?php endif; ?>
+                    <thead>
+                        <tr>
+                            <th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Product Name') ?></th>
+                            <th colspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Price') ?></th>
+                            <th rowspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Qty') ?></th>
+                            <th colspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Subtotal') ?></th>
+                        </tr>
+                        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                        <tr>
+                            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                            <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                            <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                        </tr>
+                        <?php endif; ?>
+                    </thead>
+                    <tfoot>
+                        <?php echo $this->renderTotals($this->getBillinAddressTotals()); ?>
+                    </tfoot>
+                    <tbody>
+                    <?php foreach ($this->getVirtualItems() as $_item): ?>
+                        <?php echo $this->getRowItemHtml($_item); ?>
+                    <?php endforeach; ?>
+                    </tbody>
+                    </table>
+                    <script type="text/javascript">decorateTable('virtual-overview-table')</script>
+                </div>
+        </div>
+        <?php endif; ?>
+
+           <?php echo $this->getChildHtml('items_after'); ?>
+
+            <div id="checkout-review-submit">
+                <?php echo $this->getChildHtml('agreements') ?>
+                <div class="place-order">
+                    <div class="grand-total">
+                        <div class="inner">
+                            <big><?php echo $this->__('Grand Total:') ?> <?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></big>
+                            <div id="review-buttons-container">
+                                <button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" id="review-button"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="please-wait" id="review-please-wait" style="display:none;">
+                        <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
+                    </span>
+                </div>
+            </div>
+            <div class="buttons-set">
+                <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Billing Information') ?></a></p>
+            </div>
+        </form>
+        <script type="text/javascript">
+        //<![CDATA[
+            var submitted = false;
+
+            function showLoader()
+            {
+                if (submitted) {
+                    return false;
+                }
+                if ($('checkout-agreements')) {
+                    var checkboxes = $$('#checkout-agreements input');
+                    for (var i=0, l=checkboxes.length; i<l; i++) {
+                        if (!checkboxes[i].checked) {
+                            alert("<?php echo $this->__('Please agree to all Terms and Conditions before placing the orders.')?>");
+                            return false;
+                        }
+                    }
+                }
+
+                submitted = true;
+                var step='review';
+                Element.show(step+'-please-wait');
+                $(step+'-buttons-container').setStyle({opacity:.5});
+                $(step+'-buttons-container').descendants().each(function(s) {
+                      s.disabled = true;
+                });
+                return true;
+            }
+
+
+            window.onload = function () {
+
+            //var datetimes = document.querySelectorAll(".cart-delivery");
+            var dates = document.querySelectorAll(".multiple-checkout-delivery-dates");
+            var times = document.querySelectorAll(".multiple-checkout-delivery-times");
+            <?php
+                $session = Mage::getSingleton('core/session');
+                $delivery_date = $session->getData('_deliverydate');
+                $delivery_time = $session->getData('onestepcheckout_time');
+                if($delivery_date==null){
+            ?>
+            var date= readCookie('delivery_date');
+            var time= readCookie('delivery_time');
+            <?php }else {?>
+            var date= '<?php echo $delivery_date;?>';
+            var time= '<?php echo $delivery_time;?>';
+            <?php }?>
+
+            /*for (var i=0; i<datetimes.length; i++){
+             datetimes[i].innerHTML = date + ", " + time;
+             }*/
+            for (var i=0; i<dates.length; i++){
+                dates[i].innerHTML = date;
+            }
+            for (var j=0; j<times.length; j++){
+                times[j].innerHTML = time;
+            }
+        }
+
+
+        </script>
+</div>

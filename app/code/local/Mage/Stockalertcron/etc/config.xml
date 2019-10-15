@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Mage_Stockalertcron>
+      <version>0.1.0</version>
+    </Mage_Stockalertcron>
+  </modules>
+  <global>
+    <helpers>
+      <stockalertcron>
+        <class>Mage_Stockalertcron_Helper</class>
+      </stockalertcron>
+    </helpers>
+	<models>
+	  <stockalertcron>
+		  <class>Mage_Stockalertcron_Model</class>
+		  <resourceModel>stockalertcron_mysql4</resourceModel>
+	  </stockalertcron>
+	</models>
+  </global>    
+  <crontab>
+    <jobs>            
+		  <stockalertcron>
+        <schedule><cron_expr>*/5 * * * *</cron_expr></schedule>
+        <run><model>stockalertcron/cron::checkOutOfStock</model></run>
+      </stockalertcron>
+    </jobs>
+  </crontab>
+</config> 

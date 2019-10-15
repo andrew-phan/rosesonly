@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Ant_Paypal>
+            <version>0.1.0</version>
+        </Ant_Paypal>
+    </modules>   
+    <frontend>
+        <routers>
+            <paypal>
+                <use>standard</use>
+                <args>
+                    <modules>
+                        <Ant_Paypal before="Mage_Paypal">Ant_Paypal</Ant_Paypal>
+                    </modules>
+                </args>
+            </paypal>
+        </routers>
+    </frontend>
+</config>

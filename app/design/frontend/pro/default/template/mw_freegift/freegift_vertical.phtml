@@ -1,0 +1,50 @@
+<?php $productIds = $this->getFreeProducts();?>
+<?php if($productIds):?>
+<div class="block block-freegift">
+    <div class="block-title">
+        <strong><span><?php echo $this->__('Free Gift');?></span></strong>
+    </div>
+	<ul id="freegift" class="jcarousel-skin-tango freegift-vetical" >
+	<?php foreach($productIds as $productId):?>
+	<?php $product = Mage::getModel('catalog/product')->load($productId)?>
+		<li>
+		<a href="<?php echo $product->getProductUrl().'?mw_freegift=1'; ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($product, 'small_image')) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(85); ?>" width="85" height="85" alt="<?php echo $this->htmlEscape($this->getImageLabel($product, 'small_image')) ?>" /></a>
+				<div class="product-shop">
+	                <div class="f-fix">                	
+	                    <h2 class="product-name"><a href="<?php echo $product->getProductUrl().'?mw_freegift=1'; ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><?php echo $this->htmlEscape($product->getName())?></a></h2>
+	                    <div class="old-price">
+	                    	<?php echo $this->getPriceHtml($product, true) ?>
+	                    </div>
+	                    <?php if($product->isSaleable()): ?>
+	                    	<?php $rule = $this->getRuleByFreeProductId($product->getId());?>
+	                    	<?php if($rule): $url = $this->getAddToCartUrl($product,array('freegift'=>1,'apllied_rule'=>$rule->getId())); ?>
+	                    	<?php $mw_class_rule = 'mw_rule'.$rule->getId();?>
+	                    	<?php else:$url = $this->getAddToCartUrl($product,array('freegift'=>1));?>
+	                    	<?php $mw_class_rule = 'mw_rule';?>
+	                    	<?php endif;?>
+	                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart <?php echo $mw_class_rule;?>" onclick="mw_disableRule(this.className);setLocation('<?php echo $url;?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+	                    <?php else: ?>
+	                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+	                    <?php endif; ?>
+	                </div>
+	            </div>
+	            <div class="free-icon"></div>
+	     </li>		
+	<?php endforeach ?> 	
+	</ul>
+	<div style="clear: both;"></div>
+</div>
+<?php endif;?>
+
+<script type="text/javascript">
+//<![CDATA[
+
+function mw_disableRule(strId)
+{
+	var id = strId.split(' ');
+ 	var classrule = '.'+id[2];
+	if($$(classrule))  $$(classrule).invoke('setStyle', { display:'none'}); 
+}
+
+//]]>
+</script>

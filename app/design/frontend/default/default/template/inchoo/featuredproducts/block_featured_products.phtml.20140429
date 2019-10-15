@@ -1,0 +1,204 @@
+<?php
+/**
+ * @category     Inchoo
+ * @package     Inchoo Featured Products
+ * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+ * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+ */
+?>
+
+<?php
+date_default_timezone_set('Asia/Singapore');
+$_products = $this->_getProductCollection();
+?>
+<div class="features">
+    <?php if ($_products && $_products->getSize()): ?>
+        <div id="flabel"><h1><?php echo $this->__($this->getBlockLabel()) ?></h1></div>  
+        <div class="line"></div>
+        <?php $_iterator = 0; ?>
+        <ul class="quickview-products" id="products-list">
+            <?php foreach ($_products->getItems() as $_product): ?>
+                <?php
+                   
+                if ($_iterator == $this->getLimit())
+                    break;
+                ?>
+                <?php if ($_product->getFeatureSecond()!=1): ?>
+                    <li class="item<?php if (++$_iterator == $this->getLimit()): ?> last<?php endif; ?>">
+                        <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">
+                            <img class="product-img" width="160" height="160" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(320, 320) ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+                        </a>
+                        <div class="product-description">
+                            <div class="feature-name">
+                                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)">
+                                    <?php echo $this->htmlEscape($_product->getName()) ?>
+                                </a>
+                            </div>
+                            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                            <div class="features-price">
+                                <?php //echo $this->getPriceHtml($_product, false, '-new') ?>
+                                <div class="price-box">
+                                    <p class="price-from">
+                                        <span class="price-label">From</span>
+                                        <span class="price">
+                                            <?php  
+                                            //echo $this->getPriceHtml($_product, false, '-new') ;
+                                            if(Mage::app()->getStore()->getCode() === 'dbs'){
+                                                $today = date('Y-m-d');
+                                                $from = date('Y-m-d', strtotime('2014-04-01'));
+                                                $to = date('Y-m-d', strtotime('2014-06-30'));
+                                                if($today <= $to && $today >= $from)
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.85,2), true, false);
+                                                else
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.9,2), true, false);
+                                            }
+                                            else
+                                                echo Mage::helper('core')->currency($_product->getMinimalPrice(), true, false);
+                                            ?>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="clearBoth"></div>
+                            <div class="features-detail"><a  href="<?php echo $_product->getProductUrl() ?>">View item detail ></a></div>
+                            <?php
+                            $pieces = explode("/", $_product->getProductUrl());
+                            $p_link = $pieces[sizeof($pieces) - 1];
+                            ?>
+                            <!--div class="feature-quick"><a class="em_quickshop_handler" href="<?php echo $this->getUrl('') ?>index.php/quickshop/index/view/path/<?php echo $p_link ?>">+Quick View</a></div-->
+                            </p>
+                        </div>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+
+
+        <?php $_iterator = 0; ?>
+        <ul class="quickview-products" id="products-list">
+            <?php foreach ($_products->getItems() as $_product): ?>
+                <?php              
+                if ($_iterator ==  $this->getLimit())
+                    break;
+                ?>
+
+                <?php if ($_product->getFeatureSecond()==1): ?>
+                    <li class="item<?php if (++$_iterator == $this->getLimit()): ?> last<?php endif; ?>">
+                        <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">
+                            <img class="product-img" width="160" height="160" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(320, 320) ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+                        </a>
+                        <div class="product-description">
+                            <div class="feature-name">
+                                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)">
+                                    <?php echo $this->htmlEscape($_product->getName()) ?>
+                                </a>
+                            </div>
+                            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                            <div class="features-price">
+                                <div class="price-box">
+                                    <p class="price-from">
+                                        <span class="price-label">From</span>
+                                        <span class="price">
+                                            <?php  
+                                            //echo $this->getPriceHtml($_product, false, '-new') ;
+                                            
+                                            if(Mage::app()->getStore()->getCode() === 'dbs'){
+                                                $today = date('Y-m-d');
+                                                $from = date('Y-m-d', strtotime('2014-04-01'));
+                                                $to = date('Y-m-d', strtotime('2014-06-30'));                             
+                                                if($today <= $to && $today >= $from)
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.85,2), true, false);
+                                                else
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.9,2), true, false);
+                                            }
+                                            else
+                                                echo Mage::helper('core')->currency($_product->getMinimalPrice(), true, false);
+                                            ?>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="clearBoth"></div>
+                            <div class="features-detail"><a  href="<?php echo $_product->getProductUrl() ?>">View item detail ></a></div>
+                            <?php
+                            $pieces = explode("/", $_product->getProductUrl());
+                            $p_link = $pieces[sizeof($pieces) - 1];
+                            ?>
+                            <!--div class="feature-quick"><a class="em_quickshop_handler" href="<?php echo $this->getUrl('') ?>index.php/quickshop/index/view/path/<?php echo $p_link ?>">+Quick View</a></div-->
+                            </p>
+                        </div>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>
+<div class="clearBoth"></div>
+<div class="footer-link">
+    <div class="footer1">
+        <div class="head">Contact us</div>
+        <div class="clearBoth"></div>
+        <div>
+            <p>Roses Only Asia Pte Ltd<br/>
+                565 Thomson road<br/>
+                Singapore 298184</p>			
+        </div>
+        <div>
+            <p class="footer-email">info.sg@rosesonlyasia.com</p>
+            <p class="footer-phone">(65) 6256 1818</p>
+            <p class="footer-fax">(65) 6256 1612</p>
+        </div>
+        <div>
+            <p>Monday - Friday<br/>
+                9.00am to 7.00pm</p>
+        </div>
+        <!--div class="footer-follow">
+            <div class="head">Follow us!</div>
+            <ul>
+                <a href="#"><li class="facebook">Facebook</li></a>
+                <a href="#"><li class="twitter">Twitter</li></a>                
+                <a href="#"><li class="pinit">Pinit</li></a>
+            </ul>
+        </div-->
+    </div>
+    <div class="footer2">
+        <div class="head">Shop by Recipent</div>
+        <ul>
+            <li><a href="<?php echo $this->getUrl('recipent/for-her.html')?>">For her</a></li>
+            <li><a href="<?php echo $this->getUrl('recipent/for-friends.html')?>">For friends</a></li>
+            <li><a href="<?php echo $this->getUrl('recipent/for-mom.html')?>">For mom</a></li>
+            <li><a href="<?php echo $this->getUrl('recipent/for-baby.html')?>">For baby</a></li>
+        </ul>
+    </div>
+    <div class="footer3">
+        <!--div class="head">Shop by Price</div>
+        <ul>
+            <li><a href="occasion/love-romance.html?price=-50">Under S$50</a></li>
+            <li><a href="occasion/love-romance.html?price=50-100">S$50 - S$100</a></li>
+            <li><a href="occasion/love-romance.html?price=100-150">S$100 - S$150</a></li>
+            <li><a href="occasion/love-romance.html?price=150-200">S$150 - S$200</a></li>
+            <li><a href="occasion/love-romance.html?price=200-">S$200 & above</a></li>
+        </ul-->
+        <div class="head">Shop by Style</div>
+        <ul>
+            <li><a href="<?php echo $this->getUrl('style/roses-only.html')?>">Roses Only</a></li>
+            <li><a href="<?php echo $this->getUrl('style/roses-wine.html')?>">Roses & Wine</a></li>
+            <li><a href="<?php echo $this->getUrl('style/roses-champagne.html')?>">Roses & Champagne</a></li>
+            <li><a href="<?php echo $this->getUrl('style/roses-bear.html')?>">Roses & Bear</a></li>
+            <li><a href="<?php echo $this->getUrl('style/roses-chocolate.html')?>">Roses & Chocolate</a></li>
+            <li><a href="<?php echo $this->getUrl('style/roses-gifts.html')?>">Roses & Gifts</a></li>
+        </ul>
+    </div>
+    <div class="footer4">
+        <div class="head">Shop by Occasion</div>
+        <ul>
+            <li><a href="<?php echo $this->getUrl('occasion/love-romance.html')?>">Love & romance</a></li>
+            <li><a href="<?php echo $this->getUrl('occasion/birthday.html')?>">Birthday</a></li>
+            <li><a href="<?php echo $this->getUrl('occasion/anniversary.html')?>">Anniversary</a></li>
+            <li><a href="<?php echo $this->getUrl('occasion/thank-you.html')?>">Thank you</a></li>
+            <li><a href="<?php echo $this->getUrl('occasion/just-because.html')?>">Just because</a></li>
+            <li><a href="<?php echo $this->getUrl('occasion/new-baby.html')?>">New baby</a></li>
+            <li class="last"><a href="<?php $this->getUrl('') ?>">More..</a></li>
+        </ul>
+    </div>
+</div>

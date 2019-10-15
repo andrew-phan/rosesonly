@@ -1,0 +1,4 @@
+<?php if($this->getRequest()->getParam('freegift')):?>
+	<input type="hidden" name="freegift" value="1" />
+	<input type="hidden" name="apllied_rule" value="<?php echo $this->getRequest()->getParam('apllied_rule')?>" />
+<?php endif;?>

@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/rosesonly.css</name>
+            </action>
+        </reference>
+        <reference name="header">
+            <block type="cms/block" name="header_info">
+                <action method="setBlockId">
+                    <block_id>rosesonly_header_info</block_id>
+                </action>
+            </block>
+        </reference>
+    </default>
+    <catalog_product_view>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+    </catalog_product_view>
+    <checkout_cart_index>
+        <reference name="header">
+            <action method="setTemplate">
+                <template>page/html/checkout-header.phtml</template>
+            </action>
+            <remove name="top.search"/>
+            <!--<block type="cms/block" name="cart_header_help">
+                <action method="setBlockId"><block_id>rosesonly_cart_header_help</block_id></action>
+            </block>
+			<remove name="top.search" />
+			<remove name="top.menu" />
+			<remove name="top.links" />
+			<remove name="cartview_link" />
+			<remove name="header_info" />
+            <remove name="cart_sidebar" />
+            <remove name="compare.mini" />-->
+
+        </reference>
+        <reference name="footer">
+            <action method="setTemplate">
+                <template>page/html/checkout-footer.phtml</template>
+            </action>
+            <action method="unsetData">
+                <key>cache_lifetime</key>
+            </action>
+            <action method="unsetData">
+                <key>cache_tags</key>
+            </action>
+        </reference>
+    </checkout_cart_index>
+    <onestepcheckout_index_index>
+        <!--<reference name="onestepcheckout.checkout">
+		<block type="core/template" name="deliverydate" as="deliverydate" template="onestepcheckout/deliverydate.phtml"/>	
+		</reference>-->
+        <reference name="header">
+            <block type="cms/block" name="cart_header_help">
+                <action method="setBlockId">
+                    <block_id>rosesonly_cart_header_help</block_id>
+                </action>
+            </block>
+            <remove name="top.search"/>
+            <remove name="top.menu"/>
+            <remove name="top.links"/>
+            <remove name="cartview_link"/>
+            <remove name="cart_sidebar"/>
+            <remove name="header_info"/>
+            <remove name="compare.mini"/>
+        </reference>
+        <reference name="footer">
+            <action method="setTemplate">
+                <template>page/html/checkout-footer.phtml</template>
+            </action>
+            <action method="unsetData">
+                <key>cache_lifetime</key>
+            </action>
+            <action method="unsetData">
+                <key>cache_tags</key>
+            </action>
+        </reference>
+    </onestepcheckout_index_index>
+    <checkout_onepage_index>
+        <reference name="onestepcheckout.daskboard">
+            <block type="checkout/onepage_shipping_method_additional"
+                   name="onestepcheckout.onepage.shipping_method.additional" as="giftmessage_additional"
+                   template="mw_onestepcheckout/daskboard/onepage/review/options/additional.phtml"/>
+            <block type="onestepcheckout/checkout_onepage_shippingmethod_deliverydate"
+                   name="onestepcheckout.onepage.shippingmethod.deliverydate" as="deliverydate"
+                   template="mw_onestepcheckout/daskboard/onepage/shipping_method/deliverydate.phtml"/>
+        </reference>
+        <reference name="header">
+            <!--<block type="cms/block" name="cart_header_help">
+                <action method="setBlockId">
+                    <block_id>rosesonly_cart_header_help</block_id>
+                </action>
+            </block>-->
+            <action method="setTemplate">
+                <template>page/html/checkout-header.phtml</template>
+            </action>
+            <remove name="top.search"/>
+            <remove name="top.menu"/>
+            <remove name="top.links"/>
+            <remove name="cartview_link"/>
+            <remove name="cart_sidebar"/>
+            <remove name="header_info"/>
+            <remove name="compare.mini"/>
+        </reference>
+        <reference name="footer">
+            <action method="setTemplate">
+                <template>page/html/checkout-footer.phtml</template>
+            </action>
+            <action method="unsetData">
+                <key>cache_lifetime</key>
+            </action>
+            <action method="unsetData">
+                <key>cache_tags</key>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+    <customer_account_login>
+        <reference name="header">
+            <action method="setTemplate">
+                <template>page/html/checkout-header.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <remove name="top.search"/>
+        </reference>
+    </customer_account_login>
+    <customer_account_create>
+        <reference name="content">
+            <remove name="top.search"/>
+        </reference>
+    </customer_account_create>
+    <customer_account_forgotpassword>
+        <reference name="content">
+            <remove name="top.search"/>
+        </reference>
+    </customer_account_forgotpassword>
+    <faq_index_index>
+        <reference name="content">
+            <remove name="top.search"/>
+        </reference>
+    </faq_index_index>
+    <checkout_multishipping>
+        <reference name="header">
+            <action method="setTemplate">
+                <template>page/html/checkout-header.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <remove name="top.search"/>
+        </reference>
+    </checkout_multishipping>
+
+</layout>
+

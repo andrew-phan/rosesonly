@@ -1,0 +1,1 @@
+function dropdown(e,t){if($$("."+t+" .content")[0].empty()||$(e).hasClassName("active"))return false;Effect.toggle(e,"appear",{duration:0,afterFinish:function(){$(t).removeClassName("active")}})}

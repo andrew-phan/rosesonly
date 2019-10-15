@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <unsubscribe_index_index>
+        <reference name="content">
+            <block type="unsubscribe/unsubscribe" name="unsubscribe" template="unsubscribe/unsubscribe.phtml" />
+        </reference>
+    </unsubscribe_index_index>
+	
+	<default>
+		<reference name="left.newsletter">
+		  <action method="setTemplate">
+			 <template>unsubscribe/subscribe.phtml</template>
+		   </action>
+		</reference>
+	</default>
+
+</layout>

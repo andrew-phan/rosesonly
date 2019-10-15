@@ -1,0 +1,33 @@
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+<table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+<tr>
+    <td align="center" valign="top">
+        <!-- [ header starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+            <tr>
+                <td valign="top"><a href="{{store url=""}}"><img src="{{var logo_url}}" alt="{{var logo_alt}}" style="margin-bottom:10px;" border="0"/></a></td>
+            </tr>
+        </table>
+        <!-- [ middle starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+			<tr>
+                <td valign="top">
+                    <h1 style="font-size:18px; font-weight:normal; line-height:22px; margin:0 0 11px 0;">Hello,</h1>
+                    <p>Purchase Order <b>#{{var poId}}</b> <small>(created on {{var poDate}})</small>.</p>
+					<p>Purchase Order Status: <b>{{var status}}</b></p>
+					<p>Purchase Order Total: <b>{{var total}}</b></p>
+					<p>{{var message}}.</p>
+				</td>
+            </tr>
+			<tr><td valign="top">
+					<b>Supplier Information</b>
+					Supplier Name : <b>{{ var supName}}</b>
+					<br/>Supplier Email : {{var supMail}}
+					<br/>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>

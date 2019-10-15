@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>   
+        </reference>
+    </default>
+    <special_index_index>
+        <reference name="content">
+            <block type="special/index" name="special_index" template="special/index.phtml"/>
+        </reference>
+    </special_index_index>
+    <special_valentine_index>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/valentine.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/valentine" name="special_valentine" template="special/valentine.phtml"/>
+        </reference>
+    </special_valentine_index>
+    <special_mother_index>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/mother.phtml</template>
+            </action>   
+        </reference>
+        
+        <reference name="content">
+            <block type="special/mother" name="special_mother" template="special/mother.phtml">               
+                <block type="ibanners/view" name="ibanners.mother_day" as="mother_day">
+                    <action method="setGroupCode">
+                        <code>mother_day</code>
+                    </action>
+                </block>                
+            </block>            
+        </reference>
+    </special_mother_index> 
+    <special_valentine_edm>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/valentine_edm" name="special_valentine_edm" template="special/valentine/edm.phtml"/>
+        </reference>
+    </special_valentine_edm>
+    <special_valentine_edm2>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/valentine_edm2" name="special_valentine_edm2" template="special/valentine/edm2.phtml"/>
+        </reference>
+    </special_valentine_edm2>
+    <special_popup_index>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/popup.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/popup" name="special_valentine" template="special/popup.phtml">
+                <block type="ibanners/view" name="ibanners.homepage" before="-">
+                    <action method="setGroupCode">
+                        <group_code>home</group_code>
+                    </action>
+                    <action method="setDisplayControls">
+                        <controls>1</controls>
+                    </action>
+                </block>
+               
+                <block type="ibanners/view" name="ibanners.home" as="home">
+                    <action method="setGroupCode">
+                        <code>home</code>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </special_popup_index>
+    <special_picean_index>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/picean" name="special_picean" template="special/picean.phtml"/>                
+        </reference>
+    </special_picean_index>
+    <special_picean_edm>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/picean_edm" name="special_picean_edm" template="special/picean/edm.phtml"/>
+        </reference>
+    </special_picean_edm>    
+    <special_email_index>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/email" name="special_email" template="special/email.phtml"/>
+        </reference>
+    </special_email_index>
+    <special_aries_index>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/aries" name="special_aries" template="special/aries.phtml"/>                
+        </reference>
+    </special_aries_index>
+    <special_aries_edm>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/blank.phtml</template>
+            </action>   
+        </reference>
+        <reference name="content">
+            <block type="special/aries_edm" name="special_aries_edm" template="special/aries/edm.phtml"/>
+        </reference>
+    </special_aries_edm>    
+</layout>
+	

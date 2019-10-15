@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_catalog_product_edit>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <name>stockcount</name>
+                <block>stockcount/adminhtml_catalog_product_edit_tabs</block>
+            </action>
+        </reference>
+        <!--reference name="content">
+             			<block type="Ant_Stockcount_Block_Adminhtml_Catalog_Product_Edit_Tab_Grid" name="grid" ></block>
+      		</reference-->
+    </adminhtml_catalog_product_edit>
+</layout>

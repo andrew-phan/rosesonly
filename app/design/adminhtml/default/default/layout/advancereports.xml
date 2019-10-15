@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <advancereports_adminhtml_customer_index>
+        <reference name="content">
+            <block type="advancereports/adminhtml_customer" name="advancereports_customer" ></block>
+            <!--block type="adminhtml/customer_group" name="customer_group"></block-->
+        </reference>
+    </advancereports_adminhtml_customer_index>
+    <advancereports_adminhtml_order_index>
+        <reference name="content">
+            <block type="advancereports/adminhtml_order" name="advancereports_order" ></block>
+        </reference>
+    </advancereports_adminhtml_order_index>
+    <advancereports_adminhtml_hhonors_index>
+        <reference name="content">
+            <block type="advancereports/adminhtml_hhonors" name="advancereports_hhonors" ></block>
+        </reference>
+    </advancereports_adminhtml_hhonors_index>
+</layout>

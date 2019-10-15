@@ -1,0 +1,44 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<div class="page-message">
+	<h1>Thank you for your purchase but your payment has failed! 
+		<?php 
+			$migs = Mage::getSingleton('checkout/session')->setMigsResult(''); 
+			//echo strlen($migs);
+		?>
+	</h1>
+</div>
+<p style="color:orange;"><?php echo $this->__('We have received your order %s.',  $this->getRealOrderId()); ?><p>
+<br/>
+<p><?php echo $this->__('However your credit card payment has not been successful.We will be calling you shortly about your order and payment. Alternatively, you can also call us at (65) 6256 1818 or email us at info.sg@rosesonlyasia.com.</p>'); ?> </p>
+<br/>
+<p><?php echo $this->__('Note: If you do not receive the confirmation message within a few minutes of signing up, please kindly check your Spam/junk folder just in case the confirmation email got delivered there instead of your inbox.') ?></p>
+<div class="buttons-set checkout-cart-index">
+	<button type="button" class="button btn-proceed-checkout" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
+

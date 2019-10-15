@@ -1,0 +1,102 @@
+<?php
+
+class MW_FreeGift_Model_Freegift extends Varien_Object
+{
+	protected $_freeproduct;
+	protected $_freeproduct_ids;
+	protected $_max_free_item;
+	protected $_num_of_added_items;
+	protected $_apllied_rules;
+    
+    protected function _getCheckoutSession()
+    {
+    	return Mage::getSingleton('checkout/session');
+    }
+    
+    protected function _init($quote)
+    {
+    	$quote = Mage::getSingleton('checkout/session')->getQuote();
+        $args = array(
+            'website_id'=>Mage::app()->getStore($quote->getStoreId())->getWebsiteId(),
+            'customer_group_id'=>$quote->getCustomerGroupId(),
+        );
+        $validator = Mage::getModel('freegift/validator')->init($args['website_id'],$args['customer_group_id']);
+        
+        foreach($quote->getAllAddresses() as $address){
+        	$items = $address->getAllItems();
+        	foreach($items as $item){
+        		/**
+                 * Child item discount we calculate for parent
+                 */
+                if ($item->getParentItemId()) {
+                    continue;
+                }
+                /**
+                 * Composite item discount calculation
+                 */
+                if ($item->getHasChildren() && $item->isChildrenCalculated()) {
+                    foreach ($item->getChildren() as $child) {
+                        $args['item'] = $child;
+                        $validator->process($args['item']);
+                    }
+                }
+                else {
+                   	$args['item'] = $item;
+                    $validator->process($args['item']);                    
+                }
+        	}
+        }
+        
+        $this->_max_free_item = $validator->getMaxFreeItem();
+        $this->_freeproduct_ids = $validator->getFreeGiftIds();
+        $this->_apllied_rules = $validator->getAplliedRules();
+        
+        //$this->_freeproduct = $this->_getProductCollection()->addFieldToFilter('entity_id',array('in'=>$this->_freeproduct_ids));        
+        return $this;
+    }
+    
+	public function getFreeProducts()
+    {
+        if(!$this->_freeproduct) $this->_init();
+    	return $this->_freeproduct;
+    }
+    
+    public function getFreeProductIds()
+    {
+    	if(!$this->_freeproduct) $this->_init();
+    	return $this->_freeproduct_ids;
+    }
+    
+    public function getMaxFreeItem()
+    {
+    	if(!$this->_freeproduct) $this->_init();
+    	return $this->_max_free_item;
+    }
+    
+    public function getAplliedRules()
+    {
+    	if(!$this->_freeproduct) $this->_init();
+    	return $this->_apllied_rules;
+    }
+    
+    public function getAplliedRuleIds()
+    {
+    	$apllied_rules = $this->getAplliedRules();
+    	$rule_ids = array();
+    	foreach($apllied_rules as $rule) $rule_ids[] = $rule->getId();
+    	return $rule_ids;
+    }
+    public function getNumberOfAddedFreeItems()
+    {
+    	if(!$this->_num_of_added_items){
+	    	$this->_num_of_added_items = 0;
+	    	$items = $this->_getCheckoutSession()->getQuote()->getAllItems();
+	    	foreach($items as $item)
+	    	{
+	    		$params = unserialize($item->getOptionByCode('info_buyRequest')->getValue());
+	    		if(isset($params['freegift']) && $params['freegift']) $this->_num_of_added_items++;
+	    	}
+    	}
+    	return $this->_num_of_added_items;
+    }
+}

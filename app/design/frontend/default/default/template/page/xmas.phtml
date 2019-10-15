@@ -1,0 +1,141 @@
+<html>
+    <head>
+        <?php echo $this->getChildHtml('head_xmas') ?>        
+    </head>
+    <body>
+        <div class="heart"></div>
+        <div class="wrapper">            
+            <div class="header"></div>
+            <div class="intro-xmas">
+                <p class="intro-left">Your are viewing our Love Christmas Collection 2013</p>
+                <a href="<?php echo Mage::getBaseUrl(); ?>"><p class="align-right margin-right">To view our normal range, click here</p></a>
+            </div>
+            <div class="page">
+                <div class="top"></div>                                
+                <div class="main">
+                        <?php
+                            echo '<p class="category-image"><img src="'.$this->getSkinUrl('images/xmas/EarlyBird_FreeDelivery_LandingPage1.jpg').'" alt="New Baby" title="New Baby"></p>';
+                        ?>
+                    <a href="<?php echo $this->getUrl('christmas-day')?>"><div class="ribbon" id="ribbon"></div></a>
+                    <a target="_blank" href="<?php echo $this->getUrl('flipbook/index.html')?>"><div class="green_ribbon"></div></a>
+                    <div class="category-products">
+                        <div class="category-title">
+                            <h1>Browse Gifts New Baby </h1>
+                        </div>
+
+                        <ol class="products-grid quickview-products" id="products-list">              
+                            <li class="item">
+                                <a href="<?php echo $this->getUrl('occasion/christmas-day/classic-traditions-with-roses.html')?>" title="Roses and Table Arrangements" class="product-image">
+                                    <img src="<?php echo $this->getSkinUrl('images/xmas/roses-and-table-arrangements.png')?>" width="155" height="155" alt="Roses and Table Arrangements">
+                                </a>
+                                <h2 class="product-name">
+                                    <a href="<?php echo $this->getUrl('occasion/christmas-day/classic-traditions-with-roses.html')?>" title="Roses and Table Arrangements">Roses and Table Arrangements</a>
+                                </h2>
+                                <div>
+                                    <span class="price">
+                                        <div class="price-box">
+                                            <p class="price-from">
+                                                <span class="price-label">Starting from</span>
+                                                <span class="price">SGD$59.00</span>
+                                            </p><p>
+                                        </p></div>
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <a href="<?php echo $this->getUrl('occasion/christmas-day/sweets-treats-with-chocolates.html')?>" title="Chocolate Gift Ideas" class="product-image">
+                                    <img src="<?php echo $this->getSkinUrl('images/xmas/chocolate-gift-ideas.png')?>" width="155" height="155" alt="Chocolate Gift Ideas">
+                                </a>
+                                <h2 class="product-name">
+                                    <a href="<?php echo $this->getUrl('occasion/christmas-day/sweets-treats-with-chocolates.html')?>" title="Chocolate Gift Ideas">Chocolate Gift Ideas</a>
+                                </h2>
+                                <div>
+                                    <span class="price">
+                                        <div class="price-box">
+                                            <p class="price-from">
+                                                <span class="price-label">Starting from</span>
+                                                <span class="price">SGD$83.00</span>
+                                            </p><p>
+                                        </p></div>
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="item">
+                                <a href="<?php echo $this->getUrl('occasion/christmas-day/joyous-celebration-with-wines-champagnes.html')?>" title="Wines, Champagnes and Gourmet Hampers" class="product-image">
+                                    <img src="<?php echo $this->getSkinUrl('images/xmas/wines-chamgagnes-gourmet-hampers.png')?>" width="155" height="155" alt="Wines, Champagnes and Gourmet Hampers">
+                                </a>
+                                <h2 class="product-name">
+                                    <a href="<?php echo $this->getUrl('occasion/christmas-day/joyous-celebration-with-wines-champagnes.html')?>" title="Wines, Champagnes and Gourmet Hampers">Wines, Champagnes and Gourmet Hampers</a>
+                                </h2>
+                                <div>
+                                    <span class="price">
+                                        <div class="price-box">
+                                            <p class="price-from">
+                                                <span class="price-label">Starting from</span>
+                                                <span class="price">SGD$123.00</span>
+                                            </p><p>
+                                        </p></div>
+                                    </span>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div style=" height: 10px; "></div>
+                    <div class="msg-xmas">
+                        <h3>Prices stated are not inclusive of delivery charges.</h3>
+                        <p class="title-xmas">Send the finest Christmas Gifts from Roses Only</p>
+                        <p>Treat a friend, colleague or loved one this year with Christmas hampers filled with premium goodies including champagne, chocolates, wine, treats and cookies. Celebrate the holidays in style with gourmet hampers for Xmas.</p></br>
+                        <p>This Christmas, deliver love with the best roses in Singapore. Pair your boxed roses with plush, vases and pralines to spoil your loved ones on 25 Dec 2013. Our roses in special Christmas Santa Mix and award Red Intuition make the perfect gift for indulgence on this special day.</p></br>
+                        <p>Take this opportunity to say Thank You for all the love and support that your colleagues, business partners has provided over this year with our range of wine gifts and champagne hampers delivered in our new signature Red Box. Send an office-friendly Christmas hamper for sharing around during the company Christmas party!</p></br>
+                        <p>Gift the perfect Christmas gift for him with our range of luxurious Champagne gifts and choice wines his discerning paletter. A Christmas gift he will truly appreciate</p>
+                        <div style=" height: 30px; "></div>
+                    </div>
+                </div>
+            </div>
+
+            <?php echo $this->getChildHtml('footer') ?>
+        </div>
+        <script type="text/javascript">
+            //<![CDATA[
+            var _gaq = _gaq || [];
+    
+            _gaq.push(['_setAccount', 'UA-36770795-1']);
+            _gaq.push(['_trackPageview']);
+    
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+            //]]>
+        </script>
+        <!-- Google Code for Remarketing tag -->
+        <!-- Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. For instructions on adding this tag and more information on the above requirements, read the setup guide: google.com/ads/remarketingsetup -->
+        <script type="text/javascript">
+            /* <![CDATA[ */
+            var google_conversion_id = 996308914;
+            var google_conversion_label = "mASPCJbkkwQQsu-J2wM";
+            var google_custom_params = window.google_tag_params;
+            var google_remarketing_only = true;
+            /* ]]> */
+        </script>
+        <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+        </script>
+        <noscript>
+        <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/996308914/?value=0&amp;label=mASPCJbkkwQQsu-J2wM&amp;guid=ON&amp;script=0"/>
+        </div>
+        </noscript>
+        <script type="text/javascript">
+            var nodeList = document.querySelectorAll('.price-label');
+            for (var i = 0, length = nodeList.length; i < length; i++) {
+            nodeList[i].innerHTML = 'Starting from';
+         }
+        </script>
+
+    </body>
+</html>

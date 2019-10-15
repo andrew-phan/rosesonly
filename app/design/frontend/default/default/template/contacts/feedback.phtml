@@ -1,0 +1,140 @@
+
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="page-title">
+    <h1><?php echo Mage::helper('contacts')->__('Feedback') ?></h1>
+</div>
+<form action="<?php echo $this->getFormAction(); ?>" id="contactForm" method="post">
+    <!--div class="page-title">< ?php echo Mage::helper('contacts')->__('Contact Information') ?></div-->
+    <input type="hidden" name="type" value="feedback" />
+    <div class="fieldset">
+        <div class="contact-des">
+            "Your feedback is important to us. If you have any comments or concerns, please use the feedback form below."
+			 </br>
+            </br>
+            <p style="color: red;"> * required fields </p>
+        </div>
+        <br/>
+         <style>
+             .form td{padding: 5px 10px;}
+             .form .required{color: red; padding-left:5px;}
+             .form  {font-size: 14px;}
+             .form input[type="radio"]{margin: 0 5px 0 10px;}
+             .vote td{border: solid 1px #b6b6b6; text-align: center; }
+			 .vote th{border: solid 1px #b6b6b6; text-align: center; padding-left:5px;}
+         </style>
+        <table class="form">
+            <tr>
+                <td style="width:200px; padding-right: 20px;"><label>Name</label><span class="required">*</span></td>
+                <td><input name="name" type="text" class="required-entry input-text"/></td>
+            </tr>
+            <tr>
+                <td><label>Email</label><span class="required">*</span></td>
+                <td><input name="email" type="email" value="<?php echo $this->htmlEscape($this->helper('contacts')->getUserEmail()) ?>" class="required-entry input-text"/></td>
+            </tr>
+            <tr>
+                <td><label>Address</label><span class="required">*</span></td>
+                <td><input name="address" type="text" class="required-entry input-text"/></td>
+            </tr>
+            <tr>
+                <td><label>Please tick</label><span class="required">*</span></td>
+                <td>                   
+                    <table class="vote" style="border:solid 1px #000;text-align: center;border-width: thin;border-collapse: collapse;">
+                        <tr>
+                            <th></th>
+                            <th style="width:80px;">Excellent</th>
+                            <th style="width:80px;">Good</th>
+                            <th style="width:80px;">Needs Improvement</th>
+                            <th style="width:80px;">Poor</th>
+                        </tr>						
+                       <tr>							
+                            <td>Flower Quality</td>	
+                            <td><input class="validate-one-required-by-name" type="radio" value="Excellent" name="quality"></td>							
+                            <td><input  type="radio" value="Good" name="quality"></td>
+                            <td><input  type="radio" value="Needs Improvement" name="quality"></td>
+                            <td><input  type="radio" value="Poor" name="quality"></td>
+                        </tr>
+                        <tr>
+                            <td>Packaging</td>							
+                            <td><input class="validate-one-required-by-name" type="radio" name ="packaging" value="Excellent"/></td>
+                            <td><input type="radio" name ="packaging" value="Good"/></td>
+                            <td><input type="radio" name ="packaging" value="Needs Improvement"/></td>
+                            <td><input type="radio" name ="packaging" value="Poor"/></td>
+                        </tr>
+                        <tr>
+                            <td>Flower Presentation</td>							
+                            <td><input class="validate-one-required-by-name" type="radio" name ="presentation" value="Excellent"/></td>
+                            <td><input type="radio" name ="presentation" value="Good"/></td>
+                            <td><input type="radio" name ="presentation" value="Needs Improvement"/></td>
+                            <td><input type="radio" name ="presentation" value="Poor"/></td>							
+                        </tr>
+                        <tr>
+                            <td>Delivery</td>							
+                            <td><input class="validate-one-required-by-name" type="radio" name ="delivery" value="Excellent"/></td>
+                            <td><input type="radio" name ="delivery" value="Good"/></td>
+                            <td><input type="radio" name ="delivery" value="Needs Improvement"/></td>
+                            <td><input type="radio" name ="delivery" value="Poor"/></td>							
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+			<tr>
+                <td><label>Did you follow the care instructions?</label><span class="required">*</span></td>
+                <td>
+					
+                    <input class="validate-one-required-by-name" type="radio" name="care" value="Yes"/><span>Yes</span>
+                    <input type="radio" name="care" value="No"/><span>No</span>
+					
+                </td>
+            </tr>
+            <tr>
+                <td><label>Have you ever made a purchase at rosesonly.com.sg?</label><span class="required">*</span></td>
+                <td>
+					
+                    <input class="validate-one-required-by-name" type="radio" name="purchase" value="Yes"/><span>Yes</span>
+                    <input type="radio" name="purchase" value="No"/><span>No</span>
+					
+                </td>
+            </tr>
+            <tr>
+                <td><label>Would you recommend Roses Only to friends and colleagues?</label><span class="required">*</span></td>
+                <td>
+					
+                    <input class="validate-one-required-by-name" type="radio" name="friends" value="Yes"/><span>Yes</span>
+                    <input type="radio" name="friends" value="No"/><span>No</span>
+					
+                </td>
+            </tr>
+            <tr>
+                <td><label>Would you like to receive information about our gifting options</label><span class="required">*</span></td>
+                <td>
+					
+                    <input class="validate-one-required-by-name" type="radio" name="gift" value="Yes"/><span>Yes</span>
+                    <input type="radio" name="gift" value="No"/><span>No</span>
+					
+                </td>
+            </tr>
+            <tr>
+                <td><label>Would you like to receive our Roses Only e-newsletter highlighting monthly specials, competitions and promotions?</label><span class="required">*</span></td>
+                <td>
+					
+                    <input class="validate-one-required-by-name" type="radio" name="e-newsletter" value="Yes"/><span>Yes</span>
+                    <input type="radio" name="e-newsletter" value="No"/><span>No</span>
+					
+                </td>
+            </tr>
+            <tr>
+                <td><label>Other Comments</label></td>
+                <td><textarea name="comment" style="width: 250px;"></textarea></td>
+            </tr>
+            <tr>
+                <td><button type="submit" class="button">Submit</button></td>
+                <td></td>
+            </tr>
+		</table>			
+    </div>
+</form>
+<script type="text/javascript">
+    //<![CDATA[
+    var contactForm = new VarienForm('contactForm', true);
+    //]]>
+</script>

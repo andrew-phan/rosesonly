@@ -1,0 +1,1 @@
+This module will send cancel order email when cancel order event fired

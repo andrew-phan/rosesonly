@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <GentoTech_SoldOut>
+            <active>true</active>
+            <codePool>local</codePool>
+        </GentoTech_SoldOut>
+    </modules>
+</config>

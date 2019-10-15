@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sandipan_Unsubscribe>
+            <version>0.1.0</version>
+        </Sandipan_Unsubscribe>
+    </modules>
+    <frontend>
+        <routers>
+            <unsubscribe>
+                <use>standard</use>
+                <args>
+                    <module>Sandipan_Unsubscribe</module>
+                    <frontName>unsubscribe</frontName>
+                </args>
+            </unsubscribe>
+        </routers>
+        <layout>  <!-- New Section Added -->
+            <updates>
+                <unsubscribe>
+                    <file>unsubscribe.xml</file> <!-- This is name of the layout file for this module -->
+                </unsubscribe>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+        <blocks>
+            <unsubscribe>
+                <class>Sandipan_Unsubscribe_Block</class>
+            </unsubscribe>
+        </blocks>
+        <helpers>
+            <unsubscribe>
+                <class>Sandipan_Unsubscribe_Helper</class>
+            </unsubscribe>
+        </helpers>
+    </global>
+</config>

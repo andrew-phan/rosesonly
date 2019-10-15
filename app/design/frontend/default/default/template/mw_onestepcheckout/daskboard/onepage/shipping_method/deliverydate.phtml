@@ -1,0 +1,460 @@
+<div class="shipping-option">    
+    <h3><?php echo $this->__('Delivery Date / Time'); ?></h3>
+    <ul>
+        <li>
+            <div id="deliveryshow">
+                <?php
+                /*
+                 * Get start date, end date according to
+                 * - start date of all items, get the max
+                 * - end date of all items, get the min
+                 * - lead time of all items, get the max
+                 * - national date
+                 * - additional date
+                 * - weekend
+                 * - available week
+                 */
+                $is_debuging = FALSE;
+                 
+                 
+                $start_date_available = new DateTime();
+                $end_date_available = NULL;
+                $lead_time_max = 0;
+
+                $product_ids = Mage::getModel('checkout/cart')->getProductIds();
+                foreach ($product_ids as $product_id) {                    
+                    $product = Mage::getModel('catalog/product')->load($product_id);
+                    if($product){                        
+                        $lead_time = $product->getLeadTime();                        
+                        $start_date = DateTime::createFromFormat('Y-m-d H:i:s', $product->getStartDate());
+                        $end_date = DateTime::createFromFormat('Y-m-d H:i:s', $product->getEndDate());
+                        
+                        /*Hoang add*/
+                        $delivery_from = DateTime::createFromFormat('Y-m-d H:i:s', $product->getDeliveryFrom());
+                        $delivery_to = DateTime::createFromFormat('Y-m-d H:i:s', $product->getDeliveryTo());
+                      
+                        if((!$start_date) || ($delivery_from > $start_date)){
+                            $start_date = $delivery_from;                               
+                        }
+                        
+                        if((!$end_date) || ($delivery_to < $end_date)){
+                            $end_date = $delivery_to; 
+                        }                        
+                        /* end add*/
+                       
+                        if ($start_date && (!$start_date_available || $start_date > $start_date_available)) {
+                            $start_date_available = $start_date;
+                            if ($is_debuging) Mage::log('2');
+                        }
+
+                        if ($end_date && (!$end_date_available || $end_date < $end_date_available)) {
+                            $end_date_available = $end_date;
+                            if ($is_debuging) Mage::log('3');
+                        }
+                       
+                        if ($lead_time !=null && ($lead_time > $lead_time_max)) {
+                            $lead_time_max = $lead_time;
+                            if ($is_debuging) Mage::log('4');
+                        }
+                    }
+                }
+                
+                if (!$start_date_available) {
+                    if ($is_debuging) Mage::log('There is no Start Date - Init one');
+                    $start_date_available = new DateTime();
+                }
+               
+                if (!$end_date_available) {
+                    if ($is_debuging) Mage::log('There is no End Date - Init one');
+                    $end_date_available = new DateTime(); //the time cannot reach
+                    $end_date_available->setDate(9999, 12, 21);
+                }
+              
+                $start_date_available->setTime(0, 0, 0);
+                $end_date_available->setTime(0, 0, 0);
+                
+                if ($is_debuging) Mage::log('FINISHED LOADING START, END DATE');
+                if ($is_debuging) Mage::log('Final Start Date: ' . $start_date_available->format('d/m/Y'));
+                if ($is_debuging) Mage::log('Final End Date: ' . $end_date_available->format('d/m/Y'));
+               
+                $delivery_allowed_period = Mage::getStoreConfig("onestepcheckout/deliverydate/rangeday");
+                if ($is_debuging) Mage::log('Delivery Allowed Period: ' . $delivery_allowed_period);
+                if ($delivery_allowed_period > 0) {
+                    $new_end_date_available = new DateTime();
+                    $new_end_date_available->setDate($start_date_available->format('Y'), $start_date_available->format('m'), $start_date_available->format('d'));
+                    $new_end_date_available->setTime(0, 0, 0);
+
+                    date_add($new_end_date_available, new DateInterval('P' . $delivery_allowed_period * 7 . 'D'));
+
+                    if ($new_end_date_available < $end_date_available) {
+                        $end_date_available = $new_end_date_available;
+                        if ($is_debuging) Mage::log('Limited End Date To: ' . $end_date_available->format('d/m/Y'));
+                    }
+                }
+
+                if ($is_debuging) Mage::log('FINISHED CHECKING START, END DATE AND LEAD TIME OF ALL PRODUCTS');
+                if ($is_debuging) Mage::log('Final Start Date: ' . $start_date_available->format('d/m/Y'));
+                if ($is_debuging) Mage::log('Final End Date: ' . $end_date_available->format('d/m/Y'));
+                if ($is_debuging) Mage::log('Max Lead Time: ' . $lead_time_max);
+                
+                //check being weekend and additional date and national date
+                $additional_date = Mage::getStoreConfig("onestepcheckout/deliverydate/enableday");
+                $national_date = Mage::getStoreConfig("onestepcheckout/deliverydate/disableday");
+                $weekend_days_of_week = Mage::getStoreConfig("onestepcheckout/deliverydate/weekend");
+
+                if ($is_debuging) Mage::log('LOAD SPECIAL DATES');
+                if ($is_debuging) Mage::log('Additional Dates:' . $additional_date);
+                if ($is_debuging) Mage::log('National Dates:' . $national_date);
+                if ($is_debuging) Mage::log('Weekend Days:' . $weekend_days_of_week);
+
+                /*
+                 * Compare today and got start date, end date
+                 * if start date < todate <end date
+                 * then do the timing logic
+                 * else get the first available date
+                 */
+
+                $order_date = new DateTime();
+                $can_delivery = TRUE;
+                $earliest_delivery_date = new DateTime();
+                $earliest_delivery_time = array();
+                $is_same_day = TRUE;
+
+                $session = Mage::getSingleton('customer/session');
+                $time_zone = $session->getCustomer()->getTimezone();
+                $timeoffset_customer = Mage::getModel('core/date')->calculateOffset($time_zone);
+                $timeoffset = $timeoffset_customer - Mage::getModel('core/date')->getGmtOffset($time_zone);
+
+                $same_date_12 = new DateTime();
+                $same_date_12->setTime(12, 0, 0);
+                
+                if($timeoffset >= 0) {
+                    $same_date_12->add(new DateInterval('PT' . $timeoffset . 'S'));
+                }else {
+                    $same_date_12->sub(new DateInterval('PT' . (-$timeoffset) . 'S'));
+                }
+
+                $same_date_17 = new DateTime();
+                $same_date_17->setTime(17, 0, 0);
+
+                if($timeoffset >= 0) {
+                    $same_date_17->add(new DateInterval('PT' . $timeoffset . 'S'));
+                }else {
+                    $same_date_17->sub(new DateInterval('PT' . (-$timeoffset) . 'S'));
+                }
+                
+                //if ($order_date >= $start_date_available && $order_date <= $end_date_available) { [Hoang]
+                    if ($is_debuging) Mage::log('IN RANGE');
+
+                    $earliest_delivery_date->setDate($order_date->format('Y'), $order_date->format('m'), $order_date->format('d'));
+                    
+                    /*Hoang add*/                   
+                    if ($start_date_available && ($start_date_available > $order_date)){
+                        $earliest_delivery_date->setDate($start_date_available->format('Y'), $start_date_available->format('m'), $start_date_available->format('d'));
+                    }
+                    /*end add*/
+                    
+                    $earliest_delivery_date->setTime(0, 0, 0);
+
+                    //Calculate all conditions
+                    $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                    $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                    $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                    $is_after_5pm_for_same_date = ($is_same_day === TRUE && $order_date > $same_date_17);
+
+                    if ($is_debuging) Mage::log('CHECK VALID DATE WITHOUT LEAD TIME');
+                    //get earliest date without lead time checking
+                    while (!$is_additional_date && ($is_national_dates || $is_weekends || $is_after_5pm_for_same_date)) {
+
+                        if ($is_national_dates)
+                            if ($is_debuging) Mage::log('Is National Date - ' . $national_date);
+                        if ($is_weekends)
+                            if ($is_debuging) Mage::log('Is Weekend - ' . $weekend_days_of_week);
+                        if ($is_after_5pm_for_same_date)
+                            if ($is_debuging) Mage::log('Is After 5PM - ' . $order_date->format('G') . ':' . $order_date->format('i'));
+
+                        //Increase one day
+                        date_add($earliest_delivery_date, new DateInterval('P1D'));
+                        if ($is_debuging) Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+
+                        //Is not same day any more
+                        $is_same_day = FALSE;
+
+                        //Re-calculate all conditions
+                        $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                        $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                        $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                        $is_after_5pm_for_same_date = FALSE; //Always return FALSE because delivery date is not same date any more
+                        if ($is_debuging) Mage::log($earliest_delivery_date->format('w'));
+                    }
+
+                    if ($is_debuging) Mage::log('CHECK LEAD TIME');
+                    while ($lead_time_max > 0) {
+                        //Increase one day
+                        date_add($earliest_delivery_date, new DateInterval('P1D'));
+                        if ($is_debuging) Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+
+                        //Is not same day any more
+                        $is_same_day = FALSE;
+
+                        //Re-calculate all conditions
+                        $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                        $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                        $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                        $is_after_5pm_for_same_date = FALSE; //Always return FALSE because delivery date is not same date any more
+                        //Check whether the added date for lead time is valid
+                        while (!$is_additional_date && ($is_national_dates || $is_weekends)) {
+                            if ($is_national_dates)
+                                if ($is_debuging) Mage::log('Is National Date - ' . $national_date);
+                            if ($is_weekends)
+                                if ($is_debuging) Mage::log('Is Weekend - ' . $weekend_days_of_week);
+
+                            //Increase one day
+                            date_add($earliest_delivery_date, new DateInterval('P1D'));
+                            if ($is_debuging) Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+
+                            //Re-calculate all conditions
+                            $is_additional_date = (strpos($additional_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                            $is_weekends = (strpos($weekend_days_of_week, $earliest_delivery_date->format('w')) !== FALSE);
+                            $is_national_dates = (strpos($national_date, $earliest_delivery_date->format('d/m/Y')) !== FALSE);
+                        }
+
+                        //Add successfully a lead time date
+                        $lead_time_max--;
+                    }
+
+                    $valentine = new DateTime();
+                    $valentine->setDate(2013, 2, 14);
+                    $valentine2 = new DateTime();
+                    $valentine2->setDate(2013, 2, 15);
+                    if ($earliest_delivery_date > $end_date_available) {
+                        if ($is_debuging) Mage::log('DELIVERY DATE > END DATE AVAILABLE - CANNOT ORDER');
+                        $can_delivery = FALSE;
+                    } else {
+                        if ($is_same_day == TRUE) {
+                            if ($is_debuging) Mage::log('8');
+
+                            if ($order_date < $same_date_12) {
+                                //order time is before 12:00am
+                                $earliest_delivery_time = array('before 6:00pm', '7:00pm - 10:00pm');
+                                if ($is_debuging) Mage::log('9');
+                            } else if ($order_date < $same_date_17) {
+                                //order time is from 12:01am to 5:00pm
+                                $earliest_delivery_time = array('7:00pm - 10:00pm');
+                                if ($is_debuging) Mage::log('10');
+                            }
+                        }
+                        else if($earliest_delivery_date->format('Ymd') ==$valentine->format('Ymd') 
+                                || $earliest_delivery_date->format('Ymd') ==$valentine2->format('Ymd')){
+                            if ($order_date < $same_date_12) {
+                                $earliest_delivery_time = array('9:00am - 6:00pm', '7:00pm - 10:00pm');                                
+                            } else {
+                                $earliest_delivery_time = array('7:00pm - 10:00 pm');                                
+                            }                            
+                        }
+                        else {
+                            $earliest_delivery_time = array('9:00am - 6:00pm', '7:00pm - 10:00pm');
+                            if ($is_debuging) Mage::log('11');
+                        }
+
+                        //if($order_date<$earliest_delivery_date)
+                        //    $earliest_delivery_time = array('9:00am - 6:00pm', '7:00pm - 10:00pm');
+                        
+                        if ($is_debuging) Mage::log('Delivery Date:' . $earliest_delivery_date->format('d/m/Y'));
+                        if ($is_debuging) Mage::log('Delivery Time:');
+                        if ($is_debuging) Mage::log($earliest_delivery_time);
+                    }
+                /*} else {
+                    if ($is_debuging) Mage::log('OUT OF RANGE - CANNOT ORDER');
+                    $can_delivery = FALSE;
+                }*/ //[Hoang]
+                
+                ?>
+                
+                <?php if(!$can_delivery) :?> <!-- Cannot delivery -->
+                    <strong><?php echo Mage::helper('sales')->__('Sorry, no quotes are available for this order at this time.') ?></strong>
+                <?php else : ?> <!-- Show delivery time -->
+                    <table width="100%" class="form-list">
+                    <tr>
+                        <td>
+                            <?php
+                            echo '<span><b>Earliest Delivery Date:<br/><font color="red"> ' . $earliest_delivery_date->format('d/m/Y') . ' ' . $earliest_delivery_time[0] .
+                            '</font></b></span>';
+                            ?> 
+                            <br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="padding-right: 5px;"><?php echo $this->__('Delivery Date:*  '); ?></label>
+                            <input type="text"
+                                   name="_deliverydate"
+                                   id="_deliverydate"
+                                   onchange="var today = new Date(<?php echo $earliest_delivery_date->format('Y') . "," . ($earliest_delivery_date->format('m') - 1) . "," . $earliest_delivery_date->format('d'); ?>);
+                                       var currentdate = new Date(document.getElementById('_deliverydate').value);
+                                       var month = currentdate.getMonth() + 1;
+                                       var day = currentdate.getDate();
+                                       var year = currentdate.getFullYear();  
+                                       var textdate = day + '/' + month + '/' + year;
+                                       if(today == textdate) { 
+                                           $('timex').hide(); 
+                                           $('timex_today').show();
+                                       } else { 
+                                           $('timex_today').hide(); 
+                                           $('timex').show(); 
+                                       };"
+                                   readonly="true" 
+                                   value="<?php if ($can_delivery): echo $earliest_delivery_date->format('d/m/Y');endif;?>" 
+                                   class="required-entry"/>
+
+                            <img title="Select date" 
+                                 id="_deliverydate_trig"
+                                 src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'adminhtml/default/default/images/grid-cal.gif'; ?>" 
+                                 class="v-middle"/>
+                            <script type="text/javascript">
+                                function disabledDate(date, y, m, d) {                                    
+                                    var disabled_date = "<?php echo $national_date; ?>";
+                                    var additional_date = "<?php echo $additional_date; ?>";
+                                    var weekend_days = [<?php echo $weekend_days_of_week; ?>];
+                                    var canDelivery = <?php echo $can_delivery; ?>;
+                                    var earliest_date = new Date(<?php echo $earliest_delivery_date->format('Y') . "," . ($earliest_delivery_date->format('m') - 1) . "," . $earliest_delivery_date->format('d'); ?>);
+                                    var ending_date= new Date(<?php echo $end_date_available->format('Y') . "," . ($end_date_available->format('m') - 1) . "," . $end_date_available->format('d'); ?>);
+
+                                    date.setHours(0,0,0);
+                                    if(!canDelivery) return true;
+                                    if (date < earliest_date) return true;
+                                    if (date > ending_date) return true;
+                                    
+                                    var sdate = '';                                          
+                                    if(d<10)  sdate += '0';
+                                    sdate += d + "/";
+                                    if((m + 1)<10) sdate += '0';
+                                    sdate += (m + 1)  + "/" + y;
+                                           
+                                    for (var i in weekend_days) 
+                                        if (weekend_days[i] == date.getDay() && additional_date.search(sdate) == -1)
+                                            return true;
+                                    if (disabled_date.search(sdate) != -1)
+                                        return true;
+                                    return false; 
+                                };
+
+                                function dateChanged(calendar) {
+                                    
+                                    //parse to get year, month, day selected
+                                    var y = calendar.date.getFullYear();
+                                    var m = calendar.date.getMonth();     // integer, 0..11
+                                    var d = calendar.date.getDate();      // integer, 1..31
+                                    var earliest_delivery_date = new Date(<?php echo $earliest_delivery_date->format('Y') . "," . ($earliest_delivery_date->format('m') - 1) . "," . $earliest_delivery_date->format('d'); ?>);
+                                    var now = new Date(); 
+                                    
+                                    //get delivery time range
+                                    var earliest_delivery_time = new Array();
+                                    if (d != earliest_delivery_date.getDate() || 
+                                        m != earliest_delivery_date.getMonth() || 
+                                        y != earliest_delivery_date.getFullYear()) {  
+                                        earliest_delivery_time[0] = "9:00am - 6:00pm";
+                                        earliest_delivery_time[1] = "7:00pm - 10:00pm";
+                                    } 
+                                    else if (d == earliest_delivery_date.getDate() && 
+                                        m == earliest_delivery_date.getMonth() && 
+                                        y == earliest_delivery_date.getFullYear()){
+                                        earliest_delivery_time = new Array();
+                                        //if (now.getHours()>12)
+                                        //    earliest_delivery_time[0] = "7:00pm - 10:00pm";
+                                        //else{
+                                            <?php
+                                            for ($i = 0; $i < count($earliest_delivery_time); $i++) {
+                                                echo "earliest_delivery_time[$i] = '" . $earliest_delivery_time[$i] . "';"; //outputting javascript!
+                                            }
+                                            ?>
+                                        //}
+                                     }
+
+                                     //update time range radio data
+                                     var timerange = document.getElementById('delivery_time_range_div');
+                                     var html = "";
+                                     for (var i=0;i<earliest_delivery_time.length;i++) {
+                                         html += '<input class="onestepcheckout_time" type="radio" name="onestepcheckout_time" value="'+ earliest_delivery_time[i] +'" class="validate-select"';
+                                         if (i == 0) {
+                                             html += 'checked="checked"';    
+                                         }
+                                         html += '/>';
+                                         html += '<span> ' + earliest_delivery_time[i] +' </span>';
+                                     }
+                                     //html += '<input type="radio" class="onestepcheckout_time" name="onestepcheckout_time" value="Any Time" class="validate-select"/>';                                        
+                                     //html += '<span>Any Time</span>';
+                                     timerange.innerHTML = html;
+                                     
+                                     //update the selected date
+                                     var selectedDate = document.getElementById('_deliverydate');
+                                     selectedDate.value = d  + '/' + (m + 1)+ '/' + y;
+
+                                     //close calendar when clicking on date
+                                     if (calendar.dateClicked) {
+                                          calendar.callCloseHandler();
+                                     }      
+                                 };
+                                 
+                                 //setup calendar for date picker
+                                 Calendar.setup({
+                                     inputField : '_deliverydate',
+                                     ifFormat : '%d/%m/%Y',
+                                     button : '_deliverydate_trig',
+                                     align : 'Bl',
+                                     singleClick : true,
+                                     dateStatusFunc : disabledDate,
+                                     onSelect : dateChanged
+                                 });
+
+                            </script>
+                            <br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="timex">                    
+                                <div id="changedate">
+                                    <div clas="form-list">
+                                        
+                                        <label><?php echo $this->__('Time:* '); ?> </label>
+                                        <div class="clear"></div>
+                                        <div id="delivery_time_range_div">
+                                            <?php $is_checked = FALSE; ?>
+                                            <?php foreach ($earliest_delivery_time as $time_range): ?>
+                                                <?php if ($time_range): ?>
+                                                    <input class="onestepcheckout_time" type="radio" name="onestepcheckout_time" value="<?php echo $time_range ?>" <?php if (!$is_checked) : echo ' checked="checked" '; $is_checked = TRUE; endif; ?> class="validate-select"/> <span><?php echo $time_range ?></span>
+                                                   
+                                                <?php endif ?>
+                                            <?php endforeach; ?>
+                                                    <!--input type="radio" class="onestepcheckout_time" <?php if (!$is_checked) : echo ' checked="checked" '; $is_checked = TRUE; endif; ?> name="onestepcheckout_time" value="Any Time" class="validate-select"/> <span>Any Time</span-->
+                                                    
+                                        </div>
+                                    </div>                        
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <?php endif ?>
+                <div style="clear:both;"></div>
+            </div>
+        </li>
+    </ul>
+</div>
+<script>
+    //var shipping_method_changed=-1; //khac phuc tren IE khi change phai click 2 lan` moi ajax
+    var delivery_changed='now';	//default input- now selected
+    /*$MW_Onestepcheckout("input[name=deliverydate]").click(function(){
+        if(this.value !=delivery_changed){
+            $MW_Onestepcheckout('#delivery-timerange').addClass('validate-select');
+            $MW_Onestepcheckout('#deliveryshow').css('display','block');
+        }
+        else{
+            $MW_Onestepcheckout('#delivery-timerange').removeClass('validate-select');
+            $MW_Onestepcheckout('#deliveryshow').css('display','none');
+        }
+    });*/
+    $MW_Onestepcheckout('#delivery-timerange').addClass('validate-select');
+    $MW_Onestepcheckout('#deliveryshow').css('display','block');
+</script>

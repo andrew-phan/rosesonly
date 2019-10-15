@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <checkout_cart_index>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>mw_freegift/skins/tango/skin.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>mw_freegift/lib/jquery-1.4.2.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>mw_freegift/lib/jquery.jcarousel.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>mw_freegift/lib/jquery.noconflict.js</name>
+            </action>
+        </reference>
+        <reference name="checkout.cart.form.before">
+            <block type="freegift/product" name="cart.freegift"></block>
+            <block type="freegift/quote" name="cart.freegift.quote"></block>
+        </reference>
+        <reference name="checkout.cart.coupon">
+            <action method="setTemplate">
+                <template>mw_freegift/checkout/cart/coupon.phtml</template>
+            </action>
+        </reference>	
+    </checkout_cart_index>
+    
+    <catalog_product_view>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>mw_freegift/skins/tango/skin.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="product.info.options.wrapper">
+            <block type="core/template" name="freegift_hidden" template="mw_freegift/freegift_hidden.phtml" />
+        </reference>
+        <reference name="product.info">
+            <block type="freegift/freeproduct" template="mw_freegift/catalog_gift.phtml" name="freegift.other" as="other" />
+        </reference>
+        <reference name="product.info.addtocart">
+            <action method="setTemplate">
+                <template>mw_freegift/catalog/product/view/addtocart.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <!-- Add quote promotions to product view -->
+            <!-- <block type="freegift/quote" name="catalog.freegift.quote" before="product.info" /> -->
+        </reference>
+        <reference name="left">
+            <block type="freegift/product" name="product.left.freegift">
+                <action method="setVertical">
+                    <vertical>1</vertical>
+                </action>
+            </block>
+        </reference>
+        <reference name="right">
+            <!--
+          		<block type="freegift/product" name="product.right.freegift">
+                 			<action method="setVertical"><vertical>1</vertical></action>
+          		</block>
+            -->
+        </reference>
+    </catalog_product_view>
+    
+    <PRODUCT_TYPE_simple>
+        <reference name="product.info.simple">
+            <action method="setTemplate">
+                <template>mw_freegift/catalog/product/view/type/default.phtml</template>
+            </action>
+        </reference>
+    </PRODUCT_TYPE_simple>
+    
+    <catalog_category_layered>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>mw_freegift/skins/tango/skin.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="right">
+            <!--
+          		<block type="freegift/product" name="product.right.freegift">
+                 			<action method="setVertical"><vertical>1</vertical></action>
+          		</block>
+            -->
+        </reference>
+    </catalog_category_layered>
+    
+    <catalog_category_default>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>mw_freegift/skins/tango/skin.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="right">
+            <!--
+          		<block type="freegift/product" name="product.right.freegift">
+                 			<action method="setVertical"><vertical>1</vertical></action>
+          		</block>
+            -->
+        </reference>
+    </catalog_category_default>
+</layout> 

@@ -1,0 +1,90 @@
+
+<li class="fields"><?php echo $this->getLayout()->createBlock('customer/widget_name')->setTemplate('mw_onestepcheckout/name.phtml')->setObject($this->getAddress())->setFieldIdFormat('shipping:%s')->setFieldNameFormat('shipping[%s]')->setFieldParams('onchange="shipping.setSameAsBilling(false)"')->toHtml() ?></li>
+<li class="fields">
+    <div class="fields">
+        <label for="shipping:company" class="required"><?php echo $this->__('Company') ?></label><label>&nbsp;&nbsp;:</label>
+        <div class="input-box">
+            <input type="text" id="shipping:company" name="shipping[company]" title="<?php echo $this->__('Company') ?>" class="input-text inputtext" onchange="shipping.setSameAsBilling(false);" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>"/>
+        </div>
+    </div>
+    <?php if (false): ?>
+        <div class="fields">
+            <label for="shipping:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label><label>&nbsp;&nbsp;:</label>
+            <div class="input-box">
+                <input type="text" name="shipping[email]" id="shipping:email" title="<?php echo $this->__('Email Address') ?>" class="input-text inputtext validate-email required-entry" />
+            </div>
+        </div>
+    <?php endif ?>
+</li>
+<li class="wide">
+    <label for="shipping:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label><label>&nbsp;&nbsp;:</label>
+    <div class="input-box">
+        <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" class="input-text inputtext required-entry" onchange="shipping.setSameAsBilling(false);" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" />
+    </div>
+</li>
+<?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+    <li class="wide">
+        <div class="input-box">
+            <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="shipping[street][]" id="shipping:street<?php echo $_i ?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text inputtext" onchange="shipping.setSameAsBilling(false);" />
+        </div>
+    </li>
+<?php endfor ?>
+<li class="fields">
+    <div class="field">
+        <div class="cl1">
+            <label for="shipping:city" class="required"><em>*</em><?php echo $this->__('City') ?></label><label>&nbsp;&nbsp;:</label>
+            <div class="input-box">
+                <input type="text" title="<?php echo $this->__('City') ?>" name="shipping[city]" class="input-text inputtext required-entry half" id="shipping:city" onchange="shipping.setSameAsBilling(false);" value="<?php echo $this->htmlEscape($this->getAddress()->getCity()) ?>"/>
+            </div>
+        </div>
+        <div class="cl2">
+            <label for="shipping:postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label><label>&nbsp;&nbsp;:</label>
+            <div class="input-box">
+                <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" class="half2 input-text inputtext validate-zip-international required-entry" onchange="shipping.setSameAsBilling(false);" value="<?php echo $this->htmlEscape($this->getAddress()->getPostcode()) ?>"/>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <div class="cl1">
+            <label for="shipping:country_id" class="required"><em>*</em><?php echo $this->__('Country') ?></label><label>&nbsp;&nbsp;:</label>
+            <div class="input-box">
+                <!--?php echo $this->getCountryHtmlSelect('shipping') ?-->
+                <input type="hidden" name="shipping[country_id]" id="shipping:country_id" value="SG" />
+                <input type="text" class="half input-text inputtext required-entry" value="SINGAPORE" />
+            </div>
+        </div>
+        <div class="cl2">
+            <label for="shipping:region"><?php echo $this->__('State') ?></label><label>&nbsp;&nbsp;:</label>
+            <div class="input-box">
+                <select id="shipping:region_id" name="shipping[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select half2" style="display:none;">
+                    <option class="half2" value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                </select>
+                <script type="text/javascript">
+                    //<![CDATA[
+                    $('shipping:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
+                    //]]>
+                </script>
+                <input type="text" id="shipping:region" name="shipping[region]" title="<?php echo $this->__('State/Province') ?>" class="input-text inputtext half2" />
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <label for="shipping:telephone" class="required"><em>*</em><?php echo $this->__('Telephone') ?></label><label>&nbsp;&nbsp;:</label>
+        <div class="input-box">
+            <input type="text" name="shipping[telephone]"  title="<?php echo $this->__('Telephone') ?>" class="input-text inputtext required-entry" id="shipping:telephone" onchange="shipping.setSameAsBilling(false);" value="<?php echo $this->htmlEscape($this->getAddress()->getTelephone()) ?>" />
+        </div>
+    </div>
+    <!--div class="field">
+        <label for="shipping:fax" class="required"><?php echo $this->__('Fax') ?></label>
+        <div class="input-box">
+            <input type="text" name="shipping[fax]"  title="<?php echo $this->__('Fax') ?>" class="input-text inputtext" id="shipping:fax" onchange="shipping.setSameAsBilling(false);" />
+        </div>
+    </div-->
+</li>
+
+<script>
+    $MW_Onestepcheckout(function(){
+        $MW_Onestepcheckout("#shipping\\:street1").css('width','278px');
+        $MW_Onestepcheckout("#shipping\\:street2").css('width','278px');
+    });
+</script>

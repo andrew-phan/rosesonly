@@ -1,0 +1,59 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">
+	<reminder_index_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="reminder/index" name="reminder_index" template="reminder/index.phtml">				
+				<block type="fbintegration/index" name="fbintegration_index" template="fbintegration/index.phtml"/>
+			</block>
+		</reference>
+	</reminder_index_index>
+	
+	<reminder_list_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="reminder/list" name="reminder_list" template="reminder/list.phtml"/>
+		</reference>
+	</reminder_list_index>
+	
+	<reminder_manage_index>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>css/reminder.css</name>
+			</action>
+		</reference>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="reminder/manage" name="reminder_manage" template="reminder/manage.phtml">
+				<block type="reminder/list" name="reminder_list" template="reminder/list.phtml"/>
+				<block type="reminder/add" name="reminder_add" template="reminder/add.phtml"/>				
+			</block>
+		</reference>
+	</reminder_manage_index>
+	
+	<reminder_add_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="reminder/add" name="reminder_add" template="reminder/add.phtml"/>
+		</reference>
+	</reminder_add_index>
+	
+	<reminder_edit_index>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="reminder/edit" name="reminder_edit" template="reminder/edit.phtml"/>
+		</reference>
+	</reminder_edit_index>
+</layout>   
+	

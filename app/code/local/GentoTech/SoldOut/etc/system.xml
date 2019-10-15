@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <gentotech translate="label">
+            <label>Gento Tech</label>
+            <sort_order>1</sort_order>
+        </gentotech>
+    </tabs>
+    <sections>
+        <soldout translate="label">
+            <label>Sold Out</label>
+            <tab>gentotech</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <!-- New groups go here -->
+                <sample translate="label">
+                <label>Settings</label>
+                <frontend_type>text</frontend_type>
+                <sort_order>100</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>1</show_in_store>
+                <fields>
+
+                    <enableoutofstock translate="label comment">
+                        <label>Enabled Out Of Stock Label</label>
+                        <comment><![CDATA[For this first enable <span class="notice">Display Out of Stock Products</span> from <span class="notice">System > Configuration > Catalog > Inventory > Stock Options.</span>]]></comment>
+                        <frontend_type>select</frontend_type>
+                        <source_model>adminhtml/system_config_source_yesno</source_model>
+                        <sort_order>12</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                    </enableoutofstock>
+
+                    <outofstockimage translate="label comment">
+                        <label>Out Of Stock Lable Image</label>
+                        <!-- <comment><![CDATA[This text appears just beneath the field with a small arrow.<span class="notice">It can contain HTML formatting too!</span>]]></comment>-->
+                        <frontend_type>image</frontend_type>
+                        <backend_model>adminhtml/system_config_backend_image</backend_model>
+                        <upload_dir config="system/filesystem/media" scope_info="1">theme</upload_dir>
+                        <base_url type="media" scope_info="1">theme</base_url>
+                        <sort_order>14</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                    </outofstockimage>
+
+                    <!-- <outofstockimagedetail translate="label comment">
+                        <label>Out Of Stock Lable Image Detail</label> -->
+                        <!-- <comment><![CDATA[This text appears just beneath the field with a small arrow.<span class="notice">It can contain HTML formatting too!</span>]]></comment>-->
+                        <!-- <frontend_type>image</frontend_type>
+                        <backend_model>adminhtml/system_config_backend_image</backend_model>
+                        <upload_dir config="system/filesystem/media" scope_info="1">theme</upload_dir>
+                        <base_url type="media" scope_info="1">theme</base_url>
+                        <sort_order>14</sort_order>
+                        <show_in_default>1</show_in_default>
+                        <show_in_website>1</show_in_website>
+                        <show_in_store>1</show_in_store>
+                    </outofstockimagedetail> -->
+
+                </fields>
+                </sample>
+            </groups>
+        </soldout>
+    </sections>
+</config>

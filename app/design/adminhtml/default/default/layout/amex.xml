@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <amex_adminhtml_amexdata_index>
+        <reference name="content">
+            <block type="amex/adminhtml_amexdata" name="amexdata" />
+        </reference>
+    </amex_adminhtml_amexdata_index>
+</layout>

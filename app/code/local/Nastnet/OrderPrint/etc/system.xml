@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <myconf translate="label">
+            <label>Print messages</label>
+            <sort_order>150</sort_order>
+        </myconf>
+    </tabs>
+    <sections>
+        <tab1 translate="label" module="adminhtml">
+            <label>Print message 1</label>
+            <tab>myconf</tab>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label comment">
+                    <label>General</label>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[This is a <strong>global comment</strong> about my <em>configuration</em>.<br />You can specify <u>custom html</u> tags. <a href="http://www.bubblecode.net/en" target="_blank">Click here for example!</a>]]></comment>
+                    <fields>
+                        <text_field translate="label comment">
+                            <label>Text Field</label>
+                            <comment>Text field with store view scope.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </text_field>
+                    </fields>
+                </general>
+            </groups>
+        </tab1>
+    </sections>
+</config>

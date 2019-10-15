@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Ant_Trackpo>
+      <version>0.1.0</version>
+    </Ant_Trackpo>
+  </modules>
+  <global>
+    <helpers>
+      <trackpo>
+        <class>Ant_Trackpo_Helper</class>
+      </trackpo>
+    </helpers>
+	<models>
+	  <trackpo>
+		<class>Ant_Trackpo_Model</class>
+		<resourceModel>trackpo_mysql4</resourceModel>
+	  </trackpo>
+	</models>
+<!--        <conytollers>
+	  <Purchase>
+		<rewrite>
+			<orderscontroller>Ant_Trackpo_OrdersController</orderscontroller>
+		</rewrite>
+	  </Purchase>
+	</conytollers>-->
+    <events>
+	  <erp_potrack_created> <!-- identifier of the event we want to catch -->
+        <observers>
+          <erp_potrack_created_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>trackpo/observer</class> <!-- observers class alias -->
+            <method>POCreated</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </erp_potrack_created_handler>
+        </observers>
+      </erp_potrack_created>
+	  <erp_potrack_modified> <!-- identifier of the event we want to catch -->
+        <observers>
+          <erp_potrack_modified_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>trackpo/observer</class> <!-- observers class alias -->
+            <method>POModified</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </erp_potrack_modified_handler>
+        </observers>
+      </erp_potrack_modified>
+	  <erp_potrack_delete> <!-- identifier of the event we want to catch -->
+        <observers>
+          <erp_potrack_delete_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>trackpo/observer</class> <!-- observers class alias -->
+            <method>PODelete</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </erp_potrack_delete_handler>
+        </observers>
+      </erp_potrack_delete>
+	  <erp_potrack_deliveried> <!-- identifier of the event we want to catch -->
+        <observers>
+          <erp_potrack_deliveried_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>trackpo/observer</class> <!-- observers class alias -->
+            <method>PODeliveried</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </erp_potrack_deliveried_handler>
+        </observers>
+      </erp_potrack_deliveried>
+    </events>
+    <template>
+        <email>
+            <track_open_po_email_template module="trackpo">
+                <label>Ant Track Open Purchase Order Email Template</label>
+                <file>ant_track_po_email_template.html</file>
+                <type>html</type>
+            </track_open_po_email_template>
+        </email>
+    </template>
+  </global>
+</config> 

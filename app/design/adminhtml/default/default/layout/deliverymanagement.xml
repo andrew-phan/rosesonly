@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <deliverymanagement_adminhtml_deliverymanagement_index>
+	<reference name="content">
+	  <block type="deliverymanagement/adminhtml_deliverymanagement" name="deliverymanagement" />
+	</reference>
+  </deliverymanagement_adminhtml_deliverymanagement_index>
+  
+  <deliverymanagement_adminhtml_arrangedriver_index>
+	<reference name="content">
+	  <block type="deliverymanagement/adminhtml_arrangedriver" name="arrangedriver" />
+	</reference>
+  </deliverymanagement_adminhtml_arrangedriver_index>
+  
+  <deliverymanagement_adminhtml_updatestatus_index>
+	<reference name="content">
+	  <block type="deliverymanagement/adminhtml_updatestatus" name="updatestatus" />
+	</reference>
+  </deliverymanagement_adminhtml_updatestatus_index>
+</layout>

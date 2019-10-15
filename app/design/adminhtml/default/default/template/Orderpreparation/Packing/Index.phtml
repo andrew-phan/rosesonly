@@ -1,0 +1,46 @@
+<script>
+    
+if (typeof(Translator) == 'undefined') {
+    var Translator = new Translate(<?php echo $this->getTranslateJson(); ?>);
+} else {
+    Translator.add(<?php echo $this->getTranslateJson(); ?>);
+}               
+
+</script>
+
+
+<table border="0" width="100%">
+    <tr><td width="50%">
+            <div id="div_instruction" style="font-size: 24px; font-weight: bold; text-align: center; border: 1px solid #D6D6D6; background: #FAFAFA; padding: 10px;">
+
+            </div>
+        </td><td width="50%">
+            <div id="div_message" style="font-size: 18px; font-weight: bold; text-align: center; border: 1px solid #D6D6D6; background: #FAFAFA; padding: 10px;">
+
+            </div>
+        </td></tr>
+</table>
+
+<div class="clear"></div>
+
+<div id="div_main" style="align: center; text-align: center; border: 1px solid #D6D6D6; background: #FAFAFA; margin-top: 10px;">
+   
+</div>
+
+<div class="clear"></div>
+
+<script>
+    var objPacking = new packing('<?php echo $this->getOrderInformationUrl(); ?>');
+    objPacking.waitForScan();
+</script>
+
+
+<script>
+    var checkedImageUrl = '<?php echo $this->getCheckedImageUrl(); ?>';
+</script>
+
+<form id="frm_packing" name="frm_packing" action="<?php echo $this->getCommitPackingUrl(); ?>" method="POST">
+    <input id="form_key" name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+    <input type="hidden" id="order_id" name="order_id">
+</form>
+    

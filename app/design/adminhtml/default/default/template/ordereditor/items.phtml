@@ -1,0 +1,292 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php 
+	$_order = $this->getOrder();
+	$enableOrdereditor = Mage::getStoreConfig('editorder/general/enabled'); 
+ ?>
+
+<script>
+ 	var x = 1;
+	$('shippingmethod-edit-form').show();
+
+	function addItem()
+	{
+		var params = {};
+		params['num'] = x;
+		new Ajax.Request('<?php echo Mage::getModel('adminhtml/url')->getUrl('ordereditor/adminhtml_ordereditor/newitem') ?>', {
+			method: 'get',
+			parameters: params,
+			onSuccess: function(transport) {
+				$('items-table').insert({bottom: transport.responseText});	
+			}
+		});	
+		x++;
+	}
+	
+function removeItemRow(id) 
+	{
+		if($('rem' + id).value == 0) {
+			$('tablerow' + id).setStyle({
+				'color': '#CCCCCC'
+			});
+			
+			$('table_row' + id).setStyle({
+				'display': 'none'
+			});
+			
+			$('rem' + id).value = 1;
+			$('remove_button'+id).innerHTML = 'Undo';
+		} else {
+			$('tablerow' + id).setStyle({
+				'color': ''
+			});
+			
+			$('table_row' + id).setStyle({
+				'display': 'block'
+			});
+			
+			$('rem' + id).value = 0;
+			$('remove_button'+id).innerHTML = 'Remove';
+		}
+	}
+	
+		
+	function cancelAddItem(id)
+	{
+		$('additem-row-'+id).remove();
+	}
+
+
+function saveMe()
+    {
+    		var params = {};   	
+    		params['admin_user'] = '<?php echo Mage::getSingleton('admin/session')->getUser()->getUsername() ?>';
+    		params['order_id'] = <?php echo $_order->getId() ?>;
+			
+			//get values for shipping method 
+			var	shippingmethod = $('shippingmethod-fields').serialize(true);
+			
+			if( $('customCarrier'))
+			{shippingmethod.customcarrier = $('customCarrier').value;
+			
+			shippingmethod.rateid = $F('rateid');
+			params['shippingmethod'] = Object.toJSON(shippingmethod);}
+				
+			//get values for existing items on order
+			var editItems = new Object();
+			editItems.id = new Array();
+			editItems.price = new Array();
+			editItems.qty = new Array();
+			
+			editItems.tax_amount = new Array();
+			editItems.tax_percent = new Array();
+			
+			editItems.discount = new Array();
+			editItems.remove = new Array();
+			editItems.type = 'editItems';
+			$$('.edit_item_id').each(function(s){
+				editItems.id.push(s.value);
+			});
+			$$('.edit_item_qty').each(function(s){
+				editItems.qty.push(s.value);
+			});
+			
+		
+			
+			$$('.edit_item_price').each(function(s){
+				editItems.price.push(s.value);
+			});
+			
+			$$('.edit_item_tax_amount').each(function(s){
+				editItems.tax_amount.push(s.value);
+			});
+			$$('.edit_item_tax_percent').each(function(s){
+				editItems.tax_percent.push(s.value);
+			});
+			
+			$$('.edit_item_discount').each(function(s){
+				editItems.discount.push(s.value);
+			});
+			$$('.remove_item').each(function(s){
+				editItems.remove.push(s.value);
+			});
+			params['editItems'] = Object.toJSON(editItems);
+			//get values for new items
+			var newItems = new Object();
+			newItems.sku = new Array();
+			newItems.qty = new Array();
+			newItems.price = new Array();
+			newItems.discount = new Array();
+			newItems.type = 'newItems';
+			
+	
+			
+			$$('.new_item_sku').each(function(s){
+				newItems.sku.push(s.value);
+			});
+			$$('.new_item_qty').each(function(s){
+				newItems.qty.push(s.value);
+			});
+			$$('.new_item_price').each(function(s){
+				newItems.price.push(s.value);
+			});
+			$$('.new_item_discount').each(function(s){
+				newItems.discount.push(s.value);
+			});
+			params['newItems'] = Object.toJSON(newItems);
+			//send request for saving
+			new Ajax.Request('<?php echo Mage::getModel('adminhtml/url')->getUrl('ordereditor/adminhtml_ordereditor/edit') ?>', {
+				method: 'get',
+				parameters: params,
+				onSuccess: function(transport) {
+    				if(transport.responseText == 'Order updated successfully. The page will now refresh.') {
+    					window.location.reload();
+    				} else {
+    					alert(transport.responseText);
+    				}
+				},
+				
+				onFailure: function()
+				{	alert("not worked");  
+				}
+
+
+			});	
+    	 
+	}
+
+		function $RF(el, radioGroup) {
+	    if($(el).type && $(el).type.toLowerCase() == 'radio') {
+	        var radioGroup = $(el).name;
+	        var el = $(el).form;
+	    } else if ($(el).tagName.toLowerCase() != 'form') {
+	        return false;
+	    }
+	
+	    var checked = $(el).getInputs('radio', radioGroup).find(
+	        function(re) {return re.checked;}
+	    );
+	    return (checked) ? $F(checked) : null;
+	}
+	
+	function calcShipping()
+	{
+		var params = {};
+		params['order_id'] = <?php echo $_order->getId() ?>;
+		new Ajax.Request('<?php echo Mage::getModel('adminhtml/url')->getUrl('ordereditor/adminhtml_ordereditor/recalc') ?>', {
+			method: 'get',
+			parameters: params,
+			onSuccess: function(transport) {
+				$('shippingmethod-address-method-select').innerHTML = transport.responseText;				
+			}
+		});	
+	}
+
+</script>	
+
+<div class="grid np">
+  <div class="hor-scroll">
+    <table cellspacing="0" class="data order-tables" id="items-table">
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <thead>
+            <tr class="headings">
+                <th><?php echo $this->helper('sales')->__('Product') ?></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Item Status') ?></span></th>
+                <th><?php echo $this->helper('sales')->__('Delivery date time') ?></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Original Price') ?></span></th>
+                <th><?php echo $this->helper('sales')->__('Price') ?></th>
+                <th class="a-center"><?php echo $this->helper('sales')->__('Qty') ?></th>
+                <th><?php echo $this->helper('sales')->__('Subtotal') ?></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Tax Amount') ?></span></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Tax Percent') ?></span></th>
+                <th><span class="nobr"><?php echo $this->helper('sales')->__('Discount Amount') ?></span></th>
+                <th class="last"><span class="nobr"><?php echo $this->helper('sales')->__('Row Total') ?></span></th>
+				<th class="last"><span class="nobr"><?php echo $this->helper('sales')->__('Remove Item') ?></span></th>
+            </tr>
+        </thead>
+        <?php $_items = $this->getItemsCollection() ?>
+        <?php $i=0;foreach ($_items as $_item):?>
+            <?php if ($_item->getParentItem()) continue; else $i++;?>
+            <tbody class="<?php echo $i%2?'even':'odd' ?>">
+                <?php echo $this->getItemHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+  </div>
+</div>
+
+ <?php 
+$enablePermission = Mage::getStoreConfig('editorder/opermission/penable'); 
+$currentLoginUsername = Mage::getSingleton('admin/session')->getUser()->getData('username');
+
+	$permissionArray = array();
+if($enablePermission)
+{
+	$adminPermission = Mage::getStoreConfig('editorder/opermission/oepermission'); 
+	$adminPermissions = @unserialize($adminPermission);
+	if($adminPermissions) {
+		 foreach($adminPermissions as $permission) {
+		 	$permissionArray[$permission['admin_id']] .= $permission['feature'].',';
+		 }
+	 }
+}
+	 //echo '<pre>';print_r($permissionArray);
+?>
+
+<?php if($enablePermission == 1 && $enableOrdereditor == 1){
+if(isset($permissionArray) && strstr($permissionArray[$currentLoginUsername],"ship_item_info")){?>
+
+<div>
+ 	<div id="items-add-btn_edit" style="width:96.8%;margin: 5px 0 15px 0;float:right" class="box">
+		<button style="float:right" id="add-item-btn-save" onclick="saveMe();"><span>Save</span></button>
+		<button style="float:right;margin-right:5px;" id="add-item-btn-edit" onclick="addItem();"><span>Add Item</span></button>
+	</div>
+</div>
+
+<?php } ?>
+<div style="margin: 5px 0 15px 0;float:right"></div>
+<?php }else if($enableOrdereditor == 1){?>
+<div>
+ 	<div id="items-add-btn_edit" style="width:96.8%;margin: 5px 0 15px 0;float:right" class="box">
+		<button style="float:right" id="add-item-btn-save" onclick="saveMe();"><span>Save</span></button>
+		<button style="float:right;margin-right:5px;" id="add-item-btn-edit" onclick="addItem();"><span>Add Item</span></button>
+	</div>
+</div>
+<?php }else{ ?>
+<div style="margin: 5px 0 15px 0;float:right"></div>
+
+<?php } ?>

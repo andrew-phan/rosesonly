@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Yumba_OrderCancel>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Yumba_OrderCancel>
+    </modules>
+</config> 

@@ -1,0 +1,342 @@
+/* 
+    Document   : valentine
+    Created on : Jan 30, 2013, 9:39:16 AM
+    Author     : Hoang Dinh
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body{background:url('../images/xmas/bg.png') repeat 0 0; font-family: Calibri;text-align: center;}
+p {margin: 0;font-size: 13px;}
+a{text-decoration: none;}
+.wrapper{width:885px; margin:auto;}
+.header {background:url('../images/xmas/header.png') repeat 0 0;width:100%; height:104px;}
+.page{background-color: #fff;}
+.top{height: 5px; background-color: #77a192;margin-top: 10px;}
+.ribbon{
+	width:920px;
+	height:71px;
+	background:url('../images/xmas/ribbon.png') no-repeat 0 0;
+	margin-top: -15px;
+	z-index: 10;
+	position: relative;
+}
+.green_ribbon{
+	width:920px;
+	height:71px;
+	background:url('../images/xmas/green_ribbon.png') no-repeat 0 0;
+	margin-top: 10px;
+}
+.ribbon_new{
+	width:300;
+	height:71px;
+	background:url('../images/xmas/ribbon_new.png') no-repeat 0 0;margin-top: -15px;
+	position: absolute;
+	margin-top: 380px;
+}
+.xmas_sub .ribbon{
+	display: none;
+}
+.category-products{
+	width: 100%;
+	display: table;
+	margin-top: 10px;
+}
+.col1 .bar{width:633px; height:46px; background:url('../images/xmas/bar1.png') no-repeat 0 0;}
+.product ul{list-style: none;padding: 0;display: table;margin: 0;}
+.product li{float:left;display:block;width:157px;display: inline;  }
+.product-image {text-align: center;}
+.product-image img{border: solid 1px #999999; width:270px; height:270px;}
+.products-list{
+	margin-left: -22px;
+}
+.col2 .discount{width:212px; height:349px; background:url('../images/vday/discount.png') no-repeat 0 0;}
+.price-box {
+	text-align: center;
+	height: 60px;
+	padding-bottom: 20px;
+}
+.price-excluding-tax .price{color:#be1111;font-weight: bold;}
+.old-price{text-align: center;color:#be1111;}
+.product-name {
+	font-weight: bold; 
+	text-align: center;
+	font-size: 26px;
+	color:#fff; 
+	background-color: #cf163a;
+	display: none;
+	margin: 0;
+	width: 100%;
+	height: 69px;
+	border: solid 1px #cf163a;
+	padding-top: 92px;
+	padding-bottom: 27px;
+	position: relative;
+	-webkit-transition: all 0.3s ease 0s;
+}
+li.item >  div > span.price, li.item >  div > div > div > span.price
+{
+	width: 100%;
+	color: #FFF;
+	position: relative;
+	display: none;
+	background-color: #cf163a;
+	border: solid 1px #cf163a;
+}
+.item:hover .product-name {
+	margin-top: -272px;
+	display: block;
+	background-color: #cf163a;
+}
+
+li.item:hover > div > span.price, li.item:hover >  div > div > div > span.price{
+	display: block;
+	background-color: #cf163a;
+}
+.product-name a{
+	color: #fff;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: normal;
+	text-shadow: 3px 2px #ad1230;
+}
+@font-face{
+	font-family: "cinnamon cake";
+        src: url('../images/xmas/cinnamon_cake.ttf');
+        
+}
+.price-from{
+	font-size: 25px;	
+	font-family: "cinnamon cake";
+}
+
+.command {text-align: center;margin-top: 7px;}
+.command a {width:95px; height: 24px; display: inline-block;background:url('../images/vday/button_text.png') no-repeat 0 0;/* text-indent: -10000;*/}
+
+.category-title{
+	display: none;
+}
+
+.message {text-align: center; color:#736b6d;margin-top: 17px;padding: 0 25px;}
+.note {text-align: center; color:#be1111;margin-top: 16px; font-weight: bold;padding-bottom: 10px;}
+.footer-block{
+	background-color: #77a192;
+}
+.footer-info{
+	height: 88px; 
+	background-color: #77a192;
+	text-align: center;
+	color:#fff;
+	padding-top:3px;
+	display: table;
+	width: 100%;
+}
+.footer-info a{
+	color: #fff;
+	padding: 4px 0 0 4px;
+	text-decoration: none;
+	font-size: 17px;
+}
+.label-payment {font-size:17px;padding: 6px 0 10px; color: #fff;}
+.footer-payment{background: url('../images/i-payment.png');background-repeat: no-repeat;height: 22px;width: 124px;margin: auto;}
+.footer{
+	text-align: center;
+	color: #fff;
+	height: 50px;
+	margin-top: 10px;
+	padding-bottom: 5px;}
+.legality {
+	font-size: 13px;
+	margin-left: 75px;
+	height: 0px;
+	margin-top: -10px;
+	width: 700px;
+	text-align: center;
+}
+li.item{width: 270px;
+    float: left;
+}
+
+.pages{
+	display: block;
+}
+.products-grid, .products-list{
+	position: relative;
+	margin-left: -22px;
+	clear: both;
+}
+li.item {
+	float: left;
+	width: 270px;
+	text-align: left;
+	padding: 10px 18px 10px 0px;
+}
+ul, ol {
+list-style: none;
+}
+.pager{
+	float: left;
+}
+
+.main{
+	min-height: 400px;
+}
+.price-to{
+	overflow: hidden;
+	text-indent: 100%;
+    white-space: nowrap;
+}
+
+.msg-xmas h3{
+	color: #942d2d;
+	font-weight: normal;
+}
+.title-xmas{
+	font-weight: bold;
+}
+.msg-xmas p{
+	font-size: 16px;
+	text-align: left;
+	color: #2d2d2d;
+}
+.msg-xmas{
+	width: 818px;
+	margin-left: 25px;
+}
+.intro-xmas p{
+	color: #864040;
+	font-size: 18px;
+	display: inline;
+}
+.intro-xmas{
+	margin-top: 5px;
+}
+.intro-left{
+	float: left;
+}
+.margin-right{
+	margin-right: -248px;
+}
+.align-right{
+	text-align: right;
+}
+
+.category-image img {
+	width: 100%;
+}
+
+.toolbar,.link-wishlist,.desc,.best-seller,.grid-detail, .details{
+	display: none;
+}
+.xmas_sub .toolbar {
+	display: block;
+	width: 60%;
+	float: right;
+	margin-top: 15px;
+}
+
+.xmas_sub .styled-select {
+background: #FFF;
+position: relative;
+width: 148px;
+display: inline-block;
+margin-top: 10px;
+}
+
+.xmas_sub .styled-select select {
+	height: 25px;
+	padding: 2px 10px 2px 4px;
+	margin-top: -2px;
+	border: 1px solid #e2e2e2;
+	background: #FFF;
+	outline: none;
+	font-size: 11px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	color: #736b6d;
+	width: 148px;
+	border-radius: 4px;
+}
+
+.xmas_sub .styled-select:after {
+content: '';
+background: url('../images/i-dropdown.png');
+width: 20px;
+height: 18px;
+right: 8px;
+top: -1px;
+position: absolute;
+pointer-events: none;
+}
+
+.xmas_sub .sorter {
+font-size: 14px;
+padding: 3px 0px;
+}
+.xmas_sub .sorter .pager {
+float: right;
+padding-left: 13px;
+}
+.xmas_sub .pager {
+font-size: 14px;
+text-align: center;
+margin-top: -10px;
+}
+.xmas_sub .pager .pages {
+	float: right;
+	margin-right: 25px;
+	margin-top: -5;
+}
+.xmas_sub .sorter .list {
+background: url('../images/i-listview.png') no-repeat;
+width: 18px;
+height: 15px;
+padding-left: 5px;
+text-indent: -300em;
+float: right;
+}
+
+.xmas_sub .sorter .grid {
+background: url('../images/i-grid.png') no-repeat;
+width: 18px;
+height: 15px;
+padding-left: 5px;
+overflow: hidden;
+text-indent: -300em;
+float: right;
+}
+.xmas_sub .sorter .view-mode {
+color: #736b6d;
+float: right;
+margin: 0;
+}
+.xmas_sub .pager .pages ol {
+display: inline-block;
+padding: 0px;
+}
+.xmas_sub .sort-by{
+	margin-top: -12px;
+float: left;
+margin-left: 20px;
+}
+.xmas_sub p.view-mode{
+	font-size: 14px;
+}
+.xmas_sub .pager .pages a{
+	color: #736b6d;
+}
+.xmas_sub .pager .pages li {
+display: inline;
+margin: 0 2px;
+}
+
+.xmas_sub .category-products{
+	margin-top:0;
+}
+
+a.list {display: none;}

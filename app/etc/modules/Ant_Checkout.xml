@@ -1,0 +1,8 @@
+<config>
+	<modules>
+		<Ant_Checkout>
+			<active>true</active>
+			<codePool>local</codePool>
+		</Ant_Checkout>
+	</modules>
+</config>

@@ -1,0 +1,137 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->getTabTitle(); ?></h4>
+    </div>  
+    <div class="fieldset fieldset-wide" id="form_mail_block">
+        <script type="text/javascript">
+            function sendEmail() {                     
+                url =  '<?php echo $this->getSendUrl(); ?>'+'&isAjax=true';                
+                new Ajax.Request(url, {
+                    method:'Post',
+                    parameters:{'from_mail':$('from_mail').value,
+                        'from_name':$('from_name').value,
+                        'mail_subject':$('mail_subject').value,
+                        'to_name':$('to_name').value,
+                        'mail_to':$('mail_to').value,
+                        'cc':$('cc').value,
+                        'bcc':$('bcc').value,
+                        'fef_id':$('fef_id').value,
+                        'delivery_time':$('delivery_time').value,
+                        'template':$('template').value},
+                    onSuccess: function(transport) {                        
+                        try {
+                            if (transport.responseText.isJSON()) {
+                                var response = transport.responseText.evalJSON()
+                                if (response.error) {
+                                    $('message').update('<font color="red"><b>'+response.message+'</b></font>');
+                                }else{
+                                    $('message').update('<font color="green"><b>'+response.message+'</b></font>');
+                                }
+                                if(response.ajaxExpired && response.ajaxRedirect) {
+                                    setLocation(response.ajaxRedirect);
+                                }
+                            } else {
+                                $('form_mail_block').update(transport.responseText);
+                            }
+                        }
+                        catch (e) {
+                            $('form_mail_block').update(transport.responseText);
+                        }
+                    }
+                });                
+        
+            } 
+            
+            function preview(){
+                url =  '<?php echo $this->getPreviewUrl(); ?>'+'&isAjax=true';                
+                new Ajax.Request(url, {
+                    method:'Post',
+                    parameters:{'from_mail':$('from_mail').value,
+                        'from_name':$('from_name').value,
+                        'mail_subject':$('mail_subject').value,
+                        'to_name':$('to_name').value,
+                        'mail_to':$('mail_to').value,
+                        'cc':$('cc').value,
+                        'bcc':$('bcc').value,
+                        'template':$('template').value,
+                        'fef_id':$('fef_id').value
+                        //'delivery_time':$('delivery_time').value
+                    },
+                    onSuccess: function(transport) {                        
+                        try {
+                            if (transport.responseText.isJSON()) {
+                                var response = transport.responseText.evalJSON()
+                                if (response.error) {
+                                    $('review').update(response.template);
+                                }else{
+                                    $('review').update(response.template);
+                                }
+                                if(response.ajaxExpired && response.ajaxRedirect) {
+                                    setLocation(response.ajaxRedirect);
+                                }
+                            } else {
+                                $('form_mail_block').update(transport.responseText);
+                            }
+                        }
+                        catch (e) {
+                            $('form_mail_block').update(transport.responseText);
+                        }
+                    }
+                });                
+            }
+        </script>
+        <div id="message"></div>
+        <form id="form_mail" action="<?php echo $this->getSendUrl(); ?>">
+            <table>
+                <tr>
+                    <td>FEF Product ID</td>
+                    <td><input name="fef_id" id="fef_id" ></td>
+                </tr>
+                <!--tr>
+                    <td>Delivery time</td>
+                    <td><input name="delivery_time" id="delivery_time" ></td>
+                </tr-->
+                <tr>
+                    <td>From mail address</td>
+                    <td><input name="from_mail" id="from_mail" value="<?php echo Mage::getStoreConfig('mageworx_sales/fef_settings/from_mail'); ?>"></td>
+                </tr>
+                <tr>
+                    <td>From name</td>
+                    <td><input name="from_name" id="from_name" value="<?php echo Mage::getStoreConfig('mageworx_sales/fef_settings/from_name'); ?>"></td>
+                </tr>
+                <tr>
+                    <td>Subject</td>
+                    <td><textarea name="mail_subject" id="mail_subject" style="max-width: 600px;width: 400px;" ><?php echo Mage::getStoreConfig('mageworx_sales/fef_settings/mail_subject'); ?></textarea></td>
+                </tr>
+                 <tr>
+                    <td>To name</td>
+                    <td><input name="to_name" id="to_name" value="<?php echo Mage::getStoreConfig('mageworx_sales/fef_settings/to_name'); ?>"></td>
+                </tr>
+                <tr>
+                    <td width="150">Mail to address</td>
+                    <td><textarea name="mail_to" id="mail_to" style="max-width: 600px;width: 400px;"><?php echo $this->getMailTo(); ?></textarea></td>
+                </tr>
+                <tr>
+                    <td width="150">Cc</td>
+                    <td><textarea name="cc" id="cc" style="max-width: 600px;width: 400px;"><?php echo $this->getCc(); ?></textarea></td>
+                </tr>
+                <tr>
+                    <td width="150">Bcc</td>
+                    <td><textarea name="bcc" id="bcc" style="max-width: 600px;width: 400px;"><?php echo $this->getBcc(); ?></textarea></td>
+                </tr>
+                <tr>
+                    <td width="150">Template</td>
+                    <td><textarea name="template" id="template" style="max-width: 800px;width: 600px;"><?php echo $this->getTemplateMail(); ?></textarea ></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="button" class="scalable" onclick="sendEmail();"><span>Send</span></button>
+                        <button type="button" class="scalable" onclick="preview();"><span>Preview</span></button>
+                    </td>                
+                </tr>
+            </table>
+        </form>
+        <div id="review" style="border:solid 1px #333; padding:20px; background: #FFF; margin:20px;"></div>
+    </div>
+</div>

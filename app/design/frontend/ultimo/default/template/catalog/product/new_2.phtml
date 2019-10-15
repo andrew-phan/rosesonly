@@ -1,0 +1,81 @@
+<?php
+/**
+ * @category     Inchoo
+ * @package     Inchoo Featured Products
+ * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+ * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+ */
+?>
+
+<?php
+$_products = $this->getProductCollection();
+?>
+<div class="features">
+    <?php if ($_products && $_products->getSize()): ?>
+        <div id="flabel" class="recommend"><h3>Mother's Day Special</h3></div>
+        <div class="line"></div>
+        <?php $_iterator = 0; ?>
+        <ul class="quickview-products home-page-product" id="products-list">
+            <?php foreach ($_products->getItems() as $_product): ?>
+                <?php
+
+                if ($_iterator == 4)
+                    break;
+                ?>
+                <?php if ($_product->getFeatureSecond()!=1): ?>
+                    <!--<li class="item<?php /*if (++$_iterator == 4): */?> last<?php /*endif; */?>" style="float:left">-->
+                    <li class="item<?php if (++$_iterator == 1): ?> first<?php endif; ?>" style="float:left">
+                        <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">
+                            <img class="product-img" width="244" height="244" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(320, 320) ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+                        </a>
+                        <div class="product-description">
+                            <div class="feature-name">
+                                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)">
+                                    <?php echo $this->htmlEscape($_product->getName()) ?>
+                                </a>
+                            </div>
+                            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                            <div class="features-price">
+                                <?php //echo $this->getPriceHtml($_product, false, '-new') ?>
+                                <div class="price-box">
+                                    <p class="price-from">
+                                        <span class="price-label">From</span>
+                                        <span class="price">
+                                            <?php
+                                            //echo $this->getPriceHtml($_product, false, '-new') ;
+                                            /*if(Mage::app()->getStore()->getCode() === 'dbs'){
+                                                $today = date('Y-m-d');
+                                                $from = date('Y-m-d', strtotime('2014-04-01'));
+                                                $to = date('Y-m-d', strtotime('2014-09-30'));
+                                                if($today <= $to && $today >= $from)
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.85,2), true, false);
+                                                else
+                                                    echo Mage::helper('core')->currency(round($_product->getMinimalPrice()*0.9,2), true, false);
+                                            }
+                                            else*/
+                                                echo Mage::helper('core')->currency($_product->getMinimalPrice(), true, false);
+                                            ?>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="clearBoth"></div>
+                            <!--<div class="features-detail"><a  href="<?php /*echo $_product->getProductUrl() */?>">View item detail ></a></div>-->
+                            <?php
+                            $pieces = explode("/", $_product->getProductUrl());
+                            $p_link = $pieces[sizeof($pieces) - 1];
+                            ?>
+                            <!--div class="feature-quick"><a class="em_quickshop_handler" href="<?php echo $this->getUrl('') ?>index.php/quickshop/index/view/path/<?php echo $p_link ?>">+Quick View</a></div-->
+                            </p>
+                        </div>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+
+
+        <?php $_iterator = 0; ?>
+
+    <?php endif; ?>
+</div>
+<div class="clearBoth"></div>

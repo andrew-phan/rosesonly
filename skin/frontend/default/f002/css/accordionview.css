@@ -1,0 +1,101 @@
+.faq-skin{
+	margin:10px;
+}
+.faq-skin .yui-accordionview div.yui-accordion-content {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+.faq-skin .hidden {
+	visibility: hidden;
+	position: absolute;
+}
+
+.faq-skin .almosthidden {
+	position: absolute;
+	left: -9999px;
+	z-index: -10;
+}
+
+.faq-skin.yui-accordionview {
+	border-bottom: 1px #A3A3A3 solid;
+}
+
+.faq-skin .yui-accordionview li.yui-accordion-panel {
+	display: block;
+	margin:10px auto;
+}
+
+.faq-skin ul.yui-accordionview ul.yui-accordionview {
+    zoom: 1;
+}
+.faq-skin .yui-accordionview div.yui-accordion-content .padded {
+	padding:5px;
+	background:#e7f1f4;
+	border: 1px solid #76A192;
+    margin: 0 0 2px;
+}
+.faq-skin .yui-accordionview div.yui-accordion-content .padded p {
+ margin:0;
+}
+.faq-skin .yui-accordionview li.yui-accordion-panel a.yui-accordion-toggle {
+	display: block;
+	padding: 0.3em;
+	padding-left: 0.5em;
+	font-weight: bold;
+	color: #fff;
+	text-decoration: none;
+	position: relative;
+	cursor: pointer;
+	background:#76A192;
+}
+
+.faq-skin .yui-accordionview li.yui-accordion-panel a.yui-accordion-toggle:hover {
+	background-position: 0 -1300px;
+}
+.faq-skin .yui-accordionview li.yui-accordion-panel a.yui-accordion-toggle.active {
+
+	background-color:#76A192;
+	color:#666;
+}
+.faq-skin .yui-accordionview li.yui-accordion-panel a.yui-accordion-toggle.active:hover {
+	background-position: 0 -1400px;
+}
+
+.faq-skin .yui-accordion-toggle .indicator {
+	display: block;
+	width: 14px;
+	height: 14px;
+	background: url(../images/sprite.png) 0 -350px;
+	position: absolute;
+	right: 0.5em;
+	top: 25%;
+}
+.faq-skin .yui-accordion-toggle.active .indicator {
+	background: url(../images/sprite.png) 0 -400px;
+}
+
+.faq-skin .yui-accordion-content {
+    _zoom: 1;
+}
+
+.faq-skin ul.submenu {
+	background: #fff;
+}
+
+.faq-skin ul.submenu li a {
+	display: block;
+	height: 1.5em;
+	line-height: 1.5em;
+	padding: 0.3em;
+	padding-left: 0.5em;
+	text-decoration: none;
+	color: #000;
+}
+.faq-skin ul.submenu li a:hover {
+	background: #b3d4ff;
+}
+.faq-skin ul.submenu li a:visited, .faq-skin .yui-accordionview li.yui-accordion-panel a.link:visited {
+	color: #777;
+}
+

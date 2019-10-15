@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ant_Latepayment>
+            <version>0.1.0</version>
+        </Ant_Latepayment>
+    </modules>
+    <global>
+        <helpers>
+            <latepayment>
+                <class>Ant_Latepayment_Helper</class>
+            </latepayment>
+        </helpers>
+        <blocks>
+            <latepayment>
+                <class>Ant_Latepayment_Block</class>
+            </latepayment>
+        </blocks>
+        <models>
+            <latepayment>
+                <class>Ant_Latepayment_Model</class>
+                <resourceModel>latepayment_mysql4</resourceModel>
+            </latepayment>
+            <latepayment_mysql4>
+                <class>Ant_Latepayment_Model_Mysql4</class>
+                <entities>
+                    <latepayment>
+                        <table>ant_latepayment</table>
+                    </latepayment>
+                </entities>
+            </latepayment_mysql4>
+        </models>
+        <resources>
+            <latepayment_setup>
+                <setup>
+                    <module>Ant_Latepayment</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </latepayment_setup>
+            <latepayment_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </latepayment_write>
+            <latepayment_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </latepayment_read>
+        </resources>
+        <template>
+            <email>
+                <latepayment_order_email_template module="latepayment">
+                    <label>Ant Latepayment Order Email Template</label>
+                    <file>ant_latepayment_order_email_template.html</file>
+                    <type>html</type>
+                </latepayment_order_email_template>
+            </email>
+        </template>
+    </global>
+    <admin>
+        <routers>
+            <latepayment>
+                <use>admin</use>
+                <args>
+                    <module>Ant_Latepayment</module>
+                    <frontName>latepayment</frontName>
+                </args>
+            </latepayment>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <sales module="latepayment">
+                <!--		<title>Latepayment</title>
+              		<sort_order>100</sort_order>-->
+                <children>
+                    <latepayment module="latepayment">
+                        <title>Manage Latepayment</title>
+                        <sort_order>1000</sort_order>
+                        <action>latepayment/adminhtml_latepayment</action>
+                    </latepayment>
+                </children>
+            </sales>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <sales translate="title" module="latepayment">
+                            <title>Latepayment</title>
+                            <sort_order>1000</sort_order>
+                            <children>
+                                <latepayment translate="title">
+                                    <title>Manage Latepayment</title>
+                                </latepayment>
+                            </children>
+                        </sales>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <latepayment>
+                    <file>latepayment.xml</file>
+                </latepayment>
+            </updates>
+        </layout>
+    </adminhtml>
+    <crontab>
+        <jobs>            
+            <latepayment_getlatepayment>
+                <schedule>
+                    <!--cron_expr>*/0 1 * * *</cron_expr-->
+                    <cron_expr>0 0 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>latepayment/cron::getLatepayment</model>
+                </run>
+            </latepayment_getlatepayment>
+        </jobs>
+    </crontab>
+</config> 
